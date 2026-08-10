@@ -13,3 +13,5 @@ next-env.d.ts
 # Local verification output — regenerate with the scripts in /scripts
 docs/shots/
 docs/lh-mobile.json
+
+.vercel

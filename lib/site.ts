@@ -35,8 +35,19 @@ export const site = {
   accessibilityStatementDate: "2026-08-10",
 } as const;
 
+const withScheme = (host?: string) =>
+  host ? (host.startsWith("http") ? host : `https://${host}`) : "";
+
+/**
+ * `||` rather than `??` on purpose: an env var that exists but is empty must
+ * fall through, otherwise `new URL("")` throws and the whole build dies.
+ * Vercel's own host vars act as the safety net on preview deploys.
+ */
 export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://efrat-tzari.co.il"
+  withScheme(process.env.NEXT_PUBLIC_SITE_URL) ||
+  withScheme(process.env.VERCEL_PROJECT_PRODUCTION_URL) ||
+  withScheme(process.env.VERCEL_URL) ||
+  "https://efrat-tzari.co.il"
 ).replace(/\/$/, "");
 
 /**
