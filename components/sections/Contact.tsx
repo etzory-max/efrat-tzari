@@ -5,6 +5,7 @@ import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { CheckCircle2, Clock, Mail, Phone } from "lucide-react";
 import { submitContact, type ContactState } from "@/app/actions/contact";
+import { Reveal } from "@/components/ui/Reveal";
 import type { ContactSection } from "@/content/types";
 import { site } from "@/lib/site";
 
@@ -116,7 +117,7 @@ export function Contact({ data }: { data: ContactSection }) {
   return (
     <section id="contact" aria-labelledby="contact-title" className="bg-cream-50 py-20 md:py-28">
       <div className="shell grid gap-12 lg:grid-cols-2 lg:gap-16">
-        <div>
+        <Reveal>
           <p className="eyebrow">{data.eyebrow}</p>
           <h2 id="contact-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
@@ -146,9 +147,9 @@ export function Contact({ data }: { data: ContactSection }) {
               </li>
             ))}
           </ul>
-        </div>
+        </Reveal>
 
-        <div className="rounded-3xl border border-cream-200 bg-cream-100 p-6 md:p-9">
+        <Reveal delay={140} className="rounded-3xl border border-cream-200 bg-cream-100 p-6 md:p-9">
           <h3 className="text-xl text-slate">השאירו פרטים ואחזור אליכם</h3>
 
           <form ref={formRef} action={formAction} noValidate className="mt-6 space-y-5">
@@ -264,7 +265,7 @@ export function Contact({ data }: { data: ContactSection }) {
               {state.message}
             </p>
           </form>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,24 +1,25 @@
 import { ChevronDown } from "lucide-react";
+import { Reveal } from "@/components/ui/Reveal";
 import type { FaqSection } from "@/content/types";
 
 export function Faq({ data }: { data: FaqSection }) {
   return (
     <section id="faq" aria-labelledby="faq-title" className="bg-cream-50 py-20 md:py-28">
       <div className="shell">
-        <div className="mx-auto max-w-3xl text-center">
+        <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>
           <h2 id="faq-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
           <p className="mt-5 text-lg text-muted">{data.lead}</p>
-        </div>
+        </Reveal>
 
         {/* Native <details> keeps every answer in the HTML — good for screen
             readers, and it is what Google and the AI crawlers actually read. */}
         <div className="mx-auto mt-12 max-w-3xl space-y-3">
           {data.items.map((item, index) => (
+            <Reveal key={item.question} delay={index * 70}>
             <details
-              key={item.question}
               name="faq"
               open={index === 0}
               className="group rounded-2xl border border-cream-200 bg-white/70 px-6 open:bg-white"
@@ -34,6 +35,7 @@ export function Faq({ data }: { data: FaqSection }) {
                 {item.answer}
               </p>
             </details>
+            </Reveal>
           ))}
         </div>
       </div>

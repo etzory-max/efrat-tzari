@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Reveal } from "@/components/ui/Reveal";
 import type { ArticlesSection } from "@/content/types";
 
 const dateFormatter = new Intl.DateTimeFormat("he-IL", {
@@ -25,7 +26,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
   return (
     <section id="articles" aria-labelledby="articles-title" className="bg-cream-100 py-20 md:py-28">
       <div className="shell">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+        <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="eyebrow">{data.eyebrow}</p>
             <h2 id="articles-title" className="mt-3 text-3xl text-slate md:text-5xl">
@@ -51,7 +52,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
               <span className="sr-only">גלילת המאמרים קדימה</span>
             </button>
           </div>
-        </div>
+        </Reveal>
 
         <ul
           ref={railRef}
@@ -59,11 +60,12 @@ export function Articles({ data }: { data: ArticlesSection }) {
           aria-label="רשימת מאמרים — ניתן לגלול לצדדים"
           className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4"
         >
-          {data.articles.map((article) => (
+          {data.articles.map((article, index) => (
             <li
               key={article.slug}
               className="w-[min(20rem,80vw)] shrink-0 snap-start sm:w-[19rem]"
             >
+              <Reveal delay={index * 90} className="h-full">
               <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-cream-200 bg-cream-50 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(44,50,56,0.10)] focus-within:outline focus-within:outline-3 focus-within:outline-offset-3 focus-within:outline-slate">
                 <div className="relative aspect-16/10">
                   <Image
@@ -95,6 +97,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
                   <p className="mt-3 text-sm text-muted">{article.excerpt}</p>
                 </div>
               </article>
+              </Reveal>
             </li>
           ))}
         </ul>

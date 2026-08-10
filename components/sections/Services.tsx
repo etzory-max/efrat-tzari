@@ -2,6 +2,7 @@ import { ArrowLeft, BookOpen, Check, Mic, Users } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import type { Service, ServicesSection } from "@/content/types";
 import { proseInCard, proseInCardOnDark } from "@/components/ui/PortableProse";
+import { Reveal } from "@/components/ui/Reveal";
 
 const icons = { users: Users, mic: Mic, book: BookOpen } as const;
 
@@ -78,20 +79,22 @@ export function Services({ data }: { data: ServicesSection }) {
   return (
     <section id="services" aria-labelledby="services-title" className="bg-cream-50 py-20 md:py-28">
       <div className="shell">
-        <div className="mx-auto max-w-3xl text-center">
+        <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>
           <h2 id="services-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
-        </div>
+        </Reveal>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
-          <div className="lg:order-2">
+          <Reveal className="lg:order-2">
             <ServiceCard service={primary} />
-          </div>
+          </Reveal>
           <div className="flex flex-col gap-6 lg:order-1">
-            {secondary.map((service) => (
-              <ServiceCard key={service.id} service={service} />
+            {secondary.map((service, index) => (
+              <Reveal key={service.id} delay={120 + index * 110} className="flex-1">
+                <ServiceCard service={service} />
+              </Reveal>
             ))}
           </div>
         </div>

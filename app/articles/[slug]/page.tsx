@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import { getArticle, getArticles } from "@/lib/content";
 import { proseComponents } from "@/components/ui/PortableProse";
+import { Reveal } from "@/components/ui/Reveal";
 import { ArticleJsonLd } from "@/components/seo/JsonLd";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -82,7 +83,7 @@ export default async function ArticlePage({ params }: Params) {
           <p className="mt-5 text-lg text-muted">{article.excerpt}</p>
         </header>
 
-        <div className="relative mt-10 aspect-16/9 overflow-hidden rounded-3xl">
+        <Reveal className="relative mt-10 aspect-16/9 overflow-hidden rounded-3xl">
           <Image
             src={article.image.src}
             alt={article.image.alt}
@@ -91,13 +92,13 @@ export default async function ArticlePage({ params }: Params) {
             sizes="(min-width: 768px) 48rem, 100vw"
             className="object-cover"
           />
-        </div>
+        </Reveal>
 
         <div className="mt-10 text-lg text-ink">
           <PortableText value={article.body} components={proseComponents} />
         </div>
 
-        <div className="mt-14 rounded-3xl border border-cream-200 bg-cream-100 p-8 text-center">
+        <Reveal className="mt-14 rounded-3xl border border-cream-200 bg-cream-100 p-8 text-center">
           <h2 className="text-2xl text-slate">רוצים לדבר על מה שקורה אצלכם?</h2>
           <p className="mt-3 text-muted">
             שיחת ההיכרות הראשונה היא ללא עלות וללא התחייבות.
@@ -108,7 +109,7 @@ export default async function ArticlePage({ params }: Params) {
           >
             לקביעת שיחה
           </Link>
-        </div>
+        </Reveal>
 
         {others.length > 0 && (
           <section aria-labelledby="more-articles" className="mt-16">

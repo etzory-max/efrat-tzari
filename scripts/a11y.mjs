@@ -78,9 +78,17 @@ for (const width of widths) {
     await page.setViewport({ width, height: width === 375 ? 812 : 1000 });
     await page.goto(base + route, { waitUntil: "networkidle2", timeout: 60000 });
     await page.evaluate(async () => {
+      // Scroll through so every reveal has fired — axe must audit the page in
+      // its settled state, not with blocks still faded out.
+      const step = window.innerHeight * 0.7;
+      for (let y = 0; y < document.body.scrollHeight; y += step) {
+        window.scrollTo(0, y);
+        await new Promise((r) => setTimeout(r, 180));
+      }
+      window.scrollTo(0, 0);
       // Open every disclosure so collapsed content is audited too.
       document.querySelectorAll("details").forEach((d) => (d.open = true));
-      await new Promise((r) => setTimeout(r, 400));
+      await new Promise((r) => setTimeout(r, 800));
     });
     await page.evaluate(axeSource);
 

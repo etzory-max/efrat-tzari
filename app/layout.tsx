@@ -57,8 +57,12 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-/** Applies saved accessibility preferences before first paint. */
-const a11yBootstrap = `try{var p=JSON.parse(localStorage.getItem('efrat-a11y')||'{}');var d=document.documentElement;if(p.text)d.dataset.a11yText=p.text;if(p.contrast)d.dataset.a11yContrast=p.contrast;if(p.links)d.dataset.a11yLinks=p.links;if(p.motion)d.dataset.a11yMotion=p.motion;}catch(e){}`;
+/**
+ * Applies saved accessibility preferences and arms the scroll reveal before
+ * first paint. `data-reveal` is what allows the CSS to hide anything at all —
+ * if this script never runs, every element stays visible.
+ */
+const a11yBootstrap = `try{var p=JSON.parse(localStorage.getItem('efrat-a11y')||'{}');var d=document.documentElement;if(p.text)d.dataset.a11yText=p.text;if(p.contrast)d.dataset.a11yContrast=p.contrast;if(p.links)d.dataset.a11yLinks=p.links;if(p.motion)d.dataset.a11yMotion=p.motion;if(window.matchMedia&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)d.dataset.reveal='on';}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

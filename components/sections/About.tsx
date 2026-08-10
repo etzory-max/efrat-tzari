@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Reveal } from "@/components/ui/Reveal";
 import type { AboutSection } from "@/content/types";
 
 export function About({ data }: { data: AboutSection }) {
@@ -6,7 +7,7 @@ export function About({ data }: { data: AboutSection }) {
     <section id="about" aria-labelledby="about-title" className="bg-cream-50 py-20 md:py-28">
       <div className="shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         {/* Portrait first, so in RTL it lands on the right — as in the demo. */}
-        <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+        <Reveal className="relative mx-auto w-full max-w-md lg:max-w-none">
           <div className="relative aspect-4/5 overflow-hidden rounded-3xl">
             <Image
               src={data.portrait.src}
@@ -20,9 +21,9 @@ export function About({ data }: { data: AboutSection }) {
             <span className="text-xl font-medium">{data.badgeValue}</span>
             <span className="mt-0.5 text-[0.7rem] leading-tight">{data.badgeLabel}</span>
           </p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={120}>
           <p className="eyebrow">{data.eyebrow}</p>
           <h2 id="about-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
@@ -35,10 +36,13 @@ export function About({ data }: { data: AboutSection }) {
           </div>
 
           <dl className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {data.stats.map((stat) => (
-              <div
+            {/* Reveal renders the wrapper div itself — a <dl> may only contain
+                dt, dd, and a single div around each pair. */}
+            {data.stats.map((stat, index) => (
+              <Reveal
                 key={stat.label}
-                className="rounded-2xl border border-cream-200 bg-white/70 px-6 py-5"
+                delay={200 + index * 80}
+                className="h-full rounded-2xl border border-cream-200 bg-white/70 px-6 py-5"
               >
                 <dt className="sr-only">{stat.label}</dt>
                 <dd>
@@ -47,10 +51,10 @@ export function About({ data }: { data: AboutSection }) {
                     {stat.label}
                   </span>
                 </dd>
-              </div>
+              </Reveal>
             ))}
           </dl>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

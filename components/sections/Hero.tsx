@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { Reveal } from "@/components/ui/Reveal";
 import type { HeroSlide } from "@/content/types";
 
 const INTERVAL = 6500;
@@ -135,14 +136,21 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
             className="max-w-2xl"
           >
             <p className="sr-only">{`שקופית ${index + 1} מתוך ${count}`}</p>
-            <h1 className="text-4xl leading-[1.15] text-white md:text-6xl">{active.title}</h1>
-            <p className="mt-5 max-w-xl text-lg text-white/90 md:text-xl">{active.subtitle}</p>
-            <Link
-              href={active.ctaHref}
-              className="tap mt-8 inline-flex items-center justify-center rounded-xl bg-cream-50 px-8 py-4 text-base font-medium text-slate transition-colors duration-300 hover:bg-white"
-            >
-              {active.ctaLabel}
-            </Link>
+            {/* Above the fold, so this eases in on load rather than on scroll. */}
+            <Reveal immediate>
+              <h1 className="text-4xl leading-[1.15] text-white md:text-6xl">{active.title}</h1>
+            </Reveal>
+            <Reveal immediate delay={110}>
+              <p className="mt-5 max-w-xl text-lg text-white/90 md:text-xl">{active.subtitle}</p>
+            </Reveal>
+            <Reveal immediate delay={220}>
+              <Link
+                href={active.ctaHref}
+                className="tap mt-8 inline-flex items-center justify-center rounded-xl bg-cream-50 px-8 py-4 text-base font-medium text-slate transition-colors duration-300 hover:bg-white"
+              >
+                {active.ctaLabel}
+              </Link>
+            </Reveal>
           </div>
         </div>
       </div>

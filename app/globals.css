@@ -183,6 +183,33 @@ html[data-a11y-motion="off"] *::after {
   transition-duration: 0.01ms !important;
 }
 
+/* ------------------------------------------------------------------ */
+/*  Scroll reveal                                                      */
+/*                                                                     */
+/*  Elements are only hidden once JS has confirmed it can reveal them   */
+/*  again (<html data-reveal="on">, set before first paint). No JS,     */
+/*  reduced motion, or the accessibility menu's "stop animations" —     */
+/*  and every one of these rules stops applying, leaving content        */
+/*  plainly visible. Opacity never hides anything from a screen reader. */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-reveal="on"]:not([data-a11y-motion="off"]) [data-reveal-item] {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    will-change: opacity, transform;
+  }
+
+  html[data-reveal="on"]:not([data-a11y-motion="off"]) [data-reveal-item][data-revealed] {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+    transition:
+      opacity 0.75s var(--ease-soft),
+      transform 0.75s var(--ease-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+}
+
 /* Hide native scrollbar on the horizontal article rail without
    removing keyboard scrolling. */
 .no-scrollbar {
