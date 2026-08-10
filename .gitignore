@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+build/
+.env
+.env.local
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.vercel
+
+# Local verification output — regenerate with the scripts in /scripts
+docs/shots/
+docs/lh-mobile.json

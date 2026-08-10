@@ -1,0 +1,42 @@
+import { ChevronDown } from "lucide-react";
+import type { FaqSection } from "@/content/types";
+
+export function Faq({ data }: { data: FaqSection }) {
+  return (
+    <section id="faq" aria-labelledby="faq-title" className="bg-cream-50 py-20 md:py-28">
+      <div className="shell">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="eyebrow">{data.eyebrow}</p>
+          <h2 id="faq-title" className="mt-3 text-3xl text-slate md:text-5xl">
+            {data.title}
+          </h2>
+          <p className="mt-5 text-lg text-muted">{data.lead}</p>
+        </div>
+
+        {/* Native <details> keeps every answer in the HTML — good for screen
+            readers, and it is what Google and the AI crawlers actually read. */}
+        <div className="mx-auto mt-12 max-w-3xl space-y-3">
+          {data.items.map((item, index) => (
+            <details
+              key={item.question}
+              name="faq"
+              open={index === 0}
+              className="group rounded-2xl border border-cream-200 bg-white/70 px-6 open:bg-white"
+            >
+              <summary className="tap flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-start text-base font-medium text-ink md:text-lg">
+                <span>{item.question}</span>
+                <ChevronDown
+                  className="size-5 shrink-0 text-slate transition-transform duration-300 group-open:rotate-180"
+                  aria-hidden="true"
+                />
+              </summary>
+              <p className="border-t border-cream-200 py-5 leading-relaxed text-muted">
+                {item.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

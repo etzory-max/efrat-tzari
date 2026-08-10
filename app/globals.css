@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Design tokens — measured from the Base44 demo, contrast-corrected  */
+/*  for WCAG 2.2 AA (see /accessibility).                              */
+/* ------------------------------------------------------------------ */
+@theme {
+  /* Surfaces */
+  --color-cream-50: #f5f2ed; /* odd sections */
+  --color-cream-100: #ede9e2; /* even sections */
+  --color-cream-200: #e2ddd3; /* hairlines on cream */
+
+  /* Brand */
+  --color-slate: #465b6d; /* headings, CTA, dark card — 6.3:1 on cream */
+  --color-slate-deep: #35485a; /* hover / active */
+  --color-dark: #2c3238; /* footer, quote block, image overlay */
+
+  /* Text */
+  --color-ink: #2c333a; /* body — 11.5:1 on cream */
+  --color-muted: #55606b; /* secondary body — 5.7:1 on cream */
+  --color-on-dark: #f5f2ed; /* text on --color-dark */
+  --color-on-dark-muted: #d7d2c9; /* secondary text on dark — 8.6:1 */
+
+  /* Accent */
+  --color-sage: #aab8a9; /* decorative + eyebrows on --color-dark (6.3:1) */
+  --color-sage-light: #cbd6c9; /* eyebrows on --color-slate (4.7:1) */
+  --color-sage-ink: #5a6b58; /* eyebrows on cream (5.1:1) */
+
+  /* Type */
+  --font-sans: var(--font-heebo), ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* clears the sticky header when jumping to an anchor */
+    scroll-padding-top: 6.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Heebo reads heavier than Assistant at the same weight, so display
+     type sits at 300 with a touch of negative tracking to keep the
+     demo's airy feel. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-slate);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Dark surfaces need a light ring to stay visible */
+  .on-dark :focus-visible {
+    outline-color: #ffffff;
+  }
+
+  ::selection {
+    background-color: var(--color-slate);
+    color: #fff;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utilities                                                          */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--color-sage-ink);
+    text-transform: none;
+  }
+
+  .on-dark .eyebrow {
+    color: var(--color-sage);
+  }
+
+  /* Every interactive target clears the 44×44 AA minimum */
+  .tap {
+    min-block-size: 44px;
+    min-inline-size: 44px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Accessibility menu — toggles set data-* on <html>                   */
+/* ------------------------------------------------------------------ */
+html[data-a11y-text="lg"] body {
+  font-size: 1.125rem;
+}
+html[data-a11y-text="xl"] body {
+  font-size: 1.3125rem;
+}
+
+html[data-a11y-links="on"] a:not([class*="btn"]) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+html[data-a11y-contrast="on"] {
+  --color-cream-50: #ffffff;
+  --color-cream-100: #f2f2f2;
+  --color-cream-200: #767676;
+  --color-muted: #1a1a1a;
+  --color-ink: #000000;
+  --color-slate: #1c3040;
+  --color-sage-ink: #24402a;
+  --color-on-dark-muted: #ffffff;
+}
+html[data-a11y-contrast="on"] img:not([data-a11y-keep]) {
+  filter: grayscale(1) contrast(1.15);
+}
+
+/* Reduced motion — user preference or the accessibility menu */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html[data-a11y-motion="off"] {
+  scroll-behavior: auto;
+}
+html[data-a11y-motion="off"] *,
+html[data-a11y-motion="off"] *::before,
+html[data-a11y-motion="off"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Hide native scrollbar on the horizontal article rail without
+   removing keyboard scrolling. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
