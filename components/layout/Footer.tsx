@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Clock, Mail, Phone } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
@@ -15,7 +16,7 @@ export function Footer() {
   return (
     <footer className="on-dark bg-dark pt-20 pb-8 text-on-dark">
       <div className="shell">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1fr_1.7fr_1fr]">
           <div>
             <Logo variant="dark" />
 
@@ -50,11 +51,24 @@ export function Footer() {
           </div>
 
           {/* The middle column carries the sentence rather than repeating the
-              menu — every one of those links already sits in the header. */}
-          <p className="self-center text-lg leading-relaxed text-on-dark md:col-span-2 md:text-xl lg:col-span-1 lg:text-center">
-            ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי — כלים מעשיים שמותאמים בדיוק
-            לכם.
-          </p>
+              menu — every one of those links already sits in the header.
+              Left ragged, not centred: centring Hebrew this long gives a
+              jagged block with no edge to read down. */}
+          <div className="md:col-span-2 lg:col-span-1">
+            <p className="max-w-md text-lg leading-relaxed text-balance text-on-dark md:text-xl">
+              ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי — כלים מעשיים שמותאמים בדיוק
+              לכם.
+            </p>
+            {/* Tinted light so the line art reads on the dark footer. */}
+            <Image
+              src="/images/art-kid-ball-light.png"
+              alt=""
+              width={691}
+              height={900}
+              sizes="160px"
+              className="mt-8 h-28 w-auto opacity-75 md:h-32"
+            />
+          </div>
 
           <div>
             <span aria-hidden="true" className="mb-3 block h-0.5 w-7 bg-accent" />

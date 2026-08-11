@@ -16,7 +16,7 @@ export const site = {
   phoneDisplay: "050-123-4567",
   phoneE164: "+972501234567",
   email: "efrat@example.com",
-  whatsappNumber: "972501234567",
+  whatsappNumber: "972526008172",
   whatsappMessage: "היי אפרת, הגעתי מהאתר ואשמח לשמוע פרטים על ליווי",
   hours: "ראשון–חמישי, 9:00–19:00",
   hoursSpec: [

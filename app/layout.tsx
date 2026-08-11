@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { FloatingActions } from "@/components/layout/FloatingActions";
+import { PrivacyNotice } from "@/components/layout/PrivacyNotice";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
@@ -35,11 +36,31 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
+    // A static JPEG, not a generated one: WhatsApp is the fussiest consumer
+    // of this tag and it wants a plain, light image at an absolute URL.
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+        type: "image/jpeg",
+        alt: `${site.name} — ${site.tagline}`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
+    images: ["/og.jpg"],
+  },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/apple-icon.png",
   },
   robots: allowIndexing
     ? {
@@ -81,6 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <FloatingActions />
+        <PrivacyNotice />
         <OrganizationJsonLd />
       </body>
     </html>
