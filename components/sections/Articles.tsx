@@ -66,7 +66,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
               className="w-[min(20rem,80vw)] shrink-0 snap-start sm:w-[19rem]"
             >
               <Reveal delay={index * 90} className="h-full">
-              <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-cream-200 bg-cream-50 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(44,50,56,0.10)] focus-within:outline focus-within:outline-3 focus-within:outline-offset-3 focus-within:outline-slate">
+              <article className="group/card relative flex h-full flex-col overflow-hidden rounded-2xl border border-cream-200 bg-cream-50 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(44,50,56,0.10)] focus-within:outline focus-within:outline-3 focus-within:outline-offset-3 focus-within:outline-slate">
                 <div className="relative aspect-16/10">
                   <Image
                     src={article.image.src}
@@ -86,7 +86,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
                     </span>
                     {article.readingMinutes} דקות קריאה
                   </p>
-                  <h3 className="mt-3 text-lg text-slate">
+                  <h3 className="mt-3 text-lg text-slate transition-colors group-hover/card:text-accent">
                     <Link
                       href={`/articles/${article.slug}`}
                       className="outline-none after:absolute after:inset-0 after:content-['']"

@@ -27,11 +27,11 @@ export function Faq({ data }: { data: FaqSection }) {
               <summary className="tap flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-start text-base font-medium text-ink md:text-lg">
                 <span>{item.question}</span>
                 <ChevronDown
-                  className="size-5 shrink-0 text-slate transition-transform duration-300 group-open:rotate-180"
+                  className="size-5 shrink-0 text-accent transition-transform duration-300 group-open:rotate-180"
                   aria-hidden="true"
                 />
               </summary>
-              <p className="border-t border-cream-200 py-5 leading-relaxed text-muted">
+              <p className="border-t border-accent-line/50 py-5 leading-relaxed text-muted">
                 {item.answer}
               </p>
             </details>

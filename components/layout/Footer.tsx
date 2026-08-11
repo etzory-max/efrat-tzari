@@ -73,19 +73,19 @@ export function Footer() {
             <h2 className="text-base font-medium text-on-dark">צרי קשר</h2>
             <ul className="mt-5 space-y-4 text-on-dark-muted">
               <li className="flex items-center gap-3">
-                <Phone className="size-4 shrink-0 text-sage" aria-hidden="true" />
+                <Phone className="size-4 shrink-0 text-accent-light" aria-hidden="true" />
                 <a href={`tel:${site.phoneE164}`} className="transition-colors hover:text-white">
                   {site.phoneDisplay}
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="size-4 shrink-0 text-sage" aria-hidden="true" />
+                <Mail className="size-4 shrink-0 text-accent-light" aria-hidden="true" />
                 <a href={`mailto:${site.email}`} className="transition-colors hover:text-white">
                   {site.email}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <Clock className="mt-1 size-4 shrink-0 text-sage" aria-hidden="true" />
+                <Clock className="mt-1 size-4 shrink-0 text-accent-light" aria-hidden="true" />
                 <span>{site.hours}</span>
               </li>
             </ul>

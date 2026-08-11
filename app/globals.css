@@ -21,10 +21,21 @@
   --color-on-dark: #f5f2ed; /* text on --color-dark */
   --color-on-dark-muted: #d7d2c9; /* secondary text on dark — 8.6:1 */
 
-  /* Accent */
-  --color-sage: #aab8a9; /* decorative + eyebrows on --color-dark (6.3:1) */
-  --color-sage-light: #cbd6c9; /* eyebrows on --color-slate (4.7:1) */
-  --color-sage-ink: #5a6b58; /* eyebrows on cream (5.1:1) */
+  /* Sage — the organic side of the identity: the logo mark, the quote,
+     the check marks. Deliberately NOT used for anything interactive. */
+  --color-sage: #aab8a9; /* on --color-dark (6.3:1), on --color-slate (3.4:1 — icons only) */
+
+  /* Warm accent — everything that asks for attention: section labels,
+     links, hover states, tinted plates. One warm note against the cool
+     slate, so the two never compete. */
+  --color-accent: #a24c3b; /* text/links — 5.2:1 on cream-50, 4.8:1 on cream-100 */
+  --color-accent-line: #d28d7b; /* decorative hairlines only — not a UI boundary */
+  --color-accent-wash: #f5e3dc; /* icon plates and tags */
+  --color-accent-light: #f3cdc0; /* on slate (4.8:1) and on dark (8.8:1) */
+
+  /* Form controls need a 3:1 boundary of their own (WCAG 1.4.11);
+     the cream hairline is far too faint to serve as one. */
+  --color-field-border: #948b7f; /* 3.4:1 on white */
 
   /* Type */
   --font-sans: var(--font-heebo), ui-sans-serif, system-ui, sans-serif;
@@ -109,16 +120,30 @@
     }
   }
 
+  /* A short rule leads into every section label — the accent's quietest,
+     most repeated appearance. currentColor keeps it correct on any surface. */
   .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.18em;
-    color: var(--color-sage-ink);
+    color: var(--color-accent);
     text-transform: none;
   }
 
+  .eyebrow::before {
+    content: "";
+    inline-size: 1.75rem;
+    block-size: 1px;
+    background-color: currentColor;
+    opacity: 0.55;
+    flex: none;
+  }
+
   .on-dark .eyebrow {
-    color: var(--color-sage);
+    color: var(--color-accent-light);
   }
 
   /* Every interactive target clears the 44×44 AA minimum */
@@ -150,8 +175,12 @@ html[data-a11y-contrast="on"] {
   --color-muted: #1a1a1a;
   --color-ink: #000000;
   --color-slate: #1c3040;
-  --color-sage-ink: #24402a;
   --color-on-dark-muted: #ffffff;
+  --color-accent: #7a2f20;
+  --color-accent-line: #7a2f20;
+  --color-accent-wash: #ffffff;
+  --color-accent-light: #ffffff;
+  --color-field-border: #000000;
 }
 html[data-a11y-contrast="on"] img:not([data-a11y-keep]) {
   filter: grayscale(1) contrast(1.15);

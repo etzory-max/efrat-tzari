@@ -44,7 +44,7 @@ function makeProse(
         return (
           <Link
             href={href}
-            className="underline underline-offset-4"
+            className="text-accent underline underline-offset-4 transition-colors hover:text-ink"
             {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           >
             {children}

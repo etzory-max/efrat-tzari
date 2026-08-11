@@ -97,7 +97,7 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="relative inline-flex items-center py-2 text-[0.9375rem] text-ink transition-colors duration-200 hover:text-slate focus-visible:text-slate after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-slate after:transition-transform after:duration-200 hover:after:scale-x-100"
+                  className="relative inline-flex items-center py-2 text-[0.9375rem] text-ink transition-colors duration-200 hover:text-accent focus-visible:text-accent after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 hover:after:scale-x-100"
                 >
                   {item.label}
                 </Link>

@@ -21,14 +21,13 @@ function ServiceCard({ service }: { service: Service }) {
     >
       <span
         className={`inline-flex size-12 items-center justify-center rounded-xl ${
-          dark ? "bg-white/15 text-white" : "bg-slate/10 text-slate"
+          dark ? "bg-white/15 text-white" : "bg-accent-wash text-accent"
         }`}
       >
         <Icon className="size-6" aria-hidden="true" />
       </span>
 
-      {/* On the slate card the mid sage drops to 3.4:1 — the lighter tint clears AA. */}
-      <p className={`mt-6 text-xs tracking-[0.18em] ${dark ? "text-sage-light" : "text-sage-ink"}`}>
+      <p className={`mt-6 text-xs tracking-[0.18em] ${dark ? "text-accent-light" : "text-accent"}`}>
         {service.kicker}
       </p>
       <h3 className={`mt-2 text-2xl ${dark ? "text-white" : "text-slate"}`}>{service.title}</h3>
@@ -51,7 +50,7 @@ function ServiceCard({ service }: { service: Service }) {
       <details className="group mt-auto pt-8">
         <summary
           className={`tap inline-flex cursor-pointer list-none items-center gap-2 text-sm font-medium transition-colors ${
-            dark ? "text-white hover:text-sage" : "text-slate hover:text-slate-deep"
+            dark ? "text-white hover:text-accent-light" : "text-accent hover:text-ink"
           }`}
         >
           <span className="group-open:hidden">{service.moreLabel}</span>
@@ -63,7 +62,7 @@ function ServiceCard({ service }: { service: Service }) {
         </summary>
         <div
           className={`mt-5 border-t pt-5 ${
-            dark ? "border-white/20 text-white/90" : "border-cream-200 text-muted"
+            dark ? "border-white/20 text-white/90" : "border-accent-line/50 text-muted"
           }`}
         >
           <PortableText value={service.details} components={dark ? proseInCardOnDark : proseInCard} />

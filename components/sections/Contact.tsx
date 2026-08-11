@@ -77,7 +77,7 @@ function Field({
           ...(error ? { "aria-invalid": true as const } : {}),
           ...(describedBy ? { "aria-describedby": describedBy } : {}),
           className: `w-full rounded-xl border bg-white px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted/70 ${
-            error ? "border-[#a4232b]" : "border-cream-200 focus:border-slate"
+            error ? "border-[#a4232b]" : "border-field-border focus:border-accent"
           }`,
         })}
       </div>
@@ -127,7 +127,7 @@ export function Contact({ data }: { data: ContactSection }) {
           <ul className="mt-10 space-y-6">
             {details.map((detail) => (
               <li key={detail.label} className="flex items-start gap-4">
-                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-slate/10 text-slate">
+                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent-wash text-accent">
                   <detail.icon className="size-5" aria-hidden="true" />
                 </span>
                 <span>
@@ -213,7 +213,7 @@ export function Contact({ data }: { data: ContactSection }) {
                   {...(state.fieldErrors?.consent
                     ? { "aria-invalid": true as const, "aria-describedby": "consent-error" }
                     : {})}
-                  className="mt-1 size-5 shrink-0 accent-[#465b6d]"
+                  className="mt-1 size-5 shrink-0 accent-[#a24c3b]"
                 />
                 <label htmlFor="consent" className="text-sm leading-relaxed text-ink">
                   {data.consentLabel}{" "}
