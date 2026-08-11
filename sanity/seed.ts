@@ -137,6 +137,22 @@ async function run() {
     });
   }
 
+  for (const [index, item] of c.media.items.entries()) {
+    docs.push({
+      _id: `mediaItem-${index + 1}`,
+      _type: "mediaItem",
+      kind: item.kind,
+      title: item.title,
+      outlet: item.outlet,
+      date: item.date,
+      summary: item.summary,
+      poster: await uploadImage(item.poster),
+      youtubeId: item.youtubeId,
+      href: item.href,
+      order: index + 1,
+    });
+  }
+
   c.faq.items.forEach((item, index) => {
     docs.push({
       _id: `faqItem-${index + 1}`,
@@ -152,6 +168,9 @@ async function run() {
     _type: "sectionCopy",
     servicesEyebrow: c.services.eyebrow,
     servicesTitle: c.services.title,
+    mediaEyebrow: c.media.eyebrow,
+    mediaTitle: c.media.title,
+    mediaLead: c.media.lead,
     articlesEyebrow: c.articles.eyebrow,
     articlesTitle: c.articles.title,
     faqEyebrow: c.faq.eyebrow,

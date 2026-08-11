@@ -242,6 +242,58 @@ const article = defineType({
   preview: { select: { title: "title", subtitle: "date", media: "image" } },
 });
 
+
+const mediaItem = defineType({
+  name: "mediaItem",
+  title: "פריט מדיה",
+  type: "document",
+  fields: [
+    defineField({
+      name: "kind",
+      title: "סוג",
+      type: "string",
+      options: {
+        list: [
+          { title: "וידאו", value: "video" },
+          { title: "פודקאסט", value: "podcast" },
+          { title: "כתבה", value: "press" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "video",
+      validation: (r) => r.required(),
+    }),
+    defineField({ name: "title", title: "כותרת", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "outlet", title: "אמצעי / תוכנית", type: "string" }),
+    defineField({ name: "date", title: "תאריך", type: "date" }),
+    defineField({
+      name: "summary",
+      title: "תקציר",
+      type: "text",
+      rows: 3,
+      description:
+        "חובה. זה מה שקורא מסך מקבל, ומה שמחליף כתבה סרוקה שאי אפשר לקרוא ממנה טקסט.",
+      validation: (r) => r.required().max(220),
+    }),
+    accessibleImage("poster", "תמונת תצוגה"),
+    defineField({
+      name: "youtubeId",
+      title: "מזהה סרטון ביוטיוב",
+      type: "string",
+      description: "רק המזהה, למשל 1Jyky8kOxuU. רלוונטי לווידאו ולפודקאסט.",
+    }),
+    defineField({
+      name: "href",
+      title: "קישור לקובץ או לעמוד",
+      type: "string",
+      description: "רלוונטי לכתבה.",
+    }),
+    defineField({ name: "order", title: "סדר", type: "number", initialValue: 1 }),
+  ],
+  orderings: [{ title: "סדר", name: "order", by: [{ field: "order", direction: "asc" }] }],
+  preview: { select: { title: "title", subtitle: "outlet", media: "poster" } },
+});
+
 const faqItem = defineType({
   name: "faqItem",
   title: "שאלה נפוצה",
@@ -262,6 +314,9 @@ const sectionCopy = defineType({
   fields: [
     defineField({ name: "servicesEyebrow", title: "שירותים — תווית", type: "string" }),
     defineField({ name: "servicesTitle", title: "שירותים — כותרת", type: "string" }),
+    defineField({ name: "mediaEyebrow", title: "מדיה — תווית", type: "string" }),
+    defineField({ name: "mediaTitle", title: "מדיה — כותרת", type: "string" }),
+    defineField({ name: "mediaLead", title: "מדיה — פסקת פתיחה", type: "text", rows: 2 }),
     defineField({ name: "articlesEyebrow", title: "מאמרים — תווית", type: "string" }),
     defineField({ name: "articlesTitle", title: "מאמרים — כותרת", type: "string" }),
     defineField({ name: "faqEyebrow", title: "שאלות — תווית", type: "string" }),
@@ -286,6 +341,7 @@ export const schemaTypes = [
   approach,
   service,
   article,
+  mediaItem,
   faqItem,
   sectionCopy,
 ];

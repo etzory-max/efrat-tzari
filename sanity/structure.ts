@@ -11,6 +11,7 @@ const collections: { type: string; title: string }[] = [
   { type: "heroSlide", title: "שקופיות ראש העמוד" },
   { type: "service", title: "שירותים" },
   { type: "article", title: "מאמרים" },
+  { type: "mediaItem", title: "מדיה" },
   { type: "faqItem", title: "שאלות נפוצות" },
 ];
 

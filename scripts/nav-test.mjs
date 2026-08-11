@@ -36,7 +36,7 @@ for (const testCase of cases) {
     link.click();
   }, testCase.link);
 
-  await new Promise((r) => setTimeout(r, 1600));
+  await new Promise((r) => setTimeout(r, 3200));
 
   const result = await page.evaluate((hash) => {
     const target = document.querySelector(hash);

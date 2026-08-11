@@ -31,6 +31,9 @@ const QUERY = /* groq */ `{
   "services": *[_type == "service"] | order(order asc) {
     "id": slug.current, icon, kicker, title, body, bullets, variant, moreLabel, details
   },
+  "media": *[_type == "mediaItem"] | order(order asc) {
+    kind, title, outlet, date, summary, poster, youtubeId, href
+  },
   "articles": *[_type == "article"] | order(date desc) {
     "slug": slug.current, title, date, excerpt, image, readingMinutes, body
   },
@@ -90,6 +93,7 @@ function mergeContent(data: any): SiteContent {
         badgeValue: or(data.about.badgeValue, d.about.badgeValue),
         badgeLabel: or(data.about.badgeLabel, d.about.badgeLabel),
         points: or(data.about.points, d.about.points),
+        book: d.about.book,
       }
     : d.about;
 
@@ -121,6 +125,24 @@ function mergeContent(data: any): SiteContent {
         })),
       }
     : d.services;
+
+  const media = or(data?.media, null)
+    ? {
+        eyebrow: or(copy.mediaEyebrow, d.media.eyebrow),
+        title: or(copy.mediaTitle, d.media.title),
+        lead: or(copy.mediaLead, d.media.lead),
+        items: data.media.map((item: any, index: number) => ({
+          kind: or(item.kind, "video"),
+          title: or(item.title, ""),
+          outlet: or(item.outlet, ""),
+          date: item.date ?? undefined,
+          summary: or(item.summary, ""),
+          poster: toImg(item.poster, d.media.items[index]?.poster ?? d.media.items[0].poster, 900),
+          youtubeId: item.youtubeId ?? undefined,
+          href: item.href ?? undefined,
+        })),
+      }
+    : d.media;
 
   const articles = or(data?.articles, null)
     ? {
@@ -154,5 +176,5 @@ function mergeContent(data: any): SiteContent {
     consentLabel: or(copy.consentLabel, d.contact.consentLabel),
   };
 
-  return { hero, about, approach, services, articles, faq, contact };
+  return { hero, about, approach, services, media, articles, guide: d.guide, faq, contact };
 }

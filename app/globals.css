@@ -157,6 +157,16 @@
     color: var(--color-accent-light);
   }
 
+  /* On the terracotta surface the accent cannot be its own label — it drops
+     to 2.5:1 against itself. */
+  .on-accent .eyebrow {
+    color: var(--color-ink);
+  }
+
+  .on-accent .eyebrow::before {
+    background-color: var(--color-ink);
+  }
+
   /* Every interactive target clears the 44×44 AA minimum */
   .tap {
     min-block-size: 44px;

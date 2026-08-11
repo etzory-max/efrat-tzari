@@ -15,6 +15,16 @@ export type HeroSlide = {
   image: Img;
 };
 
+export type Book = {
+  title: string;
+  subtitle: string;
+  /** One or two lines bridging from the practice to the book. */
+  blurb: string;
+  cover: Img;
+  buyLabel: string;
+  buyHref: string;
+};
+
 export type AboutSection = {
   eyebrow: string;
   title: string;
@@ -24,6 +34,38 @@ export type AboutSection = {
   badgeLabel: string;
   /** Four short statements — replaced the business figures the demo showed. */
   points: string[];
+  book?: Book;
+};
+
+export type MediaItem = {
+  /** Drives the card's tag and what happens on activation. */
+  kind: "video" | "podcast" | "press";
+  title: string;
+  /** Outlet or programme name. */
+  outlet: string;
+  date?: string;
+  /** Short standalone summary — also what a screen reader gets for a PDF scan. */
+  summary: string;
+  poster: Img;
+  /** YouTube id for video/podcast; a file or page URL for press. */
+  youtubeId?: string;
+  href?: string;
+};
+
+export type MediaSection = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  items: MediaItem[];
+};
+
+export type GuideSection = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  bullets: string[];
+  consentLabel: string;
+  submitLabel: string;
 };
 
 export type ApproachCard = {
@@ -101,7 +143,9 @@ export type SiteContent = {
   about: AboutSection;
   approach: ApproachSection;
   services: ServicesSection;
+  media: MediaSection;
   articles: ArticlesSection;
+  guide: GuideSection;
   faq: FaqSection;
   contact: ContactSection;
 };

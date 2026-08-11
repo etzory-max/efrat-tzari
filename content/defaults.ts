@@ -60,6 +60,19 @@ export const defaultContent: SiteContent = {
       "כלים מעשיים שאפשר להתחיל ליישם כבר השבוע",
       "מרחב בטוח לשאול, להתלבט ולא לדעת",
     ],
+    book: {
+      title: "שברים עדינים",
+      subtitle: "סיפורים על מה שאבד, מה שנמצא ומה שביניהם",
+      // Deliberately framed as a book of stories, not as a parenting manual.
+      blurb:
+        "מעבר לעבודה המקצועית אני גם כותבת. ״שברים עדינים״ הוא ספר סיפורים על שבר, על מה שנשאר אחריו ועל מה שאפשר להרכיב מחדש.",
+      cover: {
+        src: "/images/book-cover.png",
+        alt: "כריכת הספר ״שברים עדינים״ מאת אפרת צרי",
+      },
+      buyLabel: "לרכישת הספר",
+      buyHref: "https://pay.grow.link/786e5d80fb9f7365cbca5506851b0fed-MjY0MjM1OQ",
+    },
   },
 
   approach: {
@@ -152,6 +165,51 @@ export const defaultContent: SiteContent = {
           li("חומרים כתובים וכלים שאפשר להתחיל להשתמש בהם באותו שבוע."),
           p("הסדנאות מתקיימות גם אונליין, כך שאפשר להשתתף מכל מקום בארץ."),
         ],
+      },
+    ],
+  },
+
+  media: {
+    eyebrow: "בתקשורת",
+    title: "לצפייה והאזנה",
+    lead: "שיחות וכתבות שבהן אני מרחיבה על הגישה, על הכלים ועל מה שקורה באמת בבית.",
+    items: [
+      {
+        kind: "podcast",
+        title: "הפרק המלא בפודקאסט",
+        outlet: "שיחה על הורות מותאמת",
+        summary:
+          "שיחה מלאה על הדרך שבה מתחילים ליווי, מה באמת עוזר להורים ומה כדאי להפסיק לנסות.",
+        poster: {
+          src: "/media/podcast-poster.jpg",
+          alt: "תמונת הפתיחה של פרק הפודקאסט עם אפרת צרי",
+        },
+        youtubeId: "1Jyky8kOxuU",
+      },
+      {
+        kind: "video",
+        title: "תמצית הפרק בקצרה",
+        outlet: "גרסה מקוצרת",
+        summary: "הנקודות המרכזיות מהשיחה, בכמה דקות.",
+        poster: {
+          src: "/media/podcast-poster.jpg",
+          alt: "תמונת הפתיחה של גרסת הווידאו המקוצרת",
+        },
+        // TODO(efrat): replace with the short cut once it is published.
+        youtubeId: "1Jyky8kOxuU",
+      },
+      {
+        kind: "press",
+        title: "הכתבה שהתפרסמה",
+        outlet: "כתבה בעיתונות",
+        summary:
+          "כתבה על הורות מותאמת ועל המשפחות שמלוות בה — לקריאה במסמך המצורף.",
+        poster: {
+          src: "/images/article-teacher.jpg",
+          alt: "ספר פתוח ומחברת עם כתב יד, כאיור לכתבה",
+        },
+        // TODO(efrat): replace with the real clipping.
+        href: "/files/press-article.pdf",
       },
     ],
   },
@@ -253,6 +311,19 @@ export const defaultContent: SiteContent = {
         ],
       },
     ],
+  },
+
+  guide: {
+    eyebrow: "מתנה",
+    title: "המדריך: חמישה דברים שכדאי להפסיק לנסות",
+    lead: "מדריך קצר ומעשי שאפשר לקרוא בעשר דקות ולהתחיל ליישם באותו ערב. ישלח אליכם למייל, בלי עלות ובלי התחייבות.",
+    bullets: [
+      "מה לעשות ברגע שהכול מתפרק",
+      "איך בונים שגרה שמחזיקה גם בימים קשים",
+      "מה להגיד לצוות בגן או בבית הספר",
+    ],
+    consentLabel: "אני מאשר/ת שישלחו אליי את המדריך למייל",
+    submitLabel: "שלחו לי את המדריך",
   },
 
   faq: {

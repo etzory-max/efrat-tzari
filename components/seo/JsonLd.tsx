@@ -1,5 +1,5 @@
 import { site, siteUrl } from "@/lib/site";
-import type { Article, FaqItem, Service } from "@/content/types";
+import type { Article, Book, FaqItem, MediaItem, Service } from "@/content/types";
 
 function JsonLd({ data }: { data: object }) {
   return (
@@ -74,6 +74,47 @@ export function OrganizationJsonLd() {
             publisher: { "@id": PERSON_ID },
           },
         ],
+      }}
+    />
+  );
+}
+
+/** A published book is a strong entity signal for both Google and AI answers. */
+export function BookJsonLd({ book }: { book: Book }) {
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "Book",
+        name: book.title,
+        alternativeHeadline: book.subtitle,
+        description: book.blurb,
+        inLanguage: "he",
+        author: { "@id": PERSON_ID },
+        image: `${siteUrl}${book.cover.src}`,
+        ...(book.buyHref ? { offers: { "@type": "Offer", url: book.buyHref } } : {}),
+      }}
+    />
+  );
+}
+
+export function MediaJsonLd({ items }: { items: MediaItem[] }) {
+  const videos = items.filter((item) => item.youtubeId);
+  if (videos.length === 0) return null;
+
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": videos.map((item) => ({
+          "@type": "VideoObject",
+          name: item.title,
+          description: item.summary,
+          thumbnailUrl: `${siteUrl}${item.poster.src}`,
+          embedUrl: `https://www.youtube.com/embed/${item.youtubeId}`,
+          ...(item.date ? { uploadDate: item.date } : {}),
+          publisher: { "@id": PERSON_ID },
+        })),
       }}
     />
   );

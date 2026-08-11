@@ -48,6 +48,38 @@ export function About({ data }: { data: AboutSection }) {
               </li>
             ))}
           </ul>
+
+          {data.book && (
+            <div className="mt-10 border-t border-cream-200 pt-8">
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+                <Image
+                  src={data.book.cover.src}
+                  alt={data.book.cover.alt}
+                  width={120}
+                  height={224}
+                  sizes="120px"
+                  className="h-auto w-[7.5rem] shrink-0 self-start"
+                />
+                <div>
+                  <p className="eyebrow">הספר</p>
+                  <h3 className="mt-2 text-xl text-slate">
+                    {data.book.title}
+                    <span className="mt-1 block text-base text-muted">{data.book.subtitle}</span>
+                  </h3>
+                  <p className="mt-3 text-muted">{data.book.blurb}</p>
+                  <a
+                    href={data.book.buyHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="tap mt-4 inline-flex items-center text-sm font-medium text-accent-ink underline underline-offset-4 transition-colors hover:text-ink"
+                  >
+                    {data.book.buyLabel}
+                    <span className="sr-only"> (נפתח בחלון חדש)</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
         </Reveal>
       </div>
     </section>

@@ -74,6 +74,7 @@ export const navItems: NavItem[] = [
   { label: "ליווי", href: "/#service-family" },
   { label: "הרצאות", href: "/#service-lectures" },
   { label: "סדנאות וקורסים", href: "/#service-workshops" },
+  { label: "בתקשורת", href: "/#media" },
   { label: "מאמרים", href: "/#articles" },
   { label: "צור קשר", href: "/#contact" },
 ];
