@@ -3,10 +3,9 @@
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { z } from "zod";
-import { defaultContent } from "@/content/defaults";
 import { site } from "@/lib/site";
 
-type Field = "name" | "phone" | "email" | "subject" | "message" | "consent";
+type Field = "name" | "phone" | "email" | "message" | "consent";
 
 export type ContactState = {
   status: "idle" | "success" | "error";
@@ -31,7 +30,6 @@ const schema = z.object({
       message: "נא למלא מספר טלפון תקין",
     }),
   email: z.string().trim().email("נא למלא כתובת אימייל תקינה").max(120),
-  subject: z.enum(defaultContent.contact.subjects as unknown as [string, ...string[]]).catch("אחר"),
   message: z.string().trim().max(2000, "ההודעה ארוכה מדי").optional().default(""),
   consent: z.literal("on", { message: "יש לאשר את מדיניות הפרטיות כדי לשלוח" }),
 });
@@ -62,7 +60,6 @@ export async function submitContact(
     name: String(formData.get("name") ?? ""),
     phone: String(formData.get("phone") ?? ""),
     email: String(formData.get("email") ?? ""),
-    subject: String(formData.get("subject") ?? "אחר"),
     message: String(formData.get("message") ?? ""),
     consent: formData.get("consent") === "on",
   };
@@ -110,7 +107,7 @@ export async function submitContact(
     };
   }
 
-  const { name, phone, email, subject, message } = parsed.data;
+  const { name, phone, email, message } = parsed.data;
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL ?? site.email;
   const from = process.env.CONTACT_FROM_EMAIL;
@@ -130,12 +127,11 @@ export async function submitContact(
       from,
       to,
       replyTo: email,
-      subject: `פנייה חדשה מהאתר — ${subject} — ${name}`,
+      subject: `פנייה חדשה מהאתר — ${name}`,
       text: [
         `שם: ${name}`,
         `טלפון: ${phone}`,
         `אימייל: ${email}`,
-        `נושא: ${subject}`,
         "",
         "הודעה:",
         message || "(לא נכתבה הודעה)",

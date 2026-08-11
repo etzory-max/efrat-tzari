@@ -192,18 +192,6 @@ export function Contact({ data }: { data: ContactSection }) {
               </Field>
             </div>
 
-            <Field id="subject" label="נושא הפנייה" error={state.fieldErrors?.subject}>
-              {(props) => (
-                <select {...props} defaultValue={state.values?.subject ?? data.subjects[0]}>
-                  {data.subjects.map((subject) => (
-                    <option key={subject} value={subject}>
-                      {subject}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </Field>
-
             <Field
               id="message"
               label="במה אפשר לעזור?"
@@ -222,8 +210,9 @@ export function Contact({ data }: { data: ContactSection }) {
                   value="on"
                   required
                   defaultChecked={state.values?.consent}
-                  aria-describedby={`privacy-notice${state.fieldErrors?.consent ? " consent-error" : ""}`}
-                  {...(state.fieldErrors?.consent ? { "aria-invalid": true } : {})}
+                  {...(state.fieldErrors?.consent
+                    ? { "aria-invalid": true as const, "aria-describedby": "consent-error" }
+                    : {})}
                   className="mt-1 size-5 shrink-0 accent-[#465b6d]"
                 />
                 <label htmlFor="consent" className="text-sm leading-relaxed text-ink">
@@ -239,10 +228,6 @@ export function Contact({ data }: { data: ContactSection }) {
                 </p>
               )}
             </div>
-
-            <p id="privacy-notice" className="text-xs leading-relaxed text-muted">
-              {data.privacyNotice}
-            </p>
 
             <SubmitButton />
 

@@ -278,20 +278,7 @@ const sectionCopy = defineType({
     defineField({ name: "contactEyebrow", title: "צור קשר — תווית", type: "string" }),
     defineField({ name: "contactTitle", title: "צור קשר — כותרת", type: "string" }),
     defineField({ name: "contactLead", title: "צור קשר — פסקת פתיחה", type: "text", rows: 3 }),
-    defineField({
-      name: "privacyNotice",
-      title: "הודעת פרטיות ליד הטופס",
-      type: "text",
-      rows: 5,
-      description: "הודעת היידוע הנדרשת בנקודת איסוף המידע. יש להתייעץ לפני שינוי.",
-    }),
     defineField({ name: "consentLabel", title: "טקסט תיבת ההסכמה", type: "string" }),
-    defineField({
-      name: "subjects",
-      title: "נושאי פנייה",
-      type: "array",
-      of: [defineArrayMember({ type: "string" })],
-    }),
   ],
   preview: { prepare: () => ({ title: "כותרות סקשנים" }) },
 });

@@ -160,9 +160,7 @@ async function run() {
     contactEyebrow: c.contact.eyebrow,
     contactTitle: c.contact.title,
     contactLead: c.contact.lead,
-    privacyNotice: c.contact.privacyNotice,
     consentLabel: c.contact.consentLabel,
-    subjects: c.contact.subjects,
   });
 
   console.log(`כותב ${docs.length} מסמכים…`);

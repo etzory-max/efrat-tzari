@@ -90,10 +90,11 @@ export type ContactSection = {
   eyebrow: string;
   title: string;
   lead: string;
-  /** Notice shown at the point of collection (Privacy Protection Law, Amdt. 13). */
-  privacyNotice: string;
+  /**
+   * The consent checkbox is now the only notice at the point of collection —
+   * it links to /privacy, which carries the full disclosure.
+   */
   consentLabel: string;
-  subjects: string[];
 };
 
 export type SiteContent = {

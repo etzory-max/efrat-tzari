@@ -151,9 +151,7 @@ function mergeContent(data: any): SiteContent {
     eyebrow: or(copy.contactEyebrow, d.contact.eyebrow),
     title: or(copy.contactTitle, d.contact.title),
     lead: or(copy.contactLead, d.contact.lead),
-    privacyNotice: or(copy.privacyNotice, d.contact.privacyNotice),
     consentLabel: or(copy.consentLabel, d.contact.consentLabel),
-    subjects: or(copy.subjects, d.contact.subjects),
   };
 
   return { hero, about, approach, services, articles, faq, contact };
