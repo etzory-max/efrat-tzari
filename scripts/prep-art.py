@@ -67,5 +67,5 @@ for name, (x0, x1) in zip(NAMES, runs):
 # ---- new hero -------------------------------------------------------------
 hero = Image.open("public/images/photo-1666028160176-32cfa65a5adf.avif").convert("RGB")
 hero.thumbnail((1920, 1920), Image.LANCZOS)
-hero.save("public/images/hero-home.jpg", quality=84, optimize=True, progressive=True)
-print(f"hero-home.jpg {hero.size}")
+hero.save("public/images/hero-hug.jpg", quality=84, optimize=True, progressive=True)
+print(f"hero-hug.jpg {hero.size}")

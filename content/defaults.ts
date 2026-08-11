@@ -14,7 +14,7 @@ export const defaultContent: SiteContent = {
     ctaLabel: "לקביעת שיחה חינם",
     ctaHref: "/#contact",
     image: {
-      src: "/images/hero-home.jpg",
+      src: "/images/hero-hug.jpg",
       alt: "ילדה מחובקת בזרועות מבוגרת, מחייכת אל המצלמה באור שקיעה",
     },
   },
