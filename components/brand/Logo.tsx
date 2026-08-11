@@ -41,13 +41,18 @@ export function Logo({
   const tagColor = variant === "dark" ? "text-on-dark-muted" : "text-muted";
 
   return (
-    <span className={`flex items-center gap-3 ${className}`}>
+    <span className={`flex min-w-0 items-center gap-2.5 sm:gap-3 ${className}`}>
       <Logomark className={`h-[var(--logo-size,3.5rem)] w-[var(--logo-size,3.5rem)] shrink-0 transition-[height,width] duration-300 ${markColor}`} />
-      <span className="flex flex-col leading-none">
-        <span className={`text-xl font-medium tracking-tight md:text-2xl ${nameColor}`}>
+      <span className="flex min-w-0 flex-col leading-none">
+        <span className={`text-lg font-medium tracking-tight sm:text-xl md:text-2xl ${nameColor}`}>
           {site.name}
         </span>
-        <span className={`mt-1.5 hidden text-xs tracking-wide sm:block ${tagColor}`}>
+        {/* Shown on every width — the tagline is half the brand. It shrinks
+            rather than disappearing, and truncates only on the narrowest
+            phones instead of pushing the menu button off screen. */}
+        <span
+          className={`mt-1 truncate text-[0.6875rem] leading-tight tracking-wide sm:mt-1.5 sm:text-xs ${tagColor}`}
+        >
           {site.tagline}
         </span>
       </span>
