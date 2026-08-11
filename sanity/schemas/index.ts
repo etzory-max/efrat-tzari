@@ -78,7 +78,7 @@ const heroSlide = defineType({
     defineField({ name: "title", title: "כותרת", type: "string", validation: (r) => r.required() }),
     defineField({ name: "subtitle", title: "כותרת משנה", type: "text", rows: 2 }),
     defineField({ name: "ctaLabel", title: "טקסט הכפתור", type: "string" }),
-    defineField({ name: "ctaHref", title: "יעד הכפתור", type: "string", initialValue: "#contact" }),
+    defineField({ name: "ctaHref", title: "יעד הכפתור", type: "string", initialValue: "/#contact" }),
     accessibleImage(),
     defineField({ name: "order", title: "סדר", type: "number", initialValue: 1 }),
   ],

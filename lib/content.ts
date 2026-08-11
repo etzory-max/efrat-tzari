@@ -76,7 +76,7 @@ function mergeContent(data: any): SiteContent {
         title: or(slide.title, d.hero[index]?.title ?? ""),
         subtitle: or(slide.subtitle, d.hero[index]?.subtitle ?? ""),
         ctaLabel: or(slide.ctaLabel, "קראי עוד"),
-        ctaHref: or(slide.ctaHref, "#contact"),
+        ctaHref: or(slide.ctaHref, "/#contact"),
         image: toImg(slide.image, d.hero[index]?.image ?? d.hero[0].image, 1920),
       }))
     : d.hero;

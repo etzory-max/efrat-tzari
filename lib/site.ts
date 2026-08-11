@@ -63,12 +63,17 @@ export const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeU
 
 export type NavItem = { label: string; href: string };
 
+/**
+ * Root-relative, not bare `#anchor` — otherwise the links do nothing on
+ * /privacy, /accessibility or an article page, where the target section
+ * simply is not in the document.
+ */
 export const navItems: NavItem[] = [
-  { label: "אודות", href: "#about" },
-  { label: "הורות מותאמת", href: "#approach" },
-  { label: "ליווי", href: "#service-family" },
-  { label: "הרצאות", href: "#service-lectures" },
-  { label: "סדנאות וקורסים", href: "#service-workshops" },
-  { label: "מאמרים", href: "#articles" },
-  { label: "צור קשר", href: "#contact" },
+  { label: "אודות", href: "/#about" },
+  { label: "הורות מותאמת", href: "/#approach" },
+  { label: "ליווי", href: "/#service-family" },
+  { label: "הרצאות", href: "/#service-lectures" },
+  { label: "סדנאות וקורסים", href: "/#service-workshops" },
+  { label: "מאמרים", href: "/#articles" },
+  { label: "צור קשר", href: "/#contact" },
 ];

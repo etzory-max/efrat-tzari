@@ -108,7 +108,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <Link
-            href="#contact"
+            href="/#contact"
             className="tap hidden items-center justify-center rounded-xl bg-slate px-5 py-3 text-[0.9375rem] font-medium text-white transition-colors duration-200 hover:bg-slate-deep sm:inline-flex"
           >
             לקביעת שיחה
@@ -177,7 +177,7 @@ export function Header() {
 
           <div className="border-t border-cream-200 p-6">
             <Link
-              href="#contact"
+              href="/#contact"
               onClick={close}
               className="tap flex items-center justify-center rounded-xl bg-slate px-5 py-4 text-base font-medium text-white"
             >
