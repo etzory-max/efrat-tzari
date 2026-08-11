@@ -200,6 +200,12 @@
     color: #ffffff;
   }
 
+  /* On a slate surface the usual slate hover would swallow the button. */
+  .btn-on-slate:hover {
+    background-color: #ffffff;
+    color: var(--color-slate);
+  }
+
   /* On the terracotta card the accent IS the background, so the button
      inverts: this is where the blue comes in as the accent. */
   .btn-on-accent {

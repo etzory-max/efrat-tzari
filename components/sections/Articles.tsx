@@ -24,7 +24,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
   };
 
   return (
-    <section id="articles" aria-labelledby="articles-title" className="bg-cream-100 py-20 md:py-28">
+    <section id="articles" aria-labelledby="articles-title" className="bg-cream-50 py-20 md:py-28">
       <div className="shell">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -38,7 +38,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
             <button
               type="button"
               onClick={() => scrollBy(1)}
-              className="tap inline-flex items-center justify-center rounded-full border border-cream-200 bg-cream-50 text-slate transition-colors hover:border-slate"
+              className="tap inline-flex items-center justify-center rounded-full border border-cream-200 bg-white text-slate transition-colors hover:border-slate"
             >
               <ChevronRight className="size-5" aria-hidden="true" />
               <span className="sr-only">גלילת המאמרים אחורה</span>
@@ -46,7 +46,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
             <button
               type="button"
               onClick={() => scrollBy(-1)}
-              className="tap inline-flex items-center justify-center rounded-full border border-cream-200 bg-cream-50 text-slate transition-colors hover:border-slate"
+              className="tap inline-flex items-center justify-center rounded-full border border-cream-200 bg-white text-slate transition-colors hover:border-slate"
             >
               <ChevronLeft className="size-5" aria-hidden="true" />
               <span className="sr-only">גלילת המאמרים קדימה</span>
@@ -66,7 +66,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
               className="w-[min(20rem,80vw)] shrink-0 snap-start sm:w-[19rem]"
             >
               <Reveal delay={index * 90} className="h-full">
-              <article className="group/card relative flex h-full flex-col overflow-hidden rounded-2xl border border-cream-200 bg-cream-50 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(44,50,56,0.10)] focus-within:outline focus-within:outline-3 focus-within:outline-offset-3 focus-within:outline-slate">
+              <article className="group/card relative flex h-full flex-col overflow-hidden rounded-2xl border border-cream-200 bg-white transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(44,50,56,0.10)] focus-within:outline focus-within:outline-3 focus-within:outline-offset-3 focus-within:outline-slate">
                 <div className="relative aspect-16/10">
                   <Image
                     src={article.image.src}

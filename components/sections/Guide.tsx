@@ -16,7 +16,7 @@ function SubmitButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="btn btn-on-accent w-full px-6 py-4 text-base disabled:opacity-70 sm:w-auto"
+      className="btn btn-primary btn-on-slate w-full px-6 py-4 text-base disabled:opacity-70 sm:w-auto"
     >
       {pending ? "שולח…" : label}
     </button>
@@ -42,20 +42,20 @@ export function Guide({ data }: { data: GuideSection }) {
   return (
     <section id="guide" aria-labelledby="guide-title" className="bg-cream-50 py-20 md:py-28">
       <div className="shell">
-        <Reveal className="on-accent overflow-hidden rounded-3xl bg-accent p-8 md:p-12">
+        <Reveal className="on-dark overflow-hidden rounded-3xl bg-slate p-8 md:p-12">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <p className="eyebrow">{data.eyebrow}</p>
-              <h2 id="guide-title" className="mt-3 text-3xl text-ink md:text-4xl">
+              <h2 id="guide-title" className="mt-3 text-3xl text-white md:text-4xl">
                 {data.title}
               </h2>
-              <p className="mt-5 text-lg text-ink">{data.lead}</p>
+              <p className="mt-5 text-lg text-on-dark-muted">{data.lead}</p>
 
               <ul className="mt-6 space-y-3">
                 {data.bullets.map((bullet) => (
                   <li key={bullet} className="flex items-start gap-3">
-                    <Check className="mt-1 size-5 shrink-0 text-slate" aria-hidden="true" />
-                    <span className="text-ink">{bullet}</span>
+                    <Check className="mt-1 size-5 shrink-0 text-accent-light" aria-hidden="true" />
+                    <span className="text-white">{bullet}</span>
                   </li>
                 ))}
               </ul>
@@ -69,9 +69,9 @@ export function Guide({ data }: { data: GuideSection }) {
               </div>
 
               <div>
-                <label htmlFor="guide-name" className="block text-sm font-medium text-ink">
+                <label htmlFor="guide-name" className="block text-sm font-medium text-white">
                   שם פרטי
-                  <span aria-hidden="true" className="text-ink">
+                  <span aria-hidden="true" className="text-accent-light">
                     {" "}
                     *
                   </span>
@@ -90,16 +90,16 @@ export function Guide({ data }: { data: GuideSection }) {
                   className={`mt-2 ${field(state.fieldErrors?.name)}`}
                 />
                 {state.fieldErrors?.name && (
-                  <p id="guide-name-error" className="mt-2 text-sm font-medium text-[#6e1018]">
+                  <p id="guide-name-error" className="mt-2 text-sm font-medium text-[#ffc9c4]">
                     {state.fieldErrors.name}
                   </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="guide-email" className="block text-sm font-medium text-ink">
+                <label htmlFor="guide-email" className="block text-sm font-medium text-white">
                   אימייל
-                  <span aria-hidden="true" className="text-ink">
+                  <span aria-hidden="true" className="text-accent-light">
                     {" "}
                     *
                   </span>
@@ -119,7 +119,7 @@ export function Guide({ data }: { data: GuideSection }) {
                   className={`mt-2 ${field(state.fieldErrors?.email)}`}
                 />
                 {state.fieldErrors?.email && (
-                  <p id="guide-email-error" className="mt-2 text-sm font-medium text-[#6e1018]">
+                  <p id="guide-email-error" className="mt-2 text-sm font-medium text-[#ffc9c4]">
                     {state.fieldErrors.email}
                   </p>
                 )}
@@ -138,22 +138,22 @@ export function Guide({ data }: { data: GuideSection }) {
                       : {})}
                     className="mt-1 size-5 shrink-0 accent-[#465b6d]"
                   />
-                  <label htmlFor="guide-consent" className="text-sm leading-relaxed text-ink">
+                  <label htmlFor="guide-consent" className="text-sm leading-relaxed text-white">
                     {data.consentLabel}{" "}
-                    <Link href="/privacy" className="text-ink underline underline-offset-4">
+                    <Link href="/privacy" className="text-accent-light underline underline-offset-4">
                       (מדיניות הפרטיות)
                     </Link>
                   </label>
                 </div>
                 {state.fieldErrors?.consent && (
-                  <p id="guide-consent-error" className="mt-2 text-sm font-medium text-[#6e1018]">
+                  <p id="guide-consent-error" className="mt-2 text-sm font-medium text-[#ffc9c4]">
                     {state.fieldErrors.consent}
                   </p>
                 )}
               </div>
 
               {/* The address is used once and never stored — worth saying plainly. */}
-              <p className="text-xs leading-relaxed text-ink">
+              <p className="text-xs leading-relaxed text-on-dark-muted">
                 הכתובת משמשת לשליחת המדריך בלבד, אינה נשמרת אצלי ולא יישלח אליכם דיוור נוסף.
               </p>
 
@@ -166,9 +166,9 @@ export function Guide({ data }: { data: GuideSection }) {
                 aria-live="polite"
                 className={`text-sm ${
                   state.status === "success"
-                    ? "flex items-center gap-2 font-medium text-[#0b3d1e]"
+                    ? "flex items-center gap-2 font-medium text-[#c9f0d4]"
                     : state.status === "error"
-                      ? "font-medium text-[#6e1018]"
+                      ? "font-medium text-[#ffc9c4]"
                       : "sr-only"
                 }`}
               >
