@@ -35,7 +35,7 @@ export function Hero({ data }: { data: HeroContent }) {
       <div className="shell">
         <Reveal
           immediate
-          className="relative z-10 -mt-12 max-w-2xl rounded-3xl bg-cream-50 p-7 shadow-[0_-12px_50px_rgba(44,50,56,0.13)] sm:p-9 md:-mt-24 md:p-12"
+          className="relative z-10 -mt-12 max-w-2xl rounded-3xl bg-cream-50 p-7 shadow-[0_-12px_50px_rgba(44,50,56,0.13)] sm:p-9 md:-mt-40 md:p-12"
         >
           <h1
             id="hero-title"

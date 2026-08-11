@@ -14,7 +14,7 @@ export const defaultContent: SiteContent = {
     ctaLabel: "לקביעת שיחה חינם",
     ctaHref: "/#contact",
     image: {
-      src: "/images/hero-2.jpg",
+      src: "/images/hero-home.jpg",
       alt: "ילדה מחזיקה מצלמת צעצוע סגולה מול פניה בחדר משחקים",
     },
   },
@@ -27,8 +27,8 @@ export const defaultContent: SiteContent = {
       'הגישה שלי היא הוליסטית וחמה — אני מאמינה שכל משפחה ראויה לכלים מעשיים שמותאמים בדיוק לה, ולא לפתרונות גנריים. כי ה"מרחב שלך" הוא תמיד ייחודי.',
     ],
     portrait: {
-      src: "/images/portrait.jpg",
-      alt: "שלושה ילדים צעירים יושבים מחובקים וצוחקים יחד",
+      src: "/images/efrat-portrait.jpg",
+      alt: "אפרת צרי, מחייכת אל המצלמה",
     },
     badgeValue: "10+",
     badgeLabel: "שנות ניסיון",

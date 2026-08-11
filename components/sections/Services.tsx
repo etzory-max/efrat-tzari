@@ -13,12 +13,17 @@ function ServiceCard({ service }: { service: Service }) {
   return (
     <article
       id={service.id}
-      className={`flex h-full flex-col rounded-3xl p-6 sm:p-8 lg:p-10 ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-3xl p-6 sm:p-8 lg:p-10 ${
         dark
           ? "on-dark bg-slate text-on-dark"
           : "border border-cream-200 bg-cream-100 text-ink"
       }`}
     >
+      {/* TODO(efrat): an illustration sits here on the wide card and fades
+          out when the long copy opens. The mechanism is proven — a decorative
+          element with
+            group-has-[details[open]]:opacity-0 group-has-[details[open]]:translate-y-6
+          on this `group` card does it with no JavaScript. Waiting on artwork. */}
       {/* Same terracotta plate on the slate card as on the light ones. */}
       <span className="inline-flex size-12 items-center justify-center rounded-xl bg-accent text-ink">
         <Icon className="size-6" aria-hidden="true" />
@@ -44,16 +49,16 @@ function ServiceCard({ service }: { service: Service }) {
         </ul>
       )}
 
-      <details className="group mt-auto pt-8">
+      <details className="group/more mt-auto pt-8">
         <summary
           className={`tap inline-flex cursor-pointer list-none items-center gap-2 text-sm font-medium transition-colors ${
             dark ? "text-white hover:text-accent-light" : "text-accent-ink hover:text-ink"
           }`}
         >
-          <span className="group-open:hidden">{service.moreLabel}</span>
-          <span className="hidden group-open:inline">להצגה מצומצמת</span>
+          <span className="group-open/more:hidden">{service.moreLabel}</span>
+          <span className="hidden group-open/more:inline">להצגה מצומצמת</span>
           <ArrowLeft
-            className="size-4 transition-transform duration-300 group-open:rotate-90"
+            className="size-4 transition-transform duration-300 group-open/more:rotate-90"
             aria-hidden="true"
           />
         </summary>
