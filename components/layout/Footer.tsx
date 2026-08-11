@@ -51,12 +51,12 @@ export function Footer() {
           </div>
 
           {/* The middle column carries the sentence rather than repeating the
-              menu — every one of those links already sits in the header.
+              menu - every one of those links already sits in the header.
               Left ragged, not centred: centring Hebrew this long gives a
               jagged block with no edge to read down. */}
           <div className="md:col-span-2 lg:col-span-1">
             <p className="max-w-md text-lg leading-relaxed text-balance text-on-dark md:text-xl">
-              ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי — כלים מעשיים שמותאמים בדיוק
+              ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי - כלים מעשיים שמותאמים בדיוק
               לכם.
             </p>
             {/* Tinted light so the line art reads on the dark footer. */}

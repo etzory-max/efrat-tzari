@@ -1,11 +1,9 @@
 import Image from "next/image";
-import { ArrowLeft, BookOpen, Check, Mic, Users } from "lucide-react";
+import { ArrowLeft, Check } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import type { Service, ServicesSection } from "@/content/types";
 import { proseInCard } from "@/components/ui/PortableProse";
 import { Reveal } from "@/components/ui/Reveal";
-
-const icons = { users: Users, mic: Mic, book: BookOpen } as const;
 
 /**
  * Same arrangement as before — the wide service on one side, the two shorter
@@ -14,7 +12,6 @@ const icons = { users: Users, mic: Mic, book: BookOpen } as const;
  * sealed boxes on an otherwise airy page.
  */
 function ServiceCard({ service }: { service: Service }) {
-  const Icon = icons[service.icon];
   const primary = service.variant === "dark";
 
   return (
@@ -33,11 +30,7 @@ function ServiceCard({ service }: { service: Service }) {
         />
       )}
 
-      <span className="inline-flex size-12 items-center justify-center rounded-xl bg-accent text-ink">
-        <Icon className="size-6" aria-hidden="true" />
-      </span>
-
-      <p className="mt-6 text-xs tracking-[0.18em] text-accent-ink">{service.kicker}</p>
+      <p className="text-xs tracking-[0.18em] text-accent-ink">{service.kicker}</p>
       <h3 className="mt-2 text-2xl text-slate">{service.title}</h3>
       <p className="mt-4 text-muted">{service.body}</p>
 
@@ -96,7 +89,7 @@ export function Services({ data }: { data: ServicesSection }) {
           <div className="flex flex-col gap-12 lg:order-1">
             {secondary.map((service, index) => (
               <Reveal key={service.id} delay={120 + index * 110} className="flex-1">
-                {/* Stops around 60% — a mark, not a lid. */}
+                {/* Stops around 60% - a mark, not a lid. */}
                 {index > 0 && (
                   <span aria-hidden="true" className="mb-12 block h-px w-3/5 bg-accent/60" />
                 )}

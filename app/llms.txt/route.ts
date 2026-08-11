@@ -11,7 +11,7 @@ export async function GET() {
   const content = await getContent();
 
   const body = [
-    `# ${site.name} — ${site.tagline}`,
+    `# ${site.name} - ${site.tagline}`,
     "",
     `> ${site.description}`,
     "",
@@ -31,7 +31,7 @@ export async function GET() {
     ...content.faq.items.flatMap((item) => [`### ${item.question}`, item.answer, ""]),
     "## מאמרים",
     ...content.articles.articles.map(
-      (article) => `- [${article.title}](${siteUrl}/articles/${article.slug}) — ${article.excerpt}`,
+      (article) => `- [${article.title}](${siteUrl}/articles/${article.slug}) - ${article.excerpt}`,
     ),
     "",
     "## יצירת קשר",

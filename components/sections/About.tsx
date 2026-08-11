@@ -7,7 +7,7 @@ export function About({ data }: { data: AboutSection }) {
   return (
     <section id="about" aria-labelledby="about-title" className="bg-cream-50 py-20 md:py-28">
       <div className="shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        {/* Portrait first, so in RTL it lands on the right — as in the demo. */}
+        {/* Portrait first, so in RTL it lands on the right - as in the demo. */}
         <Reveal className="relative mx-auto w-full max-w-md lg:max-w-none">
           <div className="relative aspect-4/5 overflow-hidden rounded-3xl">
             <Image

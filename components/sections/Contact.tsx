@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
-import { CheckCircle2, Clock, Mail, Phone } from "lucide-react";
+import { CheckCircle2, Mail, Phone } from "lucide-react";
 import { submitContact, type ContactState } from "@/app/actions/contact";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ContactSection } from "@/content/types";
@@ -115,7 +115,6 @@ export function Contact({ data }: { data: ContactSection }) {
   const details = [
     { icon: Phone, label: "טלפון", value: site.phoneDisplay, href: `tel:${site.phoneE164}` },
     { icon: Mail, label: "אימייל", value: site.email, href: `mailto:${site.email}` },
-    { icon: Clock, label: "שעות פעילות", value: site.hours, href: null },
   ];
 
   return (
@@ -158,7 +157,7 @@ export function Contact({ data }: { data: ContactSection }) {
 
           <form ref={formRef} action={formAction} noValidate className="mt-6 space-y-5">
             <input ref={startedAtRef} type="hidden" name="startedAt" defaultValue="0" />
-            {/* Honeypot — hidden from users and from assistive technology. */}
+            {/* Honeypot - hidden from users and from assistive technology. */}
             <div aria-hidden="true" className="absolute h-px w-px overflow-hidden opacity-0">
               <label htmlFor="website">אל תמלאו שדה זה</label>
               <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />

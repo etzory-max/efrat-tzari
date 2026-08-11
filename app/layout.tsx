@@ -12,7 +12,7 @@ import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${site.name} — ${site.tagline}`,
+    default: `${site.name} - ${site.tagline}`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     locale: "he_IL",
     url: siteUrl,
     siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
+    title: `${site.name} - ${site.tagline}`,
     description: site.description,
     // A static JPEG, not a generated one: WhatsApp is the fussiest consumer
     // of this tag and it wants a plain, light image at an absolute URL.
@@ -44,13 +44,13 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         type: "image/jpeg",
-        alt: `${site.name} — ${site.tagline}`,
+        alt: `${site.name} - ${site.tagline}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — ${site.tagline}`,
+    title: `${site.name} - ${site.tagline}`,
     description: site.description,
     images: ["/og.jpg"],
   },

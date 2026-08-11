@@ -57,7 +57,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
         <ul
           ref={railRef}
           tabIndex={0}
-          aria-label="רשימת מאמרים — ניתן לגלול לצדדים"
+          aria-label="רשימת מאמרים - ניתן לגלול לצדדים"
           className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4"
         >
           {data.articles.map((article, index) => (

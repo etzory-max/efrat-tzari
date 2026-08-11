@@ -45,17 +45,18 @@ export function Guide({ data }: { data: GuideSection }) {
         <Reveal className="on-accent overflow-hidden rounded-3xl bg-accent p-8 md:p-12">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
-              <p className="eyebrow">{data.eyebrow}</p>
-              <h2 id="guide-title" className="mt-3 text-3xl text-ink md:text-4xl">
+              {/* The whole message column reads in white here, the label with it. */}
+              <p className="eyebrow !text-white [&::before]:!bg-white">{data.eyebrow}</p>
+              <h2 id="guide-title" className="mt-3 text-3xl text-white md:text-4xl">
                 {data.title}
               </h2>
-              <p className="mt-5 text-lg text-ink">{data.lead}</p>
+              <p className="mt-5 text-lg text-white">{data.lead}</p>
 
               <ul className="mt-6 space-y-3">
                 {data.bullets.map((bullet) => (
                   <li key={bullet} className="flex items-start gap-3">
-                    <Check className="mt-1 size-5 shrink-0 text-slate" aria-hidden="true" />
-                    <span className="text-ink">{bullet}</span>
+                    <Check className="mt-1 size-5 shrink-0 text-white" aria-hidden="true" />
+                    <span className="text-white">{bullet}</span>
                   </li>
                 ))}
               </ul>
@@ -152,7 +153,7 @@ export function Guide({ data }: { data: GuideSection }) {
                 )}
               </div>
 
-              {/* The address is used once and never stored — worth saying plainly. */}
+              {/* The address is used once and never stored - worth saying plainly. */}
               <p className="text-xs leading-relaxed text-ink">
                 הכתובת משמשת לשליחת המדריך בלבד, אינה נשמרת אצלי ולא יישלח אליכם דיוור נוסף.
               </p>

@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { FileText, Headphones, Play } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FileText, Headphones, Play, X } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { MediaItem, MediaSection } from "@/content/types";
 
@@ -13,31 +13,69 @@ const tags = {
 } as const;
 
 /**
- * Click-to-load player. Embedding YouTube on page load would pull a third
- * party into every visit — slow, and it hands the visitor over before they
- * asked. The poster is ours; the iframe only appears once they press play.
+ * The poster is ours and the iframe only exists while the lightbox is open,
+ * so a visit that never presses play never touches YouTube. Once they do
+ * press it, they get the real player at a real size - full controls, volume,
+ * quality, fullscreen - instead of a card-sized window.
  */
-function Player({ item }: { item: MediaItem }) {
-  const [playing, setPlaying] = useState(false);
+function Lightbox({ item, onClose }: { item: MediaItem; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
 
-  if (playing && item.youtubeId) {
-    return (
-      <iframe
-        className="absolute inset-0 size-full"
-        src={`https://www.youtube-nocookie.com/embed/${item.youtubeId}?autoplay=1&rel=0&hl=he`}
-        title={item.title}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    );
-  }
+  useEffect(() => {
+    closeRef.current?.focus();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [onClose]);
 
   return (
-    <button
-      type="button"
-      onClick={() => setPlaying(true)}
-      className="group/play absolute inset-0 size-full cursor-pointer"
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.title}
+      onClick={onClose}
+      className="fixed inset-0 z-60 flex items-center justify-center bg-dark/90 p-4 md:p-10"
     >
+      <div
+        onClick={(event) => event.stopPropagation()}
+        className="relative w-full max-w-5xl"
+      >
+        <button
+          ref={closeRef}
+          type="button"
+          onClick={onClose}
+          className="tap absolute -top-12 end-0 inline-flex items-center gap-2 rounded-xl text-sm text-on-dark"
+        >
+          סגירה
+          <X className="size-5" aria-hidden="true" />
+        </button>
+        <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black shadow-2xl">
+          <iframe
+            className="size-full"
+            src={`https://www.youtube-nocookie.com/embed/${item.youtubeId}?autoplay=1&rel=0&hl=he&controls=1&modestbranding=1`}
+            title={item.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowFullScreen
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Poster({ item, onPlay }: { item: MediaItem; onPlay: () => void }) {
+  return (
+    <button type="button" onClick={onPlay} className="group/play absolute inset-0 size-full cursor-pointer">
       <Image
         src={item.poster.src}
         alt=""
@@ -45,13 +83,14 @@ function Player({ item }: { item: MediaItem }) {
         sizes="(max-width: 768px) 100vw, 380px"
         className="object-cover"
       />
-      <span aria-hidden="true" className="absolute inset-0 bg-dark/35 transition-colors group-hover/play:bg-dark/20" />
       <span
         aria-hidden="true"
-        className="absolute inset-0 flex items-center justify-center"
-      >
+        className="absolute inset-0 bg-dark/35 transition-colors group-hover/play:bg-dark/20"
+      />
+      <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center">
         <span className="inline-flex size-16 items-center justify-center rounded-full bg-accent text-ink shadow-lg transition-transform duration-300 group-hover/play:scale-110">
-          <Play className="size-7 translate-x-0.5 fill-current" />
+          {/* Pointing the way the page reads. */}
+          <Play className="size-7 -translate-x-0.5 -scale-x-100 fill-current" />
         </span>
       </span>
       <span className="sr-only">{`הפעלת ${item.title} (הסרטון נטען מיוטיוב)`}</span>
@@ -59,7 +98,15 @@ function Player({ item }: { item: MediaItem }) {
   );
 }
 
-function Card({ item, delay }: { item: MediaItem; delay: number }) {
+function Card({
+  item,
+  delay,
+  onPlay,
+}: {
+  item: MediaItem;
+  delay: number;
+  onPlay: () => void;
+}) {
   const { label, Icon } = tags[item.kind];
   const isPress = item.kind === "press";
 
@@ -76,7 +123,7 @@ function Card({ item, delay }: { item: MediaItem; delay: number }) {
               className="object-cover opacity-90"
             />
           ) : (
-            <Player item={item} />
+            <Poster item={item} onPlay={onPlay} />
           )}
         </div>
 
@@ -110,6 +157,15 @@ function Card({ item, delay }: { item: MediaItem; delay: number }) {
 }
 
 export function Media({ data }: { data: MediaSection }) {
+  const [active, setActive] = useState<MediaItem | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  const close = useCallback(() => {
+    setActive(null);
+    // Back to the poster they came from, not the top of the page.
+    triggerRef.current?.focus();
+  }, []);
+
   return (
     <section id="media" aria-labelledby="media-title" className="bg-cream-100 py-20 md:py-28">
       <div className="shell">
@@ -124,11 +180,20 @@ export function Media({ data }: { data: MediaSection }) {
         <ul className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {data.items.map((item, index) => (
             <li key={item.title}>
-              <Card item={item} delay={index * 100} />
+              <Card
+                item={item}
+                delay={index * 100}
+                onPlay={() => {
+                  triggerRef.current = document.activeElement as HTMLElement;
+                  setActive(item);
+                }}
+              />
             </li>
           ))}
         </ul>
       </div>
+
+      {active?.youtubeId && <Lightbox item={active} onClose={close} />}
     </section>
   );
 }

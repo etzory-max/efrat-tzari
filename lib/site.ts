@@ -7,15 +7,15 @@
  */
 export const site = {
   name: "אפרת צרי",
-  legalName: "אפרת צרי — הורות מותאמת",
+  legalName: "אפרת צרי - הורות מותאמת",
   tagline: "המרחב שלך להורות מותאמת",
   description:
-    "אפרת צרי, יועצת משפחתית ומרצה, מלווה משפחות עם ילדים על הרצף האוטיסטי. ליווי משפחתי, הרצאות וסדנאות — עם כלים מעשיים שמותאמים בדיוק לכם.",
+    "אפרת צרי, יועצת משפחתית ומרצה, מלווה משפחות עם ילדים על הרצף האוטיסטי. ליווי משפחתי, הרצאות וסדנאות - עם כלים מעשיים שמותאמים בדיוק לכם.",
   jobTitle: "יועצת משפחתית ומרצה",
 
-  phoneDisplay: "050-123-4567",
-  phoneE164: "+972501234567",
-  email: "efrat@example.com",
+  phoneDisplay: "052-6008172",
+  phoneE164: "+972526008172",
+  email: "etzory@gmail.com",
   whatsappNumber: "972526008172",
   whatsappMessage: "היי אפרת, הגעתי מהאתר ואשמח לשמוע פרטים על ליווי",
   hours: "ראשון–חמישי, 9:00–19:00",
@@ -31,7 +31,7 @@ export const site = {
 
   /** Contact for accessibility + privacy enquiries (required by both statements). */
   accessibilityContactName: "אפרת צרי",
-  accessibilityContactEmail: "efrat@example.com",
+  accessibilityContactEmail: "etzory@gmail.com",
   accessibilityStatementDate: "2026-08-10",
 } as const;
 

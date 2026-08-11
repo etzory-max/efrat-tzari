@@ -80,7 +80,7 @@ export async function submitContact(
     }
     return {
       status: "error",
-      message: "לא הצלחנו לשלוח — נא לבדוק את השדות המסומנים.",
+      message: "לא הצלחנו לשלוח - נא לבדוק את השדות המסומנים.",
       fieldErrors,
       values: raw,
     };
@@ -127,7 +127,7 @@ export async function submitContact(
       from,
       to,
       replyTo: email,
-      subject: `פנייה חדשה מהאתר — ${name}`,
+      subject: `פנייה חדשה מהאתר - ${name}`,
       text: [
         `שם: ${name}`,
         `טלפון: ${phone}`,
@@ -136,7 +136,7 @@ export async function submitContact(
         "הודעה:",
         message || "(לא נכתבה הודעה)",
         "",
-        "—",
+        "-",
         "נשלח מטופס יצירת הקשר באתר. הפונה אישר/ה את מדיניות הפרטיות.",
       ].join("\n"),
     });

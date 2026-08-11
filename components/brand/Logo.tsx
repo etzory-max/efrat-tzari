@@ -49,7 +49,7 @@ export function Logo({
         >
           {site.name}
         </span>
-        {/* Shown on every width — the tagline is half the brand. It shrinks
+        {/* Shown on every width - the tagline is half the brand. It shrinks
             rather than disappearing, and truncates only on the narrowest
             phones instead of pushing the menu button off screen. */}
         <span

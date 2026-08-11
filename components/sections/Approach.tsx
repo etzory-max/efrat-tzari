@@ -1,9 +1,14 @@
 import Image from "next/image";
-import { Heart, Leaf, Quote, Star } from "lucide-react";
+import { Quote } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ApproachSection } from "@/content/types";
 
-const icons = { heart: Heart, star: Star, leaf: Leaf } as const;
+/* The drawn line icons, in their white variant — the cards are terracotta. */
+const icons = {
+  heart: { src: "/images/icon-whole-child-light.png", w: 754, h: 715 },
+  star: { src: "/images/icon-home-tools-light.png", w: 788, h: 811 },
+  leaf: { src: "/images/icon-continuous-light.png", w: 919, h: 792 },
+} as const;
 
 export function Approach({ data }: { data: ApproachSection }) {
   return (
@@ -19,16 +24,24 @@ export function Approach({ data }: { data: ApproachSection }) {
 
         <ul className="mt-14 grid gap-6 md:grid-cols-3">
           {data.cards.map((card, index) => {
-            const Icon = icons[card.icon];
+            const icon = icons[card.icon];
             return (
               <li key={card.title}>
                 {/* Colour lives in the block, not the section behind it.
-                    Everything on it is ink — slate would be 2.9:1 here. */}
+                    Everything on it is ink - slate would be 2.9:1 here. */}
                 <Reveal
                   delay={index * 110}
                   className="on-accent h-full rounded-2xl bg-accent p-6 transition-shadow duration-300 hover:shadow-[0_10px_34px_rgba(44,50,56,0.16)] lg:p-8"
                 >
-                  <Icon className="size-10 text-white" strokeWidth={1.5} aria-hidden="true" />
+                  <Image
+                    src={icon.src}
+                    alt=""
+                    width={icon.w}
+                    height={icon.h}
+                    sizes="72px"
+                    aria-hidden="true"
+                    className="h-14 w-auto"
+                  />
                   <h3 className="mt-5 text-xl text-white">{card.title}</h3>
                   <p className="mt-3 text-white">{card.body}</p>
                 </Reveal>
@@ -37,14 +50,14 @@ export function Approach({ data }: { data: ApproachSection }) {
           })}
         </ul>
 
-        {/* Slate, not the near-black — that tone is now the footer's alone. */}
+        {/* Slate, not the near-black - that tone is now the footer's alone. */}
         <Reveal className="mt-14">
           <figure className="on-dark rounded-3xl bg-slate px-8 py-12 text-center md:px-16">
             <Quote className="mx-auto size-8 text-accent-light" aria-hidden="true" />
             <blockquote className="mt-5 text-xl leading-relaxed text-white md:text-2xl">
               <p>{data.quote}</p>
             </blockquote>
-            <figcaption className="mt-5 text-sm text-accent-light">— {data.quoteAuthor}</figcaption>
+            <figcaption className="mt-5 text-sm text-accent-light">- {data.quoteAuthor}</figcaption>
           </figure>
         </Reveal>
 
@@ -52,12 +65,12 @@ export function Approach({ data }: { data: ApproachSection }) {
 
       {/* The figures stand on the very edge of the section's colour, so they
           read as rising out of it. The section's extra bottom padding is what
-          makes room for them. Decorative — the copy above says it all. */}
+          makes room for them. Decorative - the copy above says it all. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 select-none"
       >
-        <div className="shell flex items-end justify-between gap-4 opacity-80">
+        <div className="shell flex items-end justify-center gap-5 opacity-80 md:gap-10">
           {[
             { src: "/images/art-kid-ball.png", w: 691, h: 900, cls: "h-16 w-auto md:h-28" },
             { src: "/images/art-kid-blocks.png", w: 900, h: 742, cls: "h-14 w-auto md:h-24" },

@@ -10,27 +10,6 @@ export function Faq({ data }: { data: FaqSection }) {
       aria-labelledby="faq-title"
       className="relative overflow-hidden bg-cream-50 py-20 md:py-28"
     >
-      {/* Off balance on purpose — one high on the right, one low on the left,
-          so they frame the column without boxing it in. Decorative. */}
-      <Image
-        src="/images/art-kid-blocks.png"
-        alt=""
-        width={900}
-        height={742}
-        sizes="180px"
-        aria-hidden="true"
-        className="pointer-events-none absolute top-56 right-48 hidden h-32 w-auto opacity-80 xl:block"
-      />
-      <Image
-        src="/images/art-kid-ball.png"
-        alt=""
-        width={691}
-        height={900}
-        sizes="150px"
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-28 left-48 hidden h-36 w-auto opacity-80 xl:block"
-      />
-
       <div className="shell relative">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>
@@ -40,9 +19,33 @@ export function Faq({ data }: { data: FaqSection }) {
           <p className="mt-5 text-lg text-muted">{data.lead}</p>
         </Reveal>
 
-        {/* Native <details> keeps every answer in the HTML — good for screen
+        {/* Native <details> keeps every answer in the HTML - good for screen
             readers, and it is what Google and the AI crawlers actually read. */}
-        <div className="mx-auto mt-12 max-w-3xl space-y-3">
+        <div className="relative mx-auto mt-12 max-w-3xl">
+          {/* Both figures hang off the question column itself, not off the
+              viewport — same gap on each side, one tied to the first question
+              and one to the last, so the pair reads as a mirrored frame.
+              Decorative. */}
+          <Image
+            src="/images/art-kid-blocks.png"
+            alt=""
+            width={900}
+            height={742}
+            sizes="160px"
+            aria-hidden="true"
+            className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-32 w-auto opacity-80 xl:block"
+          />
+          <Image
+            src="/images/art-kid-ball.png"
+            alt=""
+            width={691}
+            height={900}
+            sizes="140px"
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-0 left-[calc(100%+2.5rem)] hidden h-32 w-auto opacity-80 xl:block"
+          />
+
+          <div className="space-y-3">
           {data.items.map((item, index) => (
             <Reveal key={item.question} delay={index * 70}>
             <details
@@ -63,6 +66,7 @@ export function Faq({ data }: { data: FaqSection }) {
             </details>
             </Reveal>
           ))}
+          </div>
         </div>
       </div>
     </section>

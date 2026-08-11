@@ -87,7 +87,7 @@ export function Header() {
         <Link
           href="/"
           className="tap flex items-center rounded-lg"
-          aria-label={`${"אפרת צרי"} — לעמוד הבית`}
+          aria-label={`${"אפרת צרי"} - לעמוד הבית`}
         >
           <Logo />
         </Link>
