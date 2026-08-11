@@ -23,7 +23,7 @@ const QUERY = /* groq */ `{
     title, subtitle, ctaLabel, ctaHref, image
   },
   "about": *[_type == "about"][0] {
-    eyebrow, title, paragraphs, portrait, badgeValue, badgeLabel, stats[] { value, label }
+    eyebrow, title, paragraphs, portrait, badgeValue, badgeLabel, points
   },
   "approach": *[_type == "approach"][0] {
     eyebrow, title, lead, cards[] { icon, title, body }, quote, quoteAuthor
@@ -89,7 +89,7 @@ function mergeContent(data: any): SiteContent {
         portrait: toImg(data.about.portrait, d.about.portrait, 1000),
         badgeValue: or(data.about.badgeValue, d.about.badgeValue),
         badgeLabel: or(data.about.badgeLabel, d.about.badgeLabel),
-        stats: or(data.about.stats, d.about.stats),
+        points: or(data.about.points, d.about.points),
       }
     : d.about;
 

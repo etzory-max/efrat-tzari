@@ -129,7 +129,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: 500;
     letter-spacing: 0.18em;
     color: var(--color-accent-ink);
@@ -180,6 +180,13 @@
   .btn-primary:hover {
     background-color: var(--color-slate);
     color: #ffffff;
+  }
+
+  /* On a slate surface the usual slate hover would swallow the button, so it
+     goes the other way. */
+  .btn-on-slate:hover {
+    background-color: #ffffff;
+    color: var(--color-slate);
   }
 }
 

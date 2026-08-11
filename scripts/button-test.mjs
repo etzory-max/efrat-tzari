@@ -10,6 +10,7 @@ const base = process.argv[2] ?? "http://localhost:3000";
 
 const ACCENT = "rgb(214, 154, 126)"; // --color-accent, terracotta
 const SLATE = "rgb(70, 91, 109)";
+const WHITE = "rgb(255, 255, 255)";
 
 const browser = await puppeteer.launch({
   executablePath: CHROME,
@@ -66,7 +67,11 @@ for (const [index, button] of buttons.entries()) {
   await new Promise((r) => setTimeout(r, 500));
   const hover = await button.evaluate((el) => getComputedStyle(el).backgroundColor);
 
-  const ok = rest === ACCENT && hover === SLATE;
+  // A button sitting on a slate card hovers to white instead — the usual
+  // slate hover would make it disappear into its own background.
+  const onSlate = await button.evaluate((el) => el.classList.contains("btn-on-slate"));
+  const expected = onSlate ? WHITE : SLATE;
+  const ok = rest === ACCENT && hover === expected;
   if (!ok) failures += 1;
   console.log(`${ok ? "✓" : "✗"} ${index + 1}. "${label}"  rest=${rest}  hover=${hover}`);
 

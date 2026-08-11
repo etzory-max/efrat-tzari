@@ -103,19 +103,11 @@ const about = defineType({
     defineField({ name: "badgeValue", title: "באדג' — מספר", type: "string" }),
     defineField({ name: "badgeLabel", title: "באדג' — תיאור", type: "string" }),
     defineField({
-      name: "stats",
-      title: "נתונים",
+      name: "points",
+      title: "נקודות",
+      description: "ארבע אמירות קצרות שמופיעות מתחת לפסקאות.",
       type: "array",
-      of: [
-        defineArrayMember({
-          type: "object",
-          fields: [
-            defineField({ name: "value", title: "ערך", type: "string" }),
-            defineField({ name: "label", title: "תיאור", type: "string" }),
-          ],
-          preview: { select: { title: "value", subtitle: "label" } },
-        }),
-      ],
+      of: [defineArrayMember({ type: "string" })],
       validation: (r) => r.max(4),
     }),
   ],

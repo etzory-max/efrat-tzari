@@ -25,9 +25,7 @@ export function Approach({ data }: { data: ApproachSection }) {
                   delay={index * 110}
                   className="h-full rounded-2xl border border-cream-200 bg-cream-50 p-6 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(44,50,56,0.08)] lg:p-8"
                 >
-                  <span className="inline-flex size-12 items-center justify-center rounded-xl bg-accent text-ink">
-                    <Icon className="size-6" aria-hidden="true" />
-                  </span>
+                  <Icon className="size-10 text-accent" strokeWidth={1.5} aria-hidden="true" />
                   <h3 className="mt-5 text-xl text-slate">{card.title}</h3>
                   <p className="mt-3 text-muted">{card.body}</p>
                 </Reveal>
@@ -36,13 +34,14 @@ export function Approach({ data }: { data: ApproachSection }) {
           })}
         </ul>
 
+        {/* Slate, not the near-black — that tone is now the footer's alone. */}
         <Reveal className="mt-14">
-          <figure className="on-dark rounded-3xl bg-dark px-8 py-12 text-center md:px-16">
-            <Quote className="mx-auto size-8 text-sage" aria-hidden="true" />
-            <blockquote className="mt-5 text-xl leading-relaxed text-on-dark md:text-2xl">
+          <figure className="on-dark rounded-3xl bg-slate px-8 py-12 text-center md:px-16">
+            <Quote className="mx-auto size-8 text-accent-light" aria-hidden="true" />
+            <blockquote className="mt-5 text-xl leading-relaxed text-white md:text-2xl">
               <p>{data.quote}</p>
             </blockquote>
-            <figcaption className="mt-5 text-sm text-on-dark-muted">— {data.quoteAuthor}</figcaption>
+            <figcaption className="mt-5 text-sm text-accent-light">— {data.quoteAuthor}</figcaption>
           </figure>
         </Reveal>
       </div>

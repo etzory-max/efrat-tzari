@@ -211,7 +211,7 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
                   <span
                     aria-hidden="true"
                     className={`block h-2 rounded-full transition-all duration-300 ${
-                      slideIndex === index ? "w-6 bg-white" : "w-2 bg-white/60"
+                      slideIndex === index ? "w-6 bg-accent-light" : "w-2 bg-white/60"
                     }`}
                   />
                   <span className="sr-only">{`מעבר לשקופית ${slideIndex + 1}: ${slide.title}`}</span>

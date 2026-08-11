@@ -15,8 +15,6 @@ export type HeroSlide = {
   image: Img;
 };
 
-export type Stat = { value: string; label: string };
-
 export type AboutSection = {
   eyebrow: string;
   title: string;
@@ -24,7 +22,8 @@ export type AboutSection = {
   portrait: Img;
   badgeValue: string;
   badgeLabel: string;
-  stats: Stat[];
+  /** Four short statements — replaced the business figures the demo showed. */
+  points: string[];
 };
 
 export type ApproachCard = {

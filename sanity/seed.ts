@@ -92,7 +92,7 @@ async function run() {
     portrait: await uploadImage(c.about.portrait),
     badgeValue: c.about.badgeValue,
     badgeLabel: c.about.badgeLabel,
-    stats: c.about.stats.map((stat, index) => ({ _key: `stat${index}`, ...stat })),
+    points: c.about.points,
   });
 
   docs.push({

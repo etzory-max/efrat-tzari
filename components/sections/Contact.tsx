@@ -17,7 +17,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="btn btn-primary mt-2 w-full px-6 py-4 text-base disabled:opacity-70"
+      className="btn btn-primary btn-on-slate mt-2 w-full px-6 py-4 text-base disabled:opacity-70"
     >
       {pending ? "שולח…" : "שליחה"}
     </button>
@@ -52,11 +52,11 @@ function Field({
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-ink">
+      <label htmlFor={id} className="block text-sm font-medium text-white">
         {label}
         {required && (
           <>
-            <span aria-hidden="true" className="text-slate">
+            <span aria-hidden="true" className="text-accent-light">
               {" "}
               *
             </span>
@@ -65,7 +65,7 @@ function Field({
         )}
       </label>
       {hint && (
-        <p id={`${id}-hint`} className="mt-1 text-xs text-muted">
+        <p id={`${id}-hint`} className="mt-1 text-xs text-on-dark-muted">
           {hint}
         </p>
       )}
@@ -76,13 +76,15 @@ function Field({
           required,
           ...(error ? { "aria-invalid": true as const } : {}),
           ...(describedBy ? { "aria-describedby": describedBy } : {}),
-          className: `w-full rounded-xl border bg-white px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted/70 ${
-            error ? "border-[#a4232b]" : "border-field-border focus:border-accent-ink"
+          // White fill on the slate card already gives the control a 7:1
+          // boundary; the terracotta ring is the accent, not the boundary.
+          className: `w-full rounded-xl border-2 bg-white px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted/70 ${
+            error ? "border-[#a4232b]" : "border-accent focus:border-accent-ink"
           }`,
         })}
       </div>
       {error && (
-        <p id={`${id}-error`} className="mt-2 text-sm text-[#a4232b]">
+        <p id={`${id}-error`} className="mt-2 text-sm text-[#ffc9c4]">
           {error}
         </p>
       )}
@@ -149,8 +151,8 @@ export function Contact({ data }: { data: ContactSection }) {
           </ul>
         </Reveal>
 
-        <Reveal delay={140} className="rounded-3xl border border-cream-200 bg-cream-100 p-6 md:p-9">
-          <h3 className="text-xl text-slate">השאירו פרטים ואחזור אליכם</h3>
+        <Reveal delay={140} className="on-dark rounded-3xl bg-slate p-6 md:p-9">
+          <h3 className="text-xl text-white">השאירו פרטים ואחזור אליכם</h3>
 
           <form ref={formRef} action={formAction} noValidate className="mt-6 space-y-5">
             <input ref={startedAtRef} type="hidden" name="startedAt" defaultValue="0" />
@@ -215,15 +217,15 @@ export function Contact({ data }: { data: ContactSection }) {
                     : {})}
                   className="mt-1 size-5 shrink-0 accent-[#9c4c2e]"
                 />
-                <label htmlFor="consent" className="text-sm leading-relaxed text-ink">
+                <label htmlFor="consent" className="text-sm leading-relaxed text-white">
                   {data.consentLabel}{" "}
-                  <Link href="/privacy" className="underline underline-offset-4">
+                  <Link href="/privacy" className="text-accent-light underline underline-offset-4">
                     (מדיניות הפרטיות)
                   </Link>
                 </label>
               </div>
               {state.fieldErrors?.consent && (
-                <p id="consent-error" className="mt-2 text-sm text-[#a4232b]">
+                <p id="consent-error" className="mt-2 text-sm text-[#ffc9c4]">
                   {state.fieldErrors.consent}
                 </p>
               )}
@@ -238,9 +240,9 @@ export function Contact({ data }: { data: ContactSection }) {
               aria-live="polite"
               className={`text-sm ${
                 state.status === "success"
-                  ? "flex items-center gap-2 text-[#1f6b3e]"
+                  ? "flex items-center gap-2 text-[#c9f0d4]"
                   : state.status === "error"
-                    ? "text-[#a4232b]"
+                    ? "text-[#ffc9c4]"
                     : "sr-only"
               }`}
             >

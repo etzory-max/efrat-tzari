@@ -19,11 +19,8 @@ function ServiceCard({ service }: { service: Service }) {
           : "border border-cream-200 bg-cream-100 text-ink"
       }`}
     >
-      <span
-        className={`inline-flex size-12 items-center justify-center rounded-xl ${
-          dark ? "bg-white/15 text-white" : "bg-accent text-ink"
-        }`}
-      >
+      {/* Same terracotta plate on the slate card as on the light ones. */}
+      <span className="inline-flex size-12 items-center justify-center rounded-xl bg-accent text-ink">
         <Icon className="size-6" aria-hidden="true" />
       </span>
 
@@ -38,7 +35,7 @@ function ServiceCard({ service }: { service: Service }) {
           {service.bullets.map((bullet) => (
             <li key={bullet} className="flex items-start gap-3">
               <Check
-                className={`mt-1 size-4 shrink-0 ${dark ? "text-sage" : "text-slate"}`}
+                className={`mt-1 size-4 shrink-0 ${dark ? "text-accent-light" : "text-accent-ink"}`}
                 aria-hidden="true"
               />
               <span className={dark ? "text-white/90" : "text-muted"}>{bullet}</span>

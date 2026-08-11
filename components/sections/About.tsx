@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Check } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { AboutSection } from "@/content/types";
 
@@ -19,7 +20,7 @@ export function About({ data }: { data: AboutSection }) {
           </div>
           {/* The slate disc reads better over a photo than a coral one would,
               so the accent comes in on the number instead of the plain white. */}
-          <p className="absolute -bottom-5 end-6 flex size-24 flex-col items-center justify-center rounded-full bg-slate text-center shadow-lg ring-2 ring-accent/60">
+          <p className="absolute -bottom-5 end-6 flex size-24 flex-col items-center justify-center rounded-full bg-slate text-center shadow-lg">
             <span className="text-2xl font-medium text-accent-light">{data.badgeValue}</span>
             <span className="mt-0.5 text-[0.7rem] leading-tight text-white">{data.badgeLabel}</span>
           </p>
@@ -37,25 +38,16 @@ export function About({ data }: { data: AboutSection }) {
             ))}
           </div>
 
-          <dl className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {/* Reveal renders the wrapper div itself — a <dl> may only contain
-                dt, dd, and a single div around each pair. */}
-            {data.stats.map((stat, index) => (
-              <Reveal
-                key={stat.label}
-                delay={200 + index * 80}
-                className="h-full rounded-2xl border border-cream-200 bg-white/70 px-6 py-5"
-              >
-                <dt className="sr-only">{stat.label}</dt>
-                <dd>
-                  <span className="block text-2xl font-medium text-slate">{stat.value}</span>
-                  <span className="mt-1 block text-sm text-muted" aria-hidden="true">
-                    {stat.label}
-                  </span>
-                </dd>
-              </Reveal>
+          <ul className="mt-10 space-y-4 border-t border-cream-200 pt-8">
+            {data.points.map((point, index) => (
+              <li key={point}>
+                <Reveal delay={200 + index * 80} className="flex items-start gap-3">
+                  <Check className="mt-1 size-5 shrink-0 text-accent-ink" aria-hidden="true" />
+                  <span className="text-lg text-ink">{point}</span>
+                </Reveal>
+              </li>
             ))}
-          </dl>
+          </ul>
         </Reveal>
       </div>
     </section>
