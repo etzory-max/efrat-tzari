@@ -26,12 +26,10 @@ export function Hero({ data }: { data: HeroContent }) {
           // saturation lets it sit with the cream instead of shouting over it.
           className="object-cover object-center saturate-[0.82]"
         />
-        {/* Warm veil, then a fade into the cream so the photo has no hard seam. */}
-        <div aria-hidden="true" className="absolute inset-0 bg-cream-50/18" />
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-b from-transparent to-cream-50"
-        />
+        {/* A dark veil across the whole photo — it settles the picture and
+            keeps it from competing with the card. The text sits on cream, so
+            this is purely tonal, not a contrast device. */}
+        <div aria-hidden="true" className="absolute inset-0 bg-dark/40" />
       </div>
 
       <div className="shell">
