@@ -11,7 +11,7 @@ export const defaultContent: SiteContent = {
   hero: {
     title: "המרחב שלך להורות מותאמת",
     subtitle: "ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי",
-    ctaLabel: "לקביעת שיחה חינם",
+    ctaLabel: "דברו איתי",
     ctaHref: "/#contact",
     image: {
       src: "/images/hero-hug.jpg",

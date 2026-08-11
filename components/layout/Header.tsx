@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
@@ -176,12 +177,21 @@ export function Header() {
           </nav>
 
           <div className="border-t border-cream-200 p-6">
+            <Image
+              src="/images/art-kids-table.png"
+              alt=""
+              width={900}
+              height={735}
+              sizes="180px"
+              aria-hidden="true"
+              className="mx-auto mb-5 h-24 w-auto opacity-70"
+            />
             <Link
               href="/#contact"
               onClick={close}
               className="btn btn-primary w-full px-5 py-4 text-base"
             >
-              לקביעת שיחה
+              דברו איתי
             </Link>
           </div>
         </div>

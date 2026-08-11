@@ -30,7 +30,7 @@ export function Approach({ data }: { data: ApproachSection }) {
                 >
                   <Icon className="size-10 text-white" strokeWidth={1.5} aria-hidden="true" />
                   <h3 className="mt-5 text-xl text-white">{card.title}</h3>
-                  <p className="mt-3 text-ink">{card.body}</p>
+                  <p className="mt-3 text-white">{card.body}</p>
                 </Reveal>
               </li>
             );
