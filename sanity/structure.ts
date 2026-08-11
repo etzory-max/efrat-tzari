@@ -2,13 +2,13 @@ import type { StructureResolver } from "sanity/structure";
 
 const singletons: { type: string; title: string }[] = [
   { type: "siteSettings", title: "הגדרות אתר" },
+  { type: "hero", title: "ראש העמוד" },
   { type: "about", title: "אודות" },
   { type: "approach", title: "הורות מותאמת" },
   { type: "sectionCopy", title: "כותרות סקשנים" },
 ];
 
 const collections: { type: string; title: string }[] = [
-  { type: "heroSlide", title: "שקופיות ראש העמוד" },
   { type: "service", title: "שירותים" },
   { type: "article", title: "מאמרים" },
   { type: "mediaItem", title: "מדיה" },

@@ -20,7 +20,7 @@ export default defineConfig({
     newDocumentOptions: (prev) =>
       prev.filter(
         (item) =>
-          !["siteSettings", "about", "approach", "sectionCopy"].includes(
+          !["siteSettings", "hero", "about", "approach", "sectionCopy"].includes(
             item.templateId ?? "",
           ),
       ),

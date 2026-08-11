@@ -70,18 +70,15 @@ async function run() {
     hours: "ראשון–חמישי, 9:00–19:00",
   });
 
-  for (const [index, slide] of c.hero.entries()) {
-    docs.push({
-      _id: `heroSlide-${index + 1}`,
-      _type: "heroSlide",
-      title: slide.title,
-      subtitle: slide.subtitle,
-      ctaLabel: slide.ctaLabel,
-      ctaHref: slide.ctaHref,
-      image: await uploadImage(slide.image),
-      order: index + 1,
-    });
-  }
+  docs.push({
+    _id: "hero",
+    _type: "hero",
+    title: c.hero.title,
+    subtitle: c.hero.subtitle,
+    ctaLabel: c.hero.ctaLabel,
+    ctaHref: c.hero.ctaHref,
+    image: await uploadImage(c.hero.image),
+  });
 
   docs.push({
     _id: "about",

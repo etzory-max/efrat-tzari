@@ -15,7 +15,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero slides={content.hero} />
+      <Hero data={content.hero} />
       <About data={content.about} />
       <Approach data={content.approach} />
       <Services data={content.services} />

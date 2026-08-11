@@ -8,38 +8,16 @@ import type { SiteContent } from "./types";
  * configured yet — so the page always renders.
  */
 export const defaultContent: SiteContent = {
-  hero: [
-    {
-      title: "המרחב שלך להורות מותאמת",
-      subtitle: "ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי",
-      ctaLabel: "לקביעת שיחה חינם",
-      ctaHref: "/#contact",
-      image: {
-        src: "/images/hero-1.jpg",
-        alt: "שלושה ילדים צעירים יושבים מחובקים וצוחקים יחד",
-      },
+  hero: {
+    title: "המרחב שלך להורות מותאמת",
+    subtitle: "ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי",
+    ctaLabel: "לקביעת שיחה חינם",
+    ctaHref: "/#contact",
+    image: {
+      src: "/images/hero-2.jpg",
+      alt: "ילדה מחזיקה מצלמת צעצוע סגולה מול פניה בחדר משחקים",
     },
-    {
-      title: "כלים מעשיים שעובדים",
-      subtitle: "כי כל ילד ראוי לחיות בשלווה — וכל הורה ראוי לכלים שמותאמים בדיוק לו",
-      ctaLabel: "קראי עוד",
-      ctaHref: "/#approach",
-      image: {
-        src: "/images/hero-2.jpg",
-        alt: "פעוטה יושבת בכיסא אוכל ומצלמה במצלמת צעצוע סגולה, חדר משחקים ברקע",
-      },
-    },
-    {
-      title: "הרצאות וסדנאות להורים",
-      subtitle: "למעלה מ-50 הרצאות בשנה — לגני ילדים, בתי ספר ומוסדות",
-      ctaLabel: "לפרטים נוספים",
-      ctaHref: "/#services",
-      image: {
-        src: "/images/hero-3.jpg",
-        alt: "ידו של ילד מניחה קובייה מאוירת על מגדל קוביות צבעוני",
-      },
-    },
-  ],
+  },
 
   about: {
     eyebrow: "אודות",

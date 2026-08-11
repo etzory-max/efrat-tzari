@@ -19,7 +19,7 @@ const or = <T,>(value: T | null | undefined, fallback: T): T =>
     : value;
 
 const QUERY = /* groq */ `{
-  "hero": *[_type == "heroSlide"] | order(order asc) {
+  "hero": *[_type == "hero"][0] {
     title, subtitle, ctaLabel, ctaHref, image
   },
   "about": *[_type == "about"][0] {
@@ -74,14 +74,14 @@ function mergeContent(data: any): SiteContent {
   const d = defaultContent;
   const copy = data?.copy ?? {};
 
-  const hero = or(data?.hero, null)
-    ? data.hero.map((slide: any, index: number) => ({
-        title: or(slide.title, d.hero[index]?.title ?? ""),
-        subtitle: or(slide.subtitle, d.hero[index]?.subtitle ?? ""),
-        ctaLabel: or(slide.ctaLabel, "קראי עוד"),
-        ctaHref: or(slide.ctaHref, "/#contact"),
-        image: toImg(slide.image, d.hero[index]?.image ?? d.hero[0].image, 1920),
-      }))
+  const hero = data?.hero
+    ? {
+        title: or(data.hero.title, d.hero.title),
+        subtitle: or(data.hero.subtitle, d.hero.subtitle),
+        ctaLabel: or(data.hero.ctaLabel, d.hero.ctaLabel),
+        ctaHref: or(data.hero.ctaHref, d.hero.ctaHref),
+        image: toImg(data.hero.image, d.hero.image, 1920),
+      }
     : d.hero;
 
   const about = data?.about

@@ -7,7 +7,7 @@ export type Img = {
   lqip?: string;
 };
 
-export type HeroSlide = {
+export type Hero = {
   title: string;
   subtitle: string;
   ctaLabel: string;
@@ -139,7 +139,7 @@ export type ContactSection = {
 };
 
 export type SiteContent = {
-  hero: HeroSlide[];
+  hero: Hero;
   about: AboutSection;
   approach: ApproachSection;
   services: ServicesSection;

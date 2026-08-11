@@ -70,19 +70,17 @@ const siteSettings = defineType({
   preview: { select: { title: "name" } },
 });
 
-const heroSlide = defineType({
-  name: "heroSlide",
-  title: "שקופית בראש העמוד",
+const hero = defineType({
+  name: "hero",
+  title: "ראש העמוד",
   type: "document",
   fields: [
-    defineField({ name: "title", title: "כותרת", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "subtitle", title: "כותרת משנה", type: "text", rows: 2 }),
+    defineField({ name: "title", title: "כותרת ראשית", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "subtitle", title: "שורת משנה", type: "text", rows: 2 }),
     defineField({ name: "ctaLabel", title: "טקסט הכפתור", type: "string" }),
     defineField({ name: "ctaHref", title: "יעד הכפתור", type: "string", initialValue: "/#contact" }),
     accessibleImage(),
-    defineField({ name: "order", title: "סדר", type: "number", initialValue: 1 }),
   ],
-  orderings: [{ title: "סדר", name: "order", by: [{ field: "order", direction: "asc" }] }],
   preview: { select: { title: "title", media: "image" } },
 });
 
@@ -336,7 +334,7 @@ const sectionCopy = defineType({
  */
 export const schemaTypes = [
   siteSettings,
-  heroSlide,
+  hero,
   about,
   approach,
   service,
