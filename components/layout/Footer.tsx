@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Clock, Mail, Phone } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { FacebookIcon, InstagramIcon } from "@/components/brand/SocialIcons";
-import { navItems, site } from "@/lib/site";
+import { site } from "@/lib/site";
 
 const legalItems = [
   { label: "מדיניות פרטיות", href: "/privacy" },
@@ -18,10 +18,6 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
           <div>
             <Logo variant="dark" />
-            <p className="mt-6 max-w-sm text-on-dark-muted">
-              ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי — כלים מעשיים שמותאמים
-              בדיוק לכם.
-            </p>
 
             {(site.social.instagram || site.social.facebook) && (
               <ul className="mt-6 flex items-center gap-3">
@@ -53,22 +49,12 @@ export function Footer() {
             )}
           </div>
 
-          <nav aria-label="ניווט בתחתית העמוד">
-            <span aria-hidden="true" className="mb-3 block h-0.5 w-7 bg-accent" />
-            <h2 className="text-base font-medium text-on-dark">ניווט מהיר</h2>
-            <ul className="mt-5 space-y-3">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-on-dark-muted transition-colors hover:text-accent"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {/* The middle column carries the sentence rather than repeating the
+              menu — every one of those links already sits in the header. */}
+          <p className="self-center text-lg leading-relaxed text-on-dark md:col-span-2 md:text-xl lg:col-span-1 lg:text-center">
+            ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי — כלים מעשיים שמותאמים בדיוק
+            לכם.
+          </p>
 
           <div>
             <span aria-hidden="true" className="mb-3 block h-0.5 w-7 bg-accent" />

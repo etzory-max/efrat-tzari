@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Heart, Leaf, Quote, Star } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ApproachSection } from "@/content/types";
@@ -6,7 +7,7 @@ const icons = { heart: Heart, star: Star, leaf: Leaf } as const;
 
 export function Approach({ data }: { data: ApproachSection }) {
   return (
-    <section id="approach" aria-labelledby="approach-title" className="bg-cream-100 py-20 md:py-28">
+    <section id="approach" aria-labelledby="approach-title" className="relative overflow-hidden bg-cream-100 pt-20 pb-36 md:pt-28 md:pb-52">
       <div className="shell">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>
@@ -29,7 +30,7 @@ export function Approach({ data }: { data: ApproachSection }) {
                 >
                   <Icon className="size-10 text-white" strokeWidth={1.5} aria-hidden="true" />
                   <h3 className="mt-5 text-xl text-white">{card.title}</h3>
-                  <p className="mt-3 text-white">{card.body}</p>
+                  <p className="mt-3 text-ink">{card.body}</p>
                 </Reveal>
               </li>
             );
@@ -47,8 +48,32 @@ export function Approach({ data }: { data: ApproachSection }) {
           </figure>
         </Reveal>
 
-        {/* TODO(efrat): a row of illustrations closes this section — the
-            slot is ready, waiting on the real artwork. */}
+      </div>
+
+      {/* The figures stand on the very edge of the section's colour, so they
+          read as rising out of it. The section's extra bottom padding is what
+          makes room for them. Decorative — the copy above says it all. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 select-none"
+      >
+        <div className="shell flex items-end justify-between gap-4 opacity-80">
+          {[
+            { src: "/images/art-kid-ball.png", w: 691, h: 900, cls: "h-28 w-auto md:h-44" },
+            { src: "/images/art-kid-blocks.png", w: 900, h: 742, cls: "h-24 w-auto md:h-40" },
+            { src: "/images/art-kids-table.png", w: 900, h: 735, cls: "h-24 w-auto md:h-40" },
+          ].map((art) => (
+            <Image
+              key={art.src}
+              src={art.src}
+              alt=""
+              width={art.w}
+              height={art.h}
+              sizes="(max-width: 768px) 30vw, 300px"
+              className={`block ${art.cls}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

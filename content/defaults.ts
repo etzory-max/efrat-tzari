@@ -15,7 +15,7 @@ export const defaultContent: SiteContent = {
     ctaHref: "/#contact",
     image: {
       src: "/images/hero-home.jpg",
-      alt: "ילדה מחזיקה מצלמת צעצוע סגולה מול פניה בחדר משחקים",
+      alt: "ילדה מחובקת בזרועות מבוגרת, מחייכת אל המצלמה באור שקיעה",
     },
   },
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowLeft, BookOpen, Check, Mic, Users } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import type { Service, ServicesSection } from "@/content/types";
@@ -19,11 +20,18 @@ function ServiceCard({ service }: { service: Service }) {
           : "border border-cream-200 bg-cream-100 text-ink"
       }`}
     >
-      {/* TODO(efrat): an illustration sits here on the wide card and fades
-          out when the long copy opens. The mechanism is proven — a decorative
-          element with
-            group-has-[details[open]]:opacity-0 group-has-[details[open]]:translate-y-6
-          on this `group` card does it with no JavaScript. Waiting on artwork. */}
+      {dark && (
+        /* Decorative, and it steps aside when the long copy opens — the
+           has-[details[open]] selector does it without a line of JS. */
+        <Image
+          src="/images/art-kids-table.png"
+          alt=""
+          width={900}
+          height={735}
+          sizes="260px"
+          className="pointer-events-none absolute bottom-4 end-6 hidden h-36 w-auto opacity-70 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:block"
+        />
+      )}
       {/* Same terracotta plate on the slate card as on the light ones. */}
       <span className="inline-flex size-12 items-center justify-center rounded-xl bg-accent text-ink">
         <Icon className="size-6" aria-hidden="true" />
