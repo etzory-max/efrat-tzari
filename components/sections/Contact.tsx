@@ -17,7 +17,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="tap mt-2 inline-flex w-full items-center justify-center rounded-xl bg-slate px-6 py-4 text-base font-medium text-white transition-colors hover:bg-slate-deep disabled:opacity-70"
+      className="btn btn-primary mt-2 w-full px-6 py-4 text-base disabled:opacity-70"
     >
       {pending ? "שולח…" : "שליחה"}
     </button>
@@ -77,7 +77,7 @@ function Field({
           ...(error ? { "aria-invalid": true as const } : {}),
           ...(describedBy ? { "aria-describedby": describedBy } : {}),
           className: `w-full rounded-xl border bg-white px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted/70 ${
-            error ? "border-[#a4232b]" : "border-field-border focus:border-accent"
+            error ? "border-[#a4232b]" : "border-field-border focus:border-accent-ink"
           }`,
         })}
       </div>
@@ -127,7 +127,7 @@ export function Contact({ data }: { data: ContactSection }) {
           <ul className="mt-10 space-y-6">
             {details.map((detail) => (
               <li key={detail.label} className="flex items-start gap-4">
-                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent-wash text-accent">
+                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent text-ink">
                   <detail.icon className="size-5" aria-hidden="true" />
                 </span>
                 <span>
@@ -213,7 +213,7 @@ export function Contact({ data }: { data: ContactSection }) {
                   {...(state.fieldErrors?.consent
                     ? { "aria-invalid": true as const, "aria-describedby": "consent-error" }
                     : {})}
-                  className="mt-1 size-5 shrink-0 accent-[#a24c3b]"
+                  className="mt-1 size-5 shrink-0 accent-[#9c4c2e]"
                 />
                 <label htmlFor="consent" className="text-sm leading-relaxed text-ink">
                   {data.consentLabel}{" "}

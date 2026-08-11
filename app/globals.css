@@ -25,13 +25,16 @@
      the check marks. Deliberately NOT used for anything interactive. */
   --color-sage: #aab8a9; /* on --color-dark (6.3:1), on --color-slate (3.4:1 — icons only) */
 
-  /* Warm accent — everything that asks for attention: section labels,
-     links, hover states, tinted plates. One warm note against the cool
-     slate, so the two never compete. */
-  --color-accent: #a24c3b; /* text/links — 5.2:1 on cream-50, 4.8:1 on cream-100 */
-  --color-accent-line: #d28d7b; /* decorative hairlines only — not a UI boundary */
-  --color-accent-wash: #f5e3dc; /* icon plates and tags */
-  --color-accent-light: #f3cdc0; /* on slate (4.8:1) and on dark (8.8:1) */
+  /* Terracotta — the warm note against the cool slate.
+     --color-accent is the one you actually see: button fills, icon plates,
+     rules. It is a FILL, never text — white on it is only 2.4:1, so anything
+     sitting on it uses --color-ink (5.4:1).
+     The other two are the exceptions, used sparingly: -ink where the accent
+     itself has to be legible text on cream, -light where it has to be legible
+     on slate or on the dark footer. */
+  --color-accent: #d69a7e; /* fills — ink on it is 5.4:1 */
+  --color-accent-ink: #9c4c2e; /* accent as text on cream — 5.4:1 / 5.0:1 / 6.0:1 on white */
+  --color-accent-light: #f2d0bc; /* accent as text on slate (4.8:1) and on dark (8.8:1) */
 
   /* Form controls need a 3:1 boundary of their own (WCAG 1.4.11);
      the cream hairline is far too faint to serve as one. */
@@ -129,16 +132,16 @@
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.18em;
-    color: var(--color-accent);
+    color: var(--color-accent-ink);
     text-transform: none;
   }
 
+  /* The rule carries the full accent; the label stays readable. */
   .eyebrow::before {
     content: "";
     inline-size: 1.75rem;
-    block-size: 1px;
-    background-color: currentColor;
-    opacity: 0.55;
+    block-size: 2px;
+    background-color: var(--color-accent);
     flex: none;
   }
 
@@ -150,6 +153,33 @@
   .tap {
     min-block-size: 44px;
     min-inline-size: 44px;
+  }
+
+  /* Primary action. Coral at rest, slate on hover — the accent leads, the
+     brand colour confirms. Padding and type size stay with each usage.
+     The focus ring sits outside the button (outline-offset), so it lands on
+     the page background and keeps its contrast against either fill. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    transition:
+      background-color 250ms var(--ease-soft),
+      color 250ms var(--ease-soft);
+  }
+
+  .btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-slate);
+    color: #ffffff;
   }
 }
 
@@ -176,11 +206,15 @@ html[data-a11y-contrast="on"] {
   --color-ink: #000000;
   --color-slate: #1c3040;
   --color-on-dark-muted: #ffffff;
-  --color-accent: #7a2f20;
-  --color-accent-line: #7a2f20;
-  --color-accent-wash: #ffffff;
+  --color-accent: #6b3417;
+  --color-accent-ink: #5a2a10;
   --color-accent-light: #ffffff;
   --color-field-border: #000000;
+}
+/* The accent goes dark in high contrast, so the button flips to light text. */
+html[data-a11y-contrast="on"] .btn-primary {
+  background-color: #000000;
+  color: #ffffff;
 }
 html[data-a11y-contrast="on"] img:not([data-a11y-keep]) {
   filter: grayscale(1) contrast(1.15);

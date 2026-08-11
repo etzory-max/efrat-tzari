@@ -97,7 +97,7 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="relative inline-flex items-center py-2 text-[0.9375rem] text-ink transition-colors duration-200 hover:text-accent focus-visible:text-accent after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 hover:after:scale-x-100"
+                  className="relative inline-flex items-center py-2 text-[0.9375rem] text-ink transition-colors duration-200 hover:text-accent-ink focus-visible:text-accent-ink after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-accent-ink after:transition-transform after:duration-200 hover:after:scale-x-100"
                 >
                   {item.label}
                 </Link>
@@ -109,7 +109,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Link
             href="/#contact"
-            className="tap hidden items-center justify-center rounded-xl bg-slate px-5 py-3 text-[0.9375rem] font-medium text-white transition-colors duration-200 hover:bg-slate-deep sm:inline-flex"
+            className="btn btn-primary hidden px-5 py-3 text-[0.9375rem] sm:inline-flex"
           >
             לקביעת שיחה
           </Link>
@@ -179,7 +179,7 @@ export function Header() {
             <Link
               href="/#contact"
               onClick={close}
-              className="tap flex items-center justify-center rounded-xl bg-slate px-5 py-4 text-base font-medium text-white"
+              className="btn btn-primary w-full px-5 py-4 text-base"
             >
               לקביעת שיחה
             </Link>

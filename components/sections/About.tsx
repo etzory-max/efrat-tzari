@@ -17,9 +17,11 @@ export function About({ data }: { data: AboutSection }) {
               className="object-cover"
             />
           </div>
-          <p className="absolute -bottom-5 end-6 flex size-24 flex-col items-center justify-center rounded-full bg-slate text-center text-white shadow-lg">
-            <span className="text-xl font-medium">{data.badgeValue}</span>
-            <span className="mt-0.5 text-[0.7rem] leading-tight">{data.badgeLabel}</span>
+          {/* The slate disc reads better over a photo than a coral one would,
+              so the accent comes in on the number instead of the plain white. */}
+          <p className="absolute -bottom-5 end-6 flex size-24 flex-col items-center justify-center rounded-full bg-slate text-center shadow-lg ring-2 ring-accent/60">
+            <span className="text-2xl font-medium text-accent-light">{data.badgeValue}</span>
+            <span className="mt-0.5 text-[0.7rem] leading-tight text-white">{data.badgeLabel}</span>
           </p>
         </Reveal>
 

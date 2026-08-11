@@ -105,7 +105,7 @@ export default async function ArticlePage({ params }: Params) {
           </p>
           <Link
             href="/#contact"
-            className="tap mt-6 inline-flex items-center justify-center rounded-xl bg-slate px-6 py-4 font-medium text-white transition-colors hover:bg-slate-deep"
+            className="btn btn-primary mt-6 px-6 py-4"
           >
             לקביעת שיחה
           </Link>

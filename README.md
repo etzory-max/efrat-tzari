@@ -29,6 +29,8 @@ npm run dev
 | `node scripts/shots.mjs` | צילומי מסך ל-`docs/shots` |
 | `node scripts/form-test.mjs` | בדיקת קצה-לקצה של טופס יצירת הקשר |
 | `node scripts/reveal-test.mjs` | מוודא שההופעה ההדרגתית לא מסתירה תוכן באף מצב |
+| `node scripts/nav-test.mjs` | מוודא שקישורי התפריט עובדים גם מעמודים פנימיים |
+| `node scripts/button-test.mjs` | מוודא שכל הכפתורים הראשיים חימר במנוחה וכחול ב-hover |
 
 > סקריפטי הבדיקה מריצים את Chrome המותקן במחשב דרך `puppeteer-core`
 > (הנתיב מוגדר בראש כל סקריפט).

@@ -86,7 +86,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
                     </span>
                     {article.readingMinutes} דקות קריאה
                   </p>
-                  <h3 className="mt-3 text-lg text-slate transition-colors group-hover/card:text-accent">
+                  <h3 className="mt-3 text-lg text-slate transition-colors group-hover/card:text-accent-ink">
                     <Link
                       href={`/articles/${article.slug}`}
                       className="outline-none after:absolute after:inset-0 after:content-['']"

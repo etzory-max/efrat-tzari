@@ -21,13 +21,13 @@ function ServiceCard({ service }: { service: Service }) {
     >
       <span
         className={`inline-flex size-12 items-center justify-center rounded-xl ${
-          dark ? "bg-white/15 text-white" : "bg-accent-wash text-accent"
+          dark ? "bg-white/15 text-white" : "bg-accent text-ink"
         }`}
       >
         <Icon className="size-6" aria-hidden="true" />
       </span>
 
-      <p className={`mt-6 text-xs tracking-[0.18em] ${dark ? "text-accent-light" : "text-accent"}`}>
+      <p className={`mt-6 text-xs tracking-[0.18em] ${dark ? "text-accent-light" : "text-accent-ink"}`}>
         {service.kicker}
       </p>
       <h3 className={`mt-2 text-2xl ${dark ? "text-white" : "text-slate"}`}>{service.title}</h3>
@@ -50,7 +50,7 @@ function ServiceCard({ service }: { service: Service }) {
       <details className="group mt-auto pt-8">
         <summary
           className={`tap inline-flex cursor-pointer list-none items-center gap-2 text-sm font-medium transition-colors ${
-            dark ? "text-white hover:text-accent-light" : "text-accent hover:text-ink"
+            dark ? "text-white hover:text-accent-light" : "text-accent-ink hover:text-ink"
           }`}
         >
           <span className="group-open:hidden">{service.moreLabel}</span>
@@ -62,7 +62,7 @@ function ServiceCard({ service }: { service: Service }) {
         </summary>
         <div
           className={`mt-5 border-t pt-5 ${
-            dark ? "border-white/20 text-white/90" : "border-accent-line/50 text-muted"
+            dark ? "border-white/20 text-white/90" : "border-accent/60 text-muted"
           }`}
         >
           <PortableText value={service.details} components={dark ? proseInCardOnDark : proseInCard} />

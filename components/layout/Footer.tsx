@@ -29,7 +29,7 @@ export function Footer() {
                   <li>
                     <a
                       href={site.social.instagram}
-                      className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-white/60 hover:bg-white/10"
+                      className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-accent hover:text-accent"
                       rel="me noopener"
                     >
                       <InstagramIcon className="size-5" />
@@ -41,7 +41,7 @@ export function Footer() {
                   <li>
                     <a
                       href={site.social.facebook}
-                      className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-white/60 hover:bg-white/10"
+                      className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-accent hover:text-accent"
                       rel="me noopener"
                     >
                       <FacebookIcon className="size-5" />
@@ -54,13 +54,14 @@ export function Footer() {
           </div>
 
           <nav aria-label="ניווט בתחתית העמוד">
+            <span aria-hidden="true" className="mb-3 block h-0.5 w-7 bg-accent" />
             <h2 className="text-base font-medium text-on-dark">ניווט מהיר</h2>
             <ul className="mt-5 space-y-3">
               {navItems.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-on-dark-muted transition-colors hover:text-white"
+                    className="text-on-dark-muted transition-colors hover:text-accent"
                   >
                     {item.label}
                   </Link>
@@ -70,22 +71,23 @@ export function Footer() {
           </nav>
 
           <div>
+            <span aria-hidden="true" className="mb-3 block h-0.5 w-7 bg-accent" />
             <h2 className="text-base font-medium text-on-dark">צרי קשר</h2>
             <ul className="mt-5 space-y-4 text-on-dark-muted">
               <li className="flex items-center gap-3">
-                <Phone className="size-4 shrink-0 text-accent-light" aria-hidden="true" />
-                <a href={`tel:${site.phoneE164}`} className="transition-colors hover:text-white">
+                <Phone className="size-4 shrink-0 text-accent" aria-hidden="true" />
+                <a href={`tel:${site.phoneE164}`} className="transition-colors hover:text-accent">
                   {site.phoneDisplay}
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="size-4 shrink-0 text-accent-light" aria-hidden="true" />
-                <a href={`mailto:${site.email}`} className="transition-colors hover:text-white">
+                <Mail className="size-4 shrink-0 text-accent" aria-hidden="true" />
+                <a href={`mailto:${site.email}`} className="transition-colors hover:text-accent">
                   {site.email}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <Clock className="mt-1 size-4 shrink-0 text-accent-light" aria-hidden="true" />
+                <Clock className="mt-1 size-4 shrink-0 text-accent" aria-hidden="true" />
                 <span>{site.hours}</span>
               </li>
             </ul>
@@ -99,7 +101,7 @@ export function Footer() {
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {legalItems.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="underline underline-offset-4 transition-colors hover:text-white">
+                <Link href={item.href} className="underline decoration-accent/70 underline-offset-4 transition-colors hover:text-accent">
                   {item.label}
                 </Link>
               </li>

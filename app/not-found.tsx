@@ -13,7 +13,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="tap mt-8 inline-flex items-center justify-center rounded-xl bg-slate px-6 py-4 font-medium text-white transition-colors hover:bg-slate-deep"
+          className="btn btn-primary mt-8 px-6 py-4"
         >
           חזרה לדף הבית
         </Link>

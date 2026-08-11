@@ -146,7 +146,7 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
             <Reveal immediate delay={220}>
               <Link
                 href={active.ctaHref}
-                className="tap mt-8 inline-flex items-center justify-center rounded-xl bg-cream-50 px-8 py-4 text-base font-medium text-slate transition-colors duration-300 hover:bg-white"
+                className="btn btn-primary mt-8 px-8 py-4 text-base"
               >
                 {active.ctaLabel}
               </Link>

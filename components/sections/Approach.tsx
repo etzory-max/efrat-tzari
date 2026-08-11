@@ -25,7 +25,7 @@ export function Approach({ data }: { data: ApproachSection }) {
                   delay={index * 110}
                   className="h-full rounded-2xl border border-cream-200 bg-cream-50 p-6 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(44,50,56,0.08)] lg:p-8"
                 >
-                  <span className="inline-flex size-12 items-center justify-center rounded-xl bg-accent-wash text-accent">
+                  <span className="inline-flex size-12 items-center justify-center rounded-xl bg-accent text-ink">
                     <Icon className="size-6" aria-hidden="true" />
                   </span>
                   <h3 className="mt-5 text-xl text-slate">{card.title}</h3>

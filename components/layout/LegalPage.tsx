@@ -33,7 +33,7 @@ export function LegalPage({
         </p>
         {intro && <p className="mt-6 text-lg text-muted">{intro}</p>}
 
-        <div className="mt-10 space-y-8 text-ink [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4 [&_h2]:text-2xl [&_h2]:text-slate [&_li]:leading-relaxed [&_li]:marker:text-accent-line [&_p]:leading-relaxed [&_ul]:space-y-2 [&_ul]:ps-5 [&_ul]:list-disc">
+        <div className="mt-10 space-y-8 text-ink [&_a]:text-accent-ink [&_a]:underline [&_a]:underline-offset-4 [&_h2]:text-2xl [&_h2]:text-slate [&_li]:leading-relaxed [&_li]:marker:text-accent [&_p]:leading-relaxed [&_ul]:space-y-2 [&_ul]:ps-5 [&_ul]:list-disc">
           {children}
         </div>
       </div>
