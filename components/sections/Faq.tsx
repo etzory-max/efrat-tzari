@@ -19,7 +19,7 @@ export function Faq({ data }: { data: FaqSection }) {
         height={742}
         sizes="180px"
         aria-hidden="true"
-        className="pointer-events-none absolute top-56 right-16 hidden h-32 w-auto opacity-80 xl:block"
+        className="pointer-events-none absolute top-56 right-48 hidden h-32 w-auto opacity-80 xl:block"
       />
       <Image
         src="/images/art-kid-ball.png"
@@ -28,7 +28,7 @@ export function Faq({ data }: { data: FaqSection }) {
         height={900}
         sizes="150px"
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-28 left-16 hidden h-36 w-auto opacity-80 xl:block"
+        className="pointer-events-none absolute bottom-28 left-48 hidden h-36 w-auto opacity-80 xl:block"
       />
 
       <div className="shell relative">
