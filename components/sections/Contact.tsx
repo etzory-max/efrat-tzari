@@ -76,11 +76,12 @@ function Field({
           required,
           ...(error ? { "aria-invalid": true as const } : {}),
           ...(describedBy ? { "aria-describedby": describedBy } : {}),
-          // No border: the field is identified by its own dark fill, which is
-          // 5.4:1 against the terracotta card — well past the 3:1 that WCAG
-          // 1.4.11 asks of a control's visual boundary.
-          className: `w-full rounded-xl bg-dark px-4 py-3 text-white outline-none transition-shadow placeholder:text-white/70 ${
-            error ? "shadow-[inset_0_0_0_2px_#ffc9c4]" : ""
+          // 1px hairline — the thinnest a border goes. Ink rather than a
+          // softer tone because the boundary has to clear 3:1 against both
+          // the white fill (12.6:1) and the terracotta card (5.4:1); slate
+          // would land at 2.9:1 on the card.
+          className: `w-full rounded-xl border bg-white px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted ${
+            error ? "border-[#6e1018]" : "border-ink"
           }`,
         })}
       </div>
