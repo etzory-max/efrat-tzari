@@ -44,7 +44,9 @@ export function Logo({
     <span className={`flex min-w-0 items-center gap-2.5 sm:gap-3 ${className}`}>
       <Logomark className={`h-[var(--logo-size,3.5rem)] w-[var(--logo-size,3.5rem)] shrink-0 transition-[height,width] duration-300 ${markColor}`} />
       <span className="flex min-w-0 flex-col leading-none">
-        <span className={`text-lg font-medium tracking-tight sm:text-xl md:text-2xl ${nameColor}`}>
+        <span
+          className={`font-[family-name:var(--font-display)] text-lg tracking-tight sm:text-xl md:text-2xl ${nameColor}`}
+        >
           {site.name}
         </span>
         {/* Shown on every width — the tagline is half the brand. It shrinks

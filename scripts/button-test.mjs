@@ -10,7 +10,7 @@ const base = process.argv[2] ?? "http://localhost:3000";
 
 const ACCENT = "rgb(214, 154, 126)"; // --color-accent, terracotta
 const SLATE = "rgb(70, 91, 109)";
-const WHITE = "rgb(255, 255, 255)";
+const DARK = "rgb(44, 50, 56)";
 
 const browser = await puppeteer.launch({
   executablePath: CHROME,
@@ -30,7 +30,7 @@ await page.evaluate(async () => {
   await new Promise((r) => setTimeout(r, 600));
 });
 
-const buttons = await page.$$(".btn-primary");
+const buttons = await page.$$(".btn-primary, .btn-on-accent");
 console.log(`נמצאו ${buttons.length} כפתורים ראשיים`);
 
 let failures = 0;
@@ -67,11 +67,10 @@ for (const [index, button] of buttons.entries()) {
   await new Promise((r) => setTimeout(r, 500));
   const hover = await button.evaluate((el) => getComputedStyle(el).backgroundColor);
 
-  // A button sitting on a slate card hovers to white instead — the usual
-  // slate hover would make it disappear into its own background.
-  const onSlate = await button.evaluate((el) => el.classList.contains("btn-on-slate"));
-  const expected = onSlate ? WHITE : SLATE;
-  const ok = rest === ACCENT && hover === expected;
+  // On the terracotta card the button inverts — slate at rest, near-black on
+  // hover — because the accent is already the surface behind it.
+  const onAccent = await button.evaluate((el) => el.classList.contains("btn-on-accent"));
+  const ok = onAccent ? rest === SLATE && hover === DARK : rest === ACCENT && hover === SLATE;
   if (!ok) failures += 1;
   console.log(`${ok ? "✓" : "✗"} ${index + 1}. "${label}"  rest=${rest}  hover=${hover}`);
 

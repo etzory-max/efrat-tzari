@@ -41,7 +41,8 @@
   --color-field-border: #948b7f; /* 3.4:1 on white */
 
   /* Type */
-  --font-sans: var(--font-heebo), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-rubik), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-varela), var(--font-rubik), ui-sans-serif, sans-serif;
 
   /* Motion */
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -68,16 +69,17 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Heebo reads heavier than Assistant at the same weight, so display
-     type sits at 300 with a touch of negative tracking to keep the
-     demo's airy feel. */
+  /* Varela Round has one weight only, so headings get their lightness from
+     size and tracking rather than from a thin cut. */
   h1,
   h2,
   h3,
-  h4 {
-    font-weight: 300;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    line-height: 1.25;
     text-wrap: balance;
   }
 
@@ -94,6 +96,11 @@
   /* Dark surfaces need a light ring to stay visible */
   .on-dark :focus-visible {
     outline-color: #ffffff;
+  }
+
+  /* Slate on terracotta is only 3:1, so the ring goes to ink there. */
+  .on-accent :focus-visible {
+    outline-color: var(--color-ink);
   }
 
   ::selection {
@@ -129,8 +136,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
+    font-family: var(--font-display);
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.18em;
     color: var(--color-accent-ink);
     text-transform: none;
@@ -182,11 +190,15 @@
     color: #ffffff;
   }
 
-  /* On a slate surface the usual slate hover would swallow the button, so it
-     goes the other way. */
-  .btn-on-slate:hover {
-    background-color: #ffffff;
-    color: var(--color-slate);
+  /* On the terracotta card the accent IS the background, so the button
+     inverts: this is where the blue comes in as the accent. */
+  .btn-on-accent {
+    background-color: var(--color-slate);
+    color: #ffffff;
+  }
+
+  .btn-on-accent:hover {
+    background-color: var(--color-dark);
   }
 }
 

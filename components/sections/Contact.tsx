@@ -17,7 +17,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="btn btn-primary btn-on-slate mt-2 w-full px-6 py-4 text-base disabled:opacity-70"
+      className="btn btn-on-accent mt-2 w-full px-6 py-4 text-base disabled:opacity-70"
     >
       {pending ? "שולח…" : "שליחה"}
     </button>
@@ -52,11 +52,11 @@ function Field({
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-white">
+      <label htmlFor={id} className="block text-sm font-medium text-ink">
         {label}
         {required && (
           <>
-            <span aria-hidden="true" className="text-accent-light">
+            <span aria-hidden="true" className="text-ink">
               {" "}
               *
             </span>
@@ -65,7 +65,7 @@ function Field({
         )}
       </label>
       {hint && (
-        <p id={`${id}-hint`} className="mt-1 text-xs text-on-dark-muted">
+        <p id={`${id}-hint`} className="mt-1 text-xs text-ink">
           {hint}
         </p>
       )}
@@ -76,15 +76,16 @@ function Field({
           required,
           ...(error ? { "aria-invalid": true as const } : {}),
           ...(describedBy ? { "aria-describedby": describedBy } : {}),
-          // White fill on the slate card already gives the control a 7:1
-          // boundary; the terracotta ring is the accent, not the boundary.
-          className: `w-full rounded-xl border-2 bg-white px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted/70 ${
-            error ? "border-[#a4232b]" : "border-accent focus:border-accent-ink"
+          // No border: the field is identified by its own dark fill, which is
+          // 5.4:1 against the terracotta card — well past the 3:1 that WCAG
+          // 1.4.11 asks of a control's visual boundary.
+          className: `w-full rounded-xl bg-dark px-4 py-3 text-white outline-none transition-shadow placeholder:text-white/70 ${
+            error ? "shadow-[inset_0_0_0_2px_#ffc9c4]" : ""
           }`,
         })}
       </div>
       {error && (
-        <p id={`${id}-error`} className="mt-2 text-sm text-[#ffc9c4]">
+        <p id={`${id}-error`} className="mt-2 text-sm font-medium text-[#6e1018]">
           {error}
         </p>
       )}
@@ -151,8 +152,8 @@ export function Contact({ data }: { data: ContactSection }) {
           </ul>
         </Reveal>
 
-        <Reveal delay={140} className="on-dark rounded-3xl bg-slate p-6 md:p-9">
-          <h3 className="text-xl text-white">השאירו פרטים ואחזור אליכם</h3>
+        <Reveal delay={140} className="on-accent rounded-3xl bg-accent p-6 md:p-9">
+          <h3 className="text-xl text-ink">השאירו פרטים ואחזור אליכם</h3>
 
           <form ref={formRef} action={formAction} noValidate className="mt-6 space-y-5">
             <input ref={startedAtRef} type="hidden" name="startedAt" defaultValue="0" />
@@ -215,17 +216,17 @@ export function Contact({ data }: { data: ContactSection }) {
                   {...(state.fieldErrors?.consent
                     ? { "aria-invalid": true as const, "aria-describedby": "consent-error" }
                     : {})}
-                  className="mt-1 size-5 shrink-0 accent-[#9c4c2e]"
+                  className="mt-1 size-5 shrink-0 accent-[#465b6d]"
                 />
-                <label htmlFor="consent" className="text-sm leading-relaxed text-white">
+                <label htmlFor="consent" className="text-sm leading-relaxed text-ink">
                   {data.consentLabel}{" "}
-                  <Link href="/privacy" className="text-accent-light underline underline-offset-4">
+                  <Link href="/privacy" className="text-ink underline underline-offset-4">
                     (מדיניות הפרטיות)
                   </Link>
                 </label>
               </div>
               {state.fieldErrors?.consent && (
-                <p id="consent-error" className="mt-2 text-sm text-[#ffc9c4]">
+                <p id="consent-error" className="mt-2 text-sm font-medium text-[#6e1018]">
                   {state.fieldErrors.consent}
                 </p>
               )}
@@ -240,9 +241,9 @@ export function Contact({ data }: { data: ContactSection }) {
               aria-live="polite"
               className={`text-sm ${
                 state.status === "success"
-                  ? "flex items-center gap-2 text-[#c9f0d4]"
+                  ? "flex items-center gap-2 font-medium text-[#0b3d1e]"
                   : state.status === "error"
-                    ? "text-[#ffc9c4]"
+                    ? "font-medium text-[#6e1018]"
                     : "sr-only"
               }`}
             >

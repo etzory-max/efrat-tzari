@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { heebo } from "@/lib/fonts";
+import { rubik, varelaRound } from "@/lib/fonts";
 import { allowIndexing, site, siteUrl } from "@/lib/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -66,7 +66,12 @@ const a11yBootstrap = `try{var p=JSON.parse(localStorage.getItem('efrat-a11y')||
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="he" dir="rtl" className={heebo.variable} suppressHydrationWarning>
+    <html
+      lang="he"
+      dir="rtl"
+      className={`${rubik.variable} ${varelaRound.variable}`}
+      suppressHydrationWarning
+    >
       <body className="min-h-dvh bg-cream-50 antialiased">
         <script dangerouslySetInnerHTML={{ __html: a11yBootstrap }} />
         <SkipLink />
