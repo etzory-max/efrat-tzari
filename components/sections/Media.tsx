@@ -65,8 +65,8 @@ function Card({ item, delay }: { item: MediaItem; delay: number }) {
 
   return (
     <Reveal delay={delay} className="h-full">
-      <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-slate">
-        <div className="relative aspect-16/9 bg-dark/60">
+      <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-cream-50 shadow-[0_2px_20px_rgba(44,50,56,0.06)]">
+        <div className="relative aspect-16/9 bg-dark">
           {isPress ? (
             <Image
               src={item.poster.src}
@@ -81,22 +81,22 @@ function Card({ item, delay }: { item: MediaItem; delay: number }) {
         </div>
 
         <div className="flex flex-1 flex-col p-6">
-          <p className="flex items-center gap-2 text-xs tracking-[0.16em] text-accent-light">
+          <p className="flex items-center gap-2 text-xs tracking-[0.16em] text-accent-ink">
             <Icon className="size-4" aria-hidden="true" />
             {label}
           </p>
-          <h3 className="mt-3 text-lg text-white">{item.title}</h3>
-          <p className="mt-1 text-sm text-on-dark-muted">{item.outlet}</p>
+          <h3 className="mt-3 text-lg text-slate">{item.title}</h3>
+          <p className="mt-1 text-sm text-muted">{item.outlet}</p>
           {/* The summary carries the content in text, so a scanned PDF is
               never the only way to get at it. */}
-          <p className="mt-3 text-sm text-on-dark-muted">{item.summary}</p>
+          <p className="mt-3 text-sm text-muted">{item.summary}</p>
 
           {isPress && item.href && (
             <a
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="tap mt-auto inline-flex items-center gap-2 pt-5 text-sm font-medium text-accent-light transition-colors hover:text-white"
+              className="tap mt-auto inline-flex items-center gap-2 pt-5 text-sm font-medium text-accent-ink transition-colors hover:text-ink"
             >
               לקריאת הכתבה
               <span className="sr-only">(קובץ PDF, נפתח בחלון חדש)</span>
@@ -111,18 +111,14 @@ function Card({ item, delay }: { item: MediaItem; delay: number }) {
 
 export function Media({ data }: { data: MediaSection }) {
   return (
-    <section
-      id="media"
-      aria-labelledby="media-title"
-      className="on-dark bg-dark py-20 md:py-28"
-    >
+    <section id="media" aria-labelledby="media-title" className="bg-cream-100 py-20 md:py-28">
       <div className="shell">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>
-          <h2 id="media-title" className="mt-3 text-3xl text-white md:text-5xl">
+          <h2 id="media-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
-          <p className="mt-5 text-lg text-on-dark-muted">{data.lead}</p>
+          <p className="mt-5 text-lg text-muted">{data.lead}</p>
         </Reveal>
 
         <ul className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -16,7 +16,7 @@ function ServiceCard({ service }: { service: Service }) {
       className={`flex h-full flex-col rounded-3xl p-6 sm:p-8 lg:p-10 ${
         dark
           ? "on-dark bg-slate text-on-dark"
-          : "bg-white text-ink"
+          : "border border-cream-200 bg-cream-100 text-ink"
       }`}
     >
       {/* Same terracotta plate on the slate card as on the light ones. */}

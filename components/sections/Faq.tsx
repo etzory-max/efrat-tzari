@@ -22,7 +22,7 @@ export function Faq({ data }: { data: FaqSection }) {
             <details
               name="faq"
               open={index === 0}
-              className="group rounded-2xl border border-cream-200 bg-white px-6"
+              className="group rounded-2xl border border-cream-200 bg-white/70 px-6 open:bg-white"
             >
               <summary className="tap flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-start text-base font-medium text-ink md:text-lg">
                 <span>{item.question}</span>
