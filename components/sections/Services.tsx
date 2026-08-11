@@ -24,12 +24,12 @@ function ServiceCard({ service }: { service: Service }) {
         /* Decorative, and it steps aside when the long copy opens — the
            has-[details[open]] selector does it without a line of JS. */
         <Image
-          src="/images/art-kids-table.png"
+          src="/images/art-kids-table-light.png"
           alt=""
           width={900}
           height={735}
           sizes="260px"
-          className="pointer-events-none absolute bottom-4 end-6 hidden h-36 w-auto opacity-70 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:block"
+          className="pointer-events-none absolute bottom-4 end-6 hidden h-36 w-auto transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:block"
         />
       )}
       {/* Same terracotta plate on the slate card as on the light ones. */}

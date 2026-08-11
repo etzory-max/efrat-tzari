@@ -59,9 +59,9 @@ export function Approach({ data }: { data: ApproachSection }) {
       >
         <div className="shell flex items-end justify-between gap-4 opacity-80">
           {[
-            { src: "/images/art-kid-ball.png", w: 691, h: 900, cls: "h-28 w-auto md:h-44" },
-            { src: "/images/art-kid-blocks.png", w: 900, h: 742, cls: "h-24 w-auto md:h-40" },
-            { src: "/images/art-kids-table.png", w: 900, h: 735, cls: "h-24 w-auto md:h-40" },
+            { src: "/images/art-kid-ball.png", w: 691, h: 900, cls: "h-16 w-auto md:h-28" },
+            { src: "/images/art-kid-blocks.png", w: 900, h: 742, cls: "h-14 w-auto md:h-24" },
+            { src: "/images/art-kids-table.png", w: 900, h: 735, cls: "h-14 w-auto md:h-24" },
           ].map((art) => (
             <Image
               key={art.src}

@@ -1,11 +1,37 @@
+import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { FaqSection } from "@/content/types";
 
 export function Faq({ data }: { data: FaqSection }) {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="bg-cream-50 py-20 md:py-28">
-      <div className="shell">
+    <section
+      id="faq"
+      aria-labelledby="faq-title"
+      className="relative overflow-hidden bg-cream-50 py-20 md:py-28"
+    >
+      {/* Off balance on purpose — one high on the right, one low on the left,
+          so they frame the column without boxing it in. Decorative. */}
+      <Image
+        src="/images/art-kid-blocks.png"
+        alt=""
+        width={900}
+        height={742}
+        sizes="180px"
+        aria-hidden="true"
+        className="pointer-events-none absolute top-24 right-2 hidden h-32 w-auto opacity-80 xl:block"
+      />
+      <Image
+        src="/images/art-kid-ball.png"
+        alt=""
+        width={691}
+        height={900}
+        sizes="150px"
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-16 left-4 hidden h-36 w-auto opacity-80 xl:block"
+      />
+
+      <div className="shell relative">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>
           <h2 id="faq-title" className="mt-3 text-3xl text-slate md:text-5xl">
