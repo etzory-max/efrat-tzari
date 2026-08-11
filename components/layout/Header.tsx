@@ -97,7 +97,7 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="relative inline-flex items-center py-2 text-[0.9375rem] text-ink transition-colors duration-200 hover:text-accent-ink focus-visible:text-accent-ink after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-accent-ink after:transition-transform after:duration-200 hover:after:scale-x-100"
+                  className="relative inline-flex items-center py-2 text-base text-ink transition-colors duration-200 hover:text-accent-ink focus-visible:text-accent-ink after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-accent-ink after:transition-transform after:duration-200 hover:after:scale-x-100"
                 >
                   {item.label}
                 </Link>
@@ -109,7 +109,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Link
             href="/#contact"
-            className="btn btn-primary hidden px-5 py-3 text-[0.9375rem] sm:inline-flex"
+            className="btn btn-primary hidden px-5 py-3 text-base sm:inline-flex"
           >
             לקביעת שיחה
           </Link>
