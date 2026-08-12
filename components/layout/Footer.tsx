@@ -19,35 +19,6 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1fr_1.7fr_1fr]">
           <div>
             <Logo variant="dark" />
-
-            {(site.social.instagram || site.social.linkedin) && (
-              <ul className="mt-6 flex items-center gap-3">
-                {site.social.instagram && (
-                  <li>
-                    <a
-                      href={site.social.instagram}
-                      className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-accent hover:text-accent"
-                      rel="me noopener"
-                    >
-                      <InstagramIcon className="size-5" />
-                      <span className="sr-only">אינסטגרם של אפרת צרי</span>
-                    </a>
-                  </li>
-                )}
-                {site.social.linkedin && (
-                  <li>
-                    <a
-                      href={site.social.linkedin}
-                      className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-accent hover:text-accent"
-                      rel="me noopener"
-                    >
-                      <LinkedInIcon className="size-5" />
-                      <span className="sr-only">לינקדאין של אפרת צרי</span>
-                    </a>
-                  </li>
-                )}
-              </ul>
-            )}
           </div>
 
           {/* The middle column carries the sentence rather than repeating the
@@ -87,6 +58,34 @@ export function Footer() {
                 </a>
               </li>
             </ul>
+            {(site.social.instagram || site.social.linkedin) && (
+              <ul className="mt-6 flex items-center gap-3">
+                {site.social.instagram && (
+                  <li>
+                    <a
+                      href={site.social.instagram}
+                      className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-accent hover:text-accent"
+                      rel="me noopener"
+                    >
+                      <InstagramIcon className="size-5" />
+                      <span className="sr-only">אינסטגרם של אפרת צרי</span>
+                    </a>
+                  </li>
+                )}
+                {site.social.linkedin && (
+                  <li>
+                    <a
+                      href={site.social.linkedin}
+                      className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-accent hover:text-accent"
+                      rel="me noopener"
+                    >
+                      <LinkedInIcon className="size-5" />
+                      <span className="sr-only">לינקדאין של אפרת צרי</span>
+                    </a>
+                  </li>
+                )}
+              </ul>
+            )}
           </div>
         </div>
 
