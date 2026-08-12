@@ -66,7 +66,7 @@ export function Footer() {
               width={691}
               height={900}
               sizes="160px"
-              className="mx-auto mt-8 h-28 w-auto opacity-75 md:h-32 lg:mx-0"
+              className="mx-auto mt-8 h-24 w-auto opacity-75 md:h-28 lg:mx-0"
             />
           </div>
 

@@ -70,25 +70,24 @@ export function Guide({ data }: { data: GuideSection }) {
               </div>
 
               <div>
-                <label htmlFor="guide-name" className="block text-sm font-medium text-white">
-                  שם פרטי
-                  <span aria-hidden="true" className="text-white">
-                    {" "}
-                    *
-                  </span>
-                  <span className="sr-only"> (שדה חובה)</span>
+                {/* The name sits in the field, but a real label stays in the
+                    markup - a placeholder alone disappears the moment you
+                    type, and screen readers get nothing to announce. */}
+                <label htmlFor="guide-name" className="sr-only">
+                  שם פרטי (שדה חובה)
                 </label>
                 <input
                   id="guide-name"
                   name="name"
                   type="text"
+                  placeholder="שם פרטי *"
                   autoComplete="given-name"
                   required
                   defaultValue={state.values?.name}
                   {...(state.fieldErrors?.name
                     ? { "aria-invalid": true as const, "aria-describedby": "guide-name-error" }
                     : {})}
-                  className={`mt-2 ${field(state.fieldErrors?.name)}`}
+                  className={`${field(state.fieldErrors?.name)}`}
                 />
                 {state.fieldErrors?.name && (
                   <p id="guide-name-error" className="mt-2 text-sm font-medium text-[#6e1018]">
@@ -98,18 +97,14 @@ export function Guide({ data }: { data: GuideSection }) {
               </div>
 
               <div>
-                <label htmlFor="guide-email" className="block text-sm font-medium text-white">
-                  אימייל
-                  <span aria-hidden="true" className="text-white">
-                    {" "}
-                    *
-                  </span>
-                  <span className="sr-only"> (שדה חובה)</span>
+                <label htmlFor="guide-email" className="sr-only">
+                  אימייל (שדה חובה)
                 </label>
                 <input
                   id="guide-email"
                   name="email"
                   type="email"
+                  placeholder="אימייל *"
                   autoComplete="email"
                   dir="ltr"
                   required
@@ -117,7 +112,7 @@ export function Guide({ data }: { data: GuideSection }) {
                   {...(state.fieldErrors?.email
                     ? { "aria-invalid": true as const, "aria-describedby": "guide-email-error" }
                     : {})}
-                  className={`mt-2 ${field(state.fieldErrors?.email)}`}
+                  className={`${field(state.fieldErrors?.email)}`}
                 />
                 {state.fieldErrors?.email && (
                   <p id="guide-email-error" className="mt-2 text-sm font-medium text-[#6e1018]">
@@ -152,11 +147,6 @@ export function Guide({ data }: { data: GuideSection }) {
                   </p>
                 )}
               </div>
-
-              {/* The address is used once and never stored - worth saying plainly. */}
-              <p className="text-xs leading-relaxed text-white">
-                הכתובת משמשת לשליחת המדריך בלבד, אינה נשמרת אצלי ולא יישלח אליכם דיוור נוסף.
-              </p>
 
               <SubmitButton label={data.submitLabel} />
 

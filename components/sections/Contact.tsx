@@ -41,6 +41,7 @@ function Field({
     id: string;
     name: string;
     required?: boolean;
+    placeholder: string;
     "aria-invalid"?: true;
     "aria-describedby"?: string;
     className: string;
@@ -52,28 +53,19 @@ function Field({
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-ink">
+      {/* The name shows inside the field, but the label stays in the markup -
+          a placeholder vanishes the moment you type, and a screen reader
+          would be left with an unnamed box. */}
+      <label htmlFor={id} className="sr-only">
         {label}
-        {required && (
-          <>
-            <span aria-hidden="true" className="text-ink">
-              {" "}
-              *
-            </span>
-            <span className="sr-only"> (שדה חובה)</span>
-          </>
-        )}
+        {required && " (שדה חובה)"}
       </label>
-      {hint && (
-        <p id={`${id}-hint`} className="mt-1 text-xs text-ink">
-          {hint}
-        </p>
-      )}
-      <div className="mt-2">
+      <div>
         {children({
           id,
           name: id,
           required,
+          placeholder: required ? `${label} *` : label,
           ...(error ? { "aria-invalid": true as const } : {}),
           ...(describedBy ? { "aria-describedby": describedBy } : {}),
           // 1px hairline — the thinnest a border goes. Ink rather than a
@@ -85,6 +77,11 @@ function Field({
           }`,
         })}
       </div>
+      {hint && (
+        <p id={`${id}-hint`} className="mt-2 text-xs text-ink">
+          {hint}
+        </p>
+      )}
       {error && (
         <p id={`${id}-error`} className="mt-2 text-sm font-medium text-[#6e1018]">
           {error}

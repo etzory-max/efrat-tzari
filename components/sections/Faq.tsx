@@ -31,9 +31,9 @@ export function Faq({ data }: { data: FaqSection }) {
             alt=""
             width={900}
             height={742}
-            sizes="160px"
+            sizes="140px"
             aria-hidden="true"
-            className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-32 w-auto opacity-80 xl:block"
+            className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-24 w-auto opacity-80 xl:block"
           />
           <Image
             src="/images/art-kid-ball.png"
@@ -42,7 +42,7 @@ export function Faq({ data }: { data: FaqSection }) {
             height={900}
             sizes="140px"
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-0 left-[calc(100%+2.5rem)] hidden h-32 w-auto opacity-80 xl:block"
+            className="pointer-events-none absolute bottom-0 left-[calc(100%+2.5rem)] hidden h-28 w-auto opacity-80 xl:block"
           />
 
           <div className="space-y-3">
@@ -66,6 +66,30 @@ export function Faq({ data }: { data: FaqSection }) {
             </details>
             </Reveal>
           ))}
+          </div>
+
+          {/* No room beside the column on a phone, so the same two figures
+              sit under it instead - same sizes as the strip further up. */}
+          <div
+            aria-hidden="true"
+            className="mt-12 flex items-end justify-center gap-8 opacity-80 xl:hidden"
+          >
+            <Image
+              src="/images/art-kid-blocks.png"
+              alt=""
+              width={900}
+              height={742}
+              sizes="120px"
+              className="h-14 w-auto"
+            />
+            <Image
+              src="/images/art-kid-ball.png"
+              alt=""
+              width={691}
+              height={900}
+              sizes="100px"
+              className="h-16 w-auto"
+            />
           </div>
         </div>
       </div>
