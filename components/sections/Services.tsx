@@ -44,7 +44,7 @@ function ServiceCard({ service }: { service: Service }) {
           height={735}
           sizes="260px"
           aria-hidden="true"
-          className="pointer-events-none order-last mx-auto mt-8 h-14 w-auto opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:bottom-2 lg:end-0 lg:order-none lg:mx-0 lg:mt-0 lg:h-24"
+          className="pointer-events-none order-last mt-8 h-14 w-auto self-end opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:bottom-2 lg:end-0 lg:order-none lg:mt-0 lg:h-24"
         />
       )}
 

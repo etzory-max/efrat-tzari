@@ -51,14 +51,17 @@ export function About({ data }: { data: AboutSection }) {
 
           {data.book && (
             <div className="mt-10 border-t border-cream-200 pt-8">
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+              {/* The cover keeps the copy beside it at every width - stacking
+                  them wasted most of a phone screen. The link sits under the
+                  pair so it has room to be a real target. */}
+              <div className="flex gap-5 sm:gap-6">
                 <Image
                   src={data.book.cover.src}
                   alt={data.book.cover.alt}
                   width={120}
                   height={224}
-                  sizes="120px"
-                  className="h-auto w-[7.5rem] shrink-0 self-start"
+                  sizes="(max-width: 640px) 96px, 120px"
+                  className="h-auto w-24 shrink-0 self-start sm:w-[7.5rem]"
                 />
                 <div>
                   <p className="eyebrow">הספר</p>
@@ -67,17 +70,17 @@ export function About({ data }: { data: AboutSection }) {
                     <span className="mt-1 block text-base text-muted">{data.book.subtitle}</span>
                   </h3>
                   <p className="mt-3 text-muted">{data.book.blurb}</p>
-                  <a
-                    href={data.book.buyHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="tap mt-4 inline-flex items-center text-sm font-medium text-accent-ink underline underline-offset-4 transition-colors hover:text-ink"
-                  >
-                    {data.book.buyLabel}
-                    <span className="sr-only"> (נפתח בחלון חדש)</span>
-                  </a>
                 </div>
               </div>
+              <a
+                href={data.book.buyHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="tap mt-5 inline-flex items-center text-sm font-medium text-accent-ink underline underline-offset-4 transition-colors hover:text-ink"
+              >
+                {data.book.buyLabel}
+                <span className="sr-only"> (נפתח בחלון חדש)</span>
+              </a>
             </div>
           )}
         </Reveal>
