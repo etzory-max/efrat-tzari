@@ -15,7 +15,7 @@ import { Reveal } from "@/components/ui/Reveal";
    strongest behind the heading and fades out before it reaches an edge.
    Presence, but no rectangle to close the section back up. */
 const wash =
-  "rounded-3xl p-8 lg:p-10 bg-[radial-gradient(72%_58%_at_12%_100%,rgba(214,154,126,0)_0%,rgba(214,154,126,0.3)_72%)]";
+  "rounded-3xl p-8 lg:p-10 bg-[radial-gradient(88%_72%_at_10%_100%,rgba(214,154,126,0)_0%,rgba(214,154,126,0.05)_42%,rgba(214,154,126,0.21)_88%)]";
 
 function ServiceCard({ service }: { service: Service }) {
   const primary = service.variant === "dark";
