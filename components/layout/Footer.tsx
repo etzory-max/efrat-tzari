@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock, Mail, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
-import { FacebookIcon, InstagramIcon } from "@/components/brand/SocialIcons";
+import { InstagramIcon, LinkedInIcon } from "@/components/brand/SocialIcons";
 import { site } from "@/lib/site";
 
 const legalItems = [
@@ -20,7 +20,7 @@ export function Footer() {
           <div>
             <Logo variant="dark" />
 
-            {(site.social.instagram || site.social.facebook) && (
+            {(site.social.instagram || site.social.linkedin) && (
               <ul className="mt-6 flex items-center gap-3">
                 {site.social.instagram && (
                   <li>
@@ -34,15 +34,15 @@ export function Footer() {
                     </a>
                   </li>
                 )}
-                {site.social.facebook && (
+                {site.social.linkedin && (
                   <li>
                     <a
-                      href={site.social.facebook}
+                      href={site.social.linkedin}
                       className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-accent hover:text-accent"
                       rel="me noopener"
                     >
-                      <FacebookIcon className="size-5" />
-                      <span className="sr-only">פייסבוק של אפרת צרי</span>
+                      <LinkedInIcon className="size-5" />
+                      <span className="sr-only">לינקדאין של אפרת צרי</span>
                     </a>
                   </li>
                 )}
@@ -85,10 +85,6 @@ export function Footer() {
                 <a href={`mailto:${site.email}`} className="transition-colors hover:text-accent">
                   {site.email}
                 </a>
-              </li>
-              <li className="flex items-start gap-3">
-                <Clock className="mt-1 size-4 shrink-0 text-accent" aria-hidden="true" />
-                <span>{site.hours}</span>
               </li>
             </ul>
           </div>

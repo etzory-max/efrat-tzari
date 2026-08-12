@@ -112,7 +112,7 @@ export function Header() {
             href="/#contact"
             className="btn btn-primary hidden px-5 py-3 text-base sm:inline-flex"
           >
-            לקביעת שיחה
+            דברו איתי
           </Link>
 
           <button

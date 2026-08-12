@@ -70,9 +70,9 @@ export function Guide({ data }: { data: GuideSection }) {
               </div>
 
               <div>
-                <label htmlFor="guide-name" className="block text-sm font-medium text-ink">
+                <label htmlFor="guide-name" className="block text-sm font-medium text-white">
                   שם פרטי
-                  <span aria-hidden="true" className="text-ink">
+                  <span aria-hidden="true" className="text-white">
                     {" "}
                     *
                   </span>
@@ -98,9 +98,9 @@ export function Guide({ data }: { data: GuideSection }) {
               </div>
 
               <div>
-                <label htmlFor="guide-email" className="block text-sm font-medium text-ink">
+                <label htmlFor="guide-email" className="block text-sm font-medium text-white">
                   אימייל
-                  <span aria-hidden="true" className="text-ink">
+                  <span aria-hidden="true" className="text-white">
                     {" "}
                     *
                   </span>
@@ -139,9 +139,9 @@ export function Guide({ data }: { data: GuideSection }) {
                       : {})}
                     className="mt-1 size-5 shrink-0 accent-[#465b6d]"
                   />
-                  <label htmlFor="guide-consent" className="text-sm leading-relaxed text-ink">
+                  <label htmlFor="guide-consent" className="text-sm leading-relaxed text-white">
                     {data.consentLabel}{" "}
-                    <Link href="/privacy" className="text-ink underline underline-offset-4">
+                    <Link href="/privacy" className="text-white underline underline-offset-4">
                       (מדיניות הפרטיות)
                     </Link>
                   </label>
@@ -154,7 +154,7 @@ export function Guide({ data }: { data: GuideSection }) {
               </div>
 
               {/* The address is used once and never stored - worth saying plainly. */}
-              <p className="text-xs leading-relaxed text-ink">
+              <p className="text-xs leading-relaxed text-white">
                 הכתובת משמשת לשליחת המדריך בלבד, אינה נשמרת אצלי ולא יישלח אליכם דיוור נוסף.
               </p>
 

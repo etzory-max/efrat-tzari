@@ -25,8 +25,8 @@ export const site = {
   areaServed: "ישראל",
 
   social: {
-    instagram: "",
-    facebook: "",
+    instagram: "https://www.instagram.com/efrat.tzory/",
+    linkedin: "https://www.linkedin.com/in/tzoryefrat/",
   },
 
   /** Contact for accessibility + privacy enquiries (required by both statements). */

@@ -11,11 +11,29 @@ import { Reveal } from "@/components/ui/Reveal";
  * do the dividing instead, so the section reads as open rather than as three
  * sealed boxes on an otherwise airy page.
  */
+/* The lead service gets colour without getting a box: a wash that is
+   strongest behind the heading and fades out before it reaches an edge.
+   Presence, but no rectangle to close the section back up. */
+const wash =
+  "rounded-3xl p-8 lg:p-10 bg-[radial-gradient(72%_58%_at_12%_100%,rgba(214,154,126,0)_0%,rgba(214,154,126,0.3)_72%)]";
+
 function ServiceCard({ service }: { service: Service }) {
   const primary = service.variant === "dark";
 
+  const tone = {
+    kicker: "text-accent-ink",
+    title: "text-slate",
+    body: "text-muted",
+    mark: "text-accent-ink",
+    more: "text-accent-ink hover:text-ink",
+    rule: "border-accent/50",
+  };
+
   return (
-    <article id={service.id} className="group relative flex h-full flex-col">
+    <article
+      id={service.id}
+      className={`group relative flex h-full flex-col ${primary ? wash : ""}`}
+    >
       {primary && (
         /* Decorative, and it steps aside when the long copy opens — the
            has-[details[open]] selector does it without a line of JS. */
@@ -26,27 +44,29 @@ function ServiceCard({ service }: { service: Service }) {
           height={735}
           sizes="260px"
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-2 end-0 hidden h-36 w-auto opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:block"
+          className="pointer-events-none absolute bottom-2 end-0 hidden h-28 w-auto opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:block"
         />
       )}
 
-      <p className="text-xs tracking-[0.18em] text-accent-ink">{service.kicker}</p>
-      <h3 className="mt-2 text-2xl text-slate">{service.title}</h3>
-      <p className="mt-4 text-muted">{service.body}</p>
+      <p className={`text-xs tracking-[0.18em] ${tone.kicker}`}>{service.kicker}</p>
+      <h3 className={`mt-2 text-2xl ${tone.title}`}>{service.title}</h3>
+      <p className={`mt-4 ${tone.body}`}>{service.body}</p>
 
       {service.bullets.length > 0 && (
         <ul className="mt-6 space-y-3">
           {service.bullets.map((bullet) => (
             <li key={bullet} className="flex items-start gap-3">
-              <Check className="mt-1 size-4 shrink-0 text-accent-ink" aria-hidden="true" />
-              <span className="text-muted">{bullet}</span>
+              <Check className={`mt-1 size-4 shrink-0 ${tone.mark}`} aria-hidden="true" />
+              <span className={tone.body}>{bullet}</span>
             </li>
           ))}
         </ul>
       )}
 
-      <details className="group/more mt-auto pt-8">
-        <summary className="tap inline-flex cursor-pointer list-none items-center gap-2 text-sm font-medium text-accent-ink transition-colors hover:text-ink">
+      {/* Only the lead card pushes its link to the bottom - it has to clear
+          the illustration. The shorter ones keep it next to their copy. */}
+      <details className={`group/more pt-8 ${primary ? "mt-auto" : ""}`}>
+        <summary className={`tap inline-flex cursor-pointer list-none items-center gap-2 text-sm font-medium transition-colors ${tone.more}`}>
           <span className="group-open/more:hidden">{service.moreLabel}</span>
           <span className="hidden group-open/more:inline">להצגה מצומצמת</span>
           <ArrowLeft
@@ -54,7 +74,7 @@ function ServiceCard({ service }: { service: Service }) {
             aria-hidden="true"
           />
         </summary>
-        <div className="mt-5 border-t border-accent/50 pt-5 text-muted">
+        <div className={`mt-5 border-t pt-5 ${tone.rule} ${tone.body}`}>
           <PortableText value={service.details} components={proseInCard} />
         </div>
       </details>
@@ -82,11 +102,11 @@ export function Services({ data }: { data: ServicesSection }) {
             className="absolute inset-y-[10%] left-1/2 hidden w-px -translate-x-1/2 bg-accent/60 lg:block"
           />
 
-          <Reveal className="lg:order-2">
+          <Reveal className="lg:order-1">
             <ServiceCard service={primary} />
           </Reveal>
 
-          <div className="flex flex-col gap-12 lg:order-1">
+          <div className="flex flex-col gap-12 lg:order-2">
             {secondary.map((service, index) => (
               <Reveal key={service.id} delay={120 + index * 110} className="flex-1">
                 {/* Stops around 60% - a mark, not a lid. */}

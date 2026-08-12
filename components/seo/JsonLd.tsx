@@ -20,7 +20,7 @@ const WEBSITE_ID = `${siteUrl}/#website`;
  * Rendered once in the root layout so every page carries it.
  */
 export function OrganizationJsonLd() {
-  const sameAs = [site.social.instagram, site.social.facebook].filter(Boolean);
+  const sameAs = [site.social.instagram, site.social.linkedin].filter(Boolean);
 
   return (
     <JsonLd
