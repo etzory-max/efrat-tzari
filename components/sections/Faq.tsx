@@ -8,7 +8,7 @@ export function Faq({ data }: { data: FaqSection }) {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="relative overflow-hidden bg-cream-50 py-20 md:py-28"
+      className="relative overflow-hidden bg-cream-50 section"
     >
       <div className="shell relative">
         <Reveal className="mx-auto max-w-3xl text-center">

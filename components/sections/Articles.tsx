@@ -13,7 +13,8 @@ const dateFormatter = new Intl.DateTimeFormat("he-IL", {
   year: "numeric",
 });
 
-export function Articles({ data }: { data: ArticlesSection }) {
+/** See About: the band colour belongs to the page order, not the section. */
+export function Articles({ data, tone = "deep" }: { data: ArticlesSection; tone?: "light" | "deep" }) {
   const railRef = useRef<HTMLUListElement>(null);
 
   const scrollBy = (direction: 1 | -1) => {
@@ -24,7 +25,11 @@ export function Articles({ data }: { data: ArticlesSection }) {
   };
 
   return (
-    <section id="articles" aria-labelledby="articles-title" className="bg-cream-100 py-20 md:py-28">
+    <section
+      id="articles"
+      aria-labelledby="articles-title"
+      className={`${tone === "deep" ? "bg-cream-100" : "bg-cream-50"} section`}
+    >
       <div className="shell">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -77,7 +82,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <p className="text-xs text-muted">
+                  <p className="text-base text-muted">
                     <time dateTime={article.date}>
                       {dateFormatter.format(new Date(article.date))}
                     </time>
@@ -94,7 +99,7 @@ export function Articles({ data }: { data: ArticlesSection }) {
                       {article.title}
                     </Link>
                   </h3>
-                  <p className="mt-3 text-sm text-muted">{article.excerpt}</p>
+                  <p className="mt-3 text-base text-muted">{article.excerpt}</p>
                 </div>
               </article>
               </Reveal>

@@ -54,7 +54,7 @@ function Lightbox({ item, onClose }: { item: MediaItem; onClose: () => void }) {
           ref={closeRef}
           type="button"
           onClick={onClose}
-          className="tap absolute -top-12 end-0 inline-flex items-center gap-2 rounded-xl text-sm text-on-dark"
+          className="tap absolute -top-12 end-0 inline-flex items-center gap-2 rounded-xl text-base text-on-dark"
         >
           סגירה
           <X className="size-5" aria-hidden="true" />
@@ -128,22 +128,22 @@ function Card({
         </div>
 
         <div className="flex flex-1 flex-col p-6">
-          <p className="flex items-center gap-2 text-xs tracking-[0.16em] text-accent-ink">
+          <p className="flex items-center gap-2 text-base tracking-[0.12em] text-accent-ink">
             <Icon className="size-4" aria-hidden="true" />
             {label}
           </p>
           <h3 className="mt-3 text-lg text-slate">{item.title}</h3>
-          <p className="mt-1 text-sm text-muted">{item.outlet}</p>
+          <p className="mt-1 text-base text-muted">{item.outlet}</p>
           {/* The summary carries the content in text, so a scanned PDF is
               never the only way to get at it. */}
-          <p className="mt-3 text-sm text-muted">{item.summary}</p>
+          <p className="mt-3 text-base text-muted">{item.summary}</p>
 
           {isPress && item.href && (
             <a
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="tap mt-auto inline-flex items-center gap-2 pt-5 text-sm font-medium text-accent-ink transition-colors hover:text-ink"
+              className="tap mt-auto inline-flex items-center gap-2 pt-5 text-base font-medium text-accent-ink transition-colors hover:text-ink"
             >
               לקריאת הכתבה
               <span className="sr-only">(קובץ PDF, נפתח בחלון חדש)</span>
@@ -167,7 +167,7 @@ export function Media({ data }: { data: MediaSection }) {
   }, []);
 
   return (
-    <section id="media" aria-labelledby="media-title" className="bg-cream-100 py-20 md:py-28">
+    <section id="media" aria-labelledby="media-title" className="bg-cream-100 section">
       <div className="shell">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>

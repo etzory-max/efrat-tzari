@@ -15,16 +15,24 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 await page.setViewport({ width: 1440, height: 1000 });
 
+/* Scoped to #contact. A bare "form" selector picks the first form in the
+   document, which is the guide's — so the test used to type into the contact
+   fields and then submit the guide, and report the guide's errors. */
+const FORM = "#contact form";
+
 const status = () =>
-  page.$eval('form [role="status"]', (el) => el.textContent?.trim() ?? "");
+  page.$eval(`${FORM} [role="status"]`, (el) => el.textContent?.trim() ?? "");
 const fieldErrors = () =>
-  page.$$eval('form [id$="-error"]', (els) => els.map((e) => `${e.id}: ${e.textContent}`));
+  page.$$eval(`${FORM} [id$="-error"]`, (els) => els.map((e) => `${e.id}: ${e.textContent}`));
 
 async function submit() {
-  await page.click('form button[type="submit"]');
+  // Dispatched on the element rather than page.click(): the privacy notice is
+  // fixed to the bottom of the viewport and intercepts the pointer.
+  await page.$eval(`${FORM} button[type="submit"]`, (b) => b.click());
   await page.waitForFunction(
-    () => document.querySelector('form [role="status"]')?.textContent?.trim(),
+    (sel) => document.querySelector(`${sel} [role="status"]`)?.textContent?.trim(),
     { timeout: 20000 },
+    FORM,
   );
   await new Promise((r) => setTimeout(r, 400));
 }

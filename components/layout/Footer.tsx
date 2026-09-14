@@ -89,7 +89,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-white/15 pt-8 text-sm text-on-dark-muted md:flex-row md:items-center md:justify-between">
+        <div className="mt-16 flex flex-col gap-4 border-t border-white/15 pt-8 text-base text-on-dark-muted md:flex-row md:items-center md:justify-between">
           <p>
             © {year} {site.name}. כל הזכויות שמורות.
           </p>

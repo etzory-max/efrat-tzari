@@ -192,7 +192,7 @@ export function AccessibilityMenu() {
           איפוס הגדרות
         </button>
 
-        <p className="mt-4 text-xs leading-relaxed text-muted">
+        <p className="mt-4 text-base leading-relaxed text-muted">
           נתקלתם בבעיית נגישות?{" "}
           <a href="/accessibility" className="underline underline-offset-2">
             להצהרת הנגישות ולפנייה

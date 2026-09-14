@@ -137,7 +137,9 @@
     align-items: center;
     gap: 0.65rem;
     font-family: var(--font-display);
-    font-size: 0.875rem;
+    /* 16px, not 14. A section label sitting above a heading still has to be
+       read, and at 14 with this much tracking Hebrew stops being legible. */
+    font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0.18em;
     color: var(--color-accent-ink);
@@ -165,6 +167,22 @@
 
   .on-accent .eyebrow::before {
     background-color: var(--color-ink);
+  }
+
+  /* One vertical rhythm for the whole page.
+     Two adjacent sections each contribute their own padding, so the gap a
+     reader actually sees is double this — 112px on a phone, 160px on a
+     desktop. Sections used to carry their own numbers, which drifted into
+     three different joins (224 / 244 / 323) with no rule behind them. Change
+     it here, not on a section. */
+  .section {
+    padding-block: 3.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 5rem;
+    }
   }
 
   /* Every interactive target clears the 44×44 AA minimum */

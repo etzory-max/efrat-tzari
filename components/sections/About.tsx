@@ -3,9 +3,16 @@ import { Check } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { AboutSection } from "@/content/types";
 
-export function About({ data }: { data: AboutSection }) {
+/** Which of the two creams this section sits on. The alternation is a
+ *  property of where a section lands in a page, not of the section itself —
+ *  the draft orders them differently from the live page. */
+export function About({ data, tone = "light" }: { data: AboutSection; tone?: "light" | "deep" }) {
   return (
-    <section id="about" aria-labelledby="about-title" className="bg-cream-50 py-20 md:py-28">
+    <section
+      id="about"
+      aria-labelledby="about-title"
+      className={`${tone === "deep" ? "bg-cream-100" : "bg-cream-50"} section`}
+    >
       <div className="shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         {/* Portrait first, so in RTL it lands on the right - as in the demo. */}
         <Reveal className="relative mx-auto w-full max-w-md lg:max-w-none">
@@ -22,7 +29,7 @@ export function About({ data }: { data: AboutSection }) {
               so the accent comes in on the number instead of the plain white. */}
           <p className="absolute -bottom-5 end-6 flex size-24 flex-col items-center justify-center rounded-full bg-slate text-center shadow-lg">
             <span className="text-2xl font-medium text-accent-light">{data.badgeValue}</span>
-            <span className="mt-0.5 text-[0.7rem] leading-tight text-white">{data.badgeLabel}</span>
+            <span className="mt-1 text-sm leading-tight text-white">{data.badgeLabel}</span>
           </p>
         </Reveal>
 
@@ -38,16 +45,20 @@ export function About({ data }: { data: AboutSection }) {
             ))}
           </div>
 
-          <ul className="mt-10 space-y-4 border-t border-cream-200 pt-8">
-            {data.points.map((point, index) => (
-              <li key={point}>
-                <Reveal delay={200 + index * 80} className="flex items-start gap-3">
-                  <Check className="mt-1 size-5 shrink-0 text-accent-ink" aria-hidden="true" />
-                  <span className="text-lg text-ink">{point}</span>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
+          {/* Guarded: the rule belongs to the list, and an empty list would
+              otherwise leave a line ruled across nothing. */}
+          {data.points.length > 0 && (
+            <ul className="mt-10 space-y-4 border-t border-cream-200 pt-8">
+              {data.points.map((point, index) => (
+                <li key={point}>
+                  <Reveal delay={200 + index * 80} className="flex items-start gap-3">
+                    <Check className="mt-1 size-5 shrink-0 text-accent-ink" aria-hidden="true" />
+                    <span className="text-lg text-ink">{point}</span>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          )}
 
           {data.book && (
             <div className="mt-10 border-t border-cream-200 pt-8">
@@ -76,7 +87,7 @@ export function About({ data }: { data: AboutSection }) {
                 href={data.book.buyHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="tap mt-5 inline-flex items-center text-sm font-medium text-accent-ink underline underline-offset-4 transition-colors hover:text-ink"
+                className="tap mt-5 inline-flex items-center text-base font-medium text-accent-ink underline underline-offset-4 transition-colors hover:text-ink"
               >
                 {data.book.buyLabel}
                 <span className="sr-only"> (נפתח בחלון חדש)</span>

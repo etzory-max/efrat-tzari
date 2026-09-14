@@ -78,3 +78,18 @@ export const navItems: NavItem[] = [
   { label: "מאמרים", href: "/#articles" },
   { label: "צור קשר", href: "/#contact" },
 ];
+
+/**
+ * The draft's own menu. Not just the list above with a prefix: the draft has
+ * no workshops section, so that entry would be a dead link, and its sections
+ * are named in the new voice. Shorter on purpose — eight items is too many on
+ * a phone. Folds into `navItems` when the draft becomes the home page.
+ */
+export const draftNavItems: NavItem[] = [
+  { label: "אם זה הבית שלך", href: "/draft#recognise" },
+  { label: "איך זה עובד", href: "/draft#approach" },
+  { label: "מי אני", href: "/draft#about" },
+  { label: "מה אפשר", href: "/draft#services" },
+  { label: "מאמרים", href: "/draft#articles" },
+  { label: "דברי איתי", href: "/draft#contact" },
+];

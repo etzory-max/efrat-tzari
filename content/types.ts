@@ -8,10 +8,15 @@ export type Img = {
 };
 
 export type Hero = {
+  /** Section label above the headline — the positioning line. */
+  eyebrow?: string;
   title: string;
   subtitle: string;
   ctaLabel: string;
   ctaHref: string;
+  /** A quieter second action for readers not ready to make contact yet. */
+  ctaSecondaryLabel?: string;
+  ctaSecondaryHref?: string;
   image: Img;
 };
 
@@ -68,8 +73,39 @@ export type GuideSection = {
   submitLabel: string;
 };
 
+/**
+ * One moment in an ordinary day. `time` is a phase rather than a clock
+ * reading — two of the four are not tied to an hour, and pretending
+ * otherwise would make the timeline lie about the content.
+ */
+export type RecogniseItem = { time: string; title: string; body: string };
+
+export type RecogniseSection = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  /** Caption over the timeline — what the four moments add up to. */
+  timelineLabel: string;
+  items: RecogniseItem[];
+  /** The line that turns the section from recognition towards the offer. */
+  closer: string;
+};
+
+/** One thing the practice deliberately does not offer. */
+export type NotHereItem = { title: string; body: string };
+
+export type NotHereSection = {
+  eyebrow: string;
+  title: string;
+  items: NotHereItem[];
+};
+
 export type ApproachCard = {
-  icon: "heart" | "star" | "leaf";
+  /**
+   * The first three are the original photographic-style PNGs; the last three
+   * are drawn inline and take their colour from the card.
+   */
+  icon: "heart" | "star" | "leaf" | "shift" | "household" | "anchor";
   title: string;
   body: string;
 };
@@ -92,13 +128,24 @@ export type Service = {
   bullets: string[];
   variant: "dark" | "light";
   moreLabel: string;
-  /** Long-form copy revealed by "קראי עוד" — also feeds the Service JSON-LD. */
+  /**
+   * Long-form copy revealed by "קראי עוד" — also feeds the Service JSON-LD.
+   * An empty array hides the expander entirely.
+   */
   details: PortableTextBlock[];
+  /** What it costs, or how it is booked. */
+  price?: string;
+  /** Terms worth stating up front — format, availability. */
+  note?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 };
 
 export type ServicesSection = {
   eyebrow: string;
   title: string;
+  /** Optional standfirst under the section heading. */
+  lead?: string;
   services: Service[];
 };
 
@@ -140,6 +187,8 @@ export type ContactSection = {
 
 export type SiteContent = {
   hero: Hero;
+  /** Optional while the draft carries it and the live page does not. */
+  recognise?: RecogniseSection;
   about: AboutSection;
   approach: ApproachSection;
   services: ServicesSection;
@@ -147,5 +196,7 @@ export type SiteContent = {
   articles: ArticlesSection;
   guide: GuideSection;
   faq: FaqSection;
+  /** Optional while the draft carries it and the live page does not. */
+  notHere?: NotHereSection;
   contact: ContactSection;
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
@@ -16,14 +17,15 @@ function SubmitButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="btn btn-on-accent w-full px-6 py-4 text-base disabled:opacity-70 sm:w-auto"
+      className="btn btn-primary w-full px-6 py-4 text-base disabled:opacity-70 sm:w-auto"
     >
       {pending ? "שולח…" : label}
     </button>
   );
 }
 
-export function Guide({ data }: { data: GuideSection }) {
+/** See About: the band colour belongs to the page order, not the section. */
+export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "light" | "deep" }) {
   const [state, formAction] = useActionState(requestGuide, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const statusRef = useRef<HTMLParagraphElement>(null);
@@ -36,17 +38,42 @@ export function Guide({ data }: { data: GuideSection }) {
 
   const field = (error?: string) =>
     `w-full rounded-xl border bg-white px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted ${
-      error ? "border-[#6e1018]" : "border-ink"
+      error ? "border-[#6e1018]" : "border-transparent"
     }`;
 
   return (
-    <section id="guide" aria-labelledby="guide-title" className="bg-cream-50 py-20 md:py-28">
+    <section
+      id="guide"
+      aria-labelledby="guide-title"
+      className={`${tone === "deep" ? "bg-cream-100" : "bg-cream-50"} section`}
+    >
       <div className="shell">
-        <Reveal className="on-accent overflow-hidden rounded-3xl bg-accent p-8 md:p-12">
+        {/* A photograph under a heavy scrim, not a flat terracotta fill. White
+            copy on that fill was 2.4:1 and failed AA; over this ground it
+            clears 12:1, and the panel finally has the presence the strongest
+            call to action on the page deserves.
+            TODO(efrat): replace with a real photograph — this is the hero's
+            placeholder, which only passes here because the scrim buries it. */}
+        <Reveal className="on-dark relative isolate overflow-hidden rounded-3xl p-8 md:p-12">
+          <Image
+            src="/images/hero-hug.jpg"
+            alt=""
+            fill
+            sizes="(min-width: 1280px) 1200px, 100vw"
+            aria-hidden="true"
+            className="-z-20 object-cover object-[center_30%]"
+          />
+          {/* Two layers: a flat darkener for contrast, and a warm terracotta
+              wash over it so the panel still belongs to the palette. */}
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-dark/85" />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-[linear-gradient(115deg,rgba(214,154,126,0.34)_0%,rgba(214,154,126,0.06)_60%)]"
+          />
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               {/* The whole message column reads in white here, the label with it. */}
-              <p className="eyebrow !text-white [&::before]:!bg-white">{data.eyebrow}</p>
+              <p className="eyebrow">{data.eyebrow}</p>
               <h2 id="guide-title" className="mt-3 text-3xl text-white md:text-4xl">
                 {data.title}
               </h2>
@@ -134,7 +161,7 @@ export function Guide({ data }: { data: GuideSection }) {
                       : {})}
                     className="mt-1 size-5 shrink-0 accent-[#465b6d]"
                   />
-                  <label htmlFor="guide-consent" className="text-sm leading-relaxed text-white">
+                  <label htmlFor="guide-consent" className="text-base leading-relaxed text-white">
                     {data.consentLabel}{" "}
                     <Link href="/privacy" className="text-white underline underline-offset-4">
                       (מדיניות הפרטיות)

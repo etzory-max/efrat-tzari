@@ -11,6 +11,8 @@ const base = process.argv[2] ?? "http://localhost:3000";
 
 const pages = [
   "/",
+  // The copy rewrite lives here until it replaces the home page.
+  "/draft",
   "/articles/kshe-haahim-margishim-shenishkehu",
   "/privacy",
   "/accessibility",

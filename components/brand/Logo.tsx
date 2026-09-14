@@ -53,7 +53,7 @@ export function Logo({
             rather than disappearing, and truncates only on the narrowest
             phones instead of pushing the menu button off screen. */}
         <span
-          className={`mt-1 truncate text-[0.6875rem] leading-tight tracking-wide sm:mt-1.5 sm:text-xs ${tagColor}`}
+          className={`mt-1 truncate text-sm leading-tight tracking-wide sm:mt-1.5 ${tagColor}`}
         >
           {site.tagline}
         </span>

@@ -14,7 +14,7 @@ import type { Hero as HeroContent } from "@/content/types";
  */
 export function Hero({ data }: { data: HeroContent }) {
   return (
-    <section aria-labelledby="hero-title" className="bg-cream-50">
+    <section aria-labelledby="hero-title" className="bg-cream-100">
       <div className="relative h-[42vh] min-h-[17rem] w-full overflow-hidden sm:h-[52vh] md:h-[64vh] md:min-h-[26rem]">
         <Image
           src={data.image.src}
@@ -35,8 +35,9 @@ export function Hero({ data }: { data: HeroContent }) {
       <div className="shell">
         <Reveal
           immediate
-          className="relative z-10 -mt-12 max-w-2xl rounded-3xl bg-cream-50 p-7 shadow-[0_-12px_50px_rgba(44,50,56,0.13)] sm:p-9 md:-mt-40 md:p-12"
+          className="relative z-10 -mt-12 max-w-2xl rounded-3xl bg-white p-7 shadow-[0_-12px_50px_rgba(44,50,56,0.13)] sm:p-9 md:-mt-40 md:p-12"
         >
+          {data.eyebrow && <p className="eyebrow mb-4">{data.eyebrow}</p>}
           <h1
             id="hero-title"
             className="text-[1.9rem] leading-[1.15] text-slate sm:text-4xl md:text-5xl lg:text-6xl"
@@ -44,9 +45,21 @@ export function Hero({ data }: { data: HeroContent }) {
             {data.title}
           </h1>
           <p className="mt-5 text-lg text-muted md:text-xl">{data.subtitle}</p>
-          <Link href={data.ctaHref} className="btn btn-primary mt-8 px-8 py-4 text-base">
-            {data.ctaLabel}
-          </Link>
+          {/* Wrapped rather than inline-spaced: on a phone the second action
+              drops under the first instead of squeezing both. */}
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link href={data.ctaHref} className="btn btn-primary px-8 py-4 text-base">
+              {data.ctaLabel}
+            </Link>
+            {data.ctaSecondaryLabel && data.ctaSecondaryHref && (
+              <Link
+                href={data.ctaSecondaryHref}
+                className="btn border border-slate/35 px-7 py-4 text-base text-slate transition-colors hover:border-slate hover:bg-slate hover:text-white"
+              >
+                {data.ctaSecondaryLabel}
+              </Link>
+            )}
+          </div>
         </Reveal>
       </div>
     </section>

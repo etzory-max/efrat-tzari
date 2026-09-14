@@ -68,17 +68,17 @@ function Field({
           placeholder: required ? `${label} *` : label,
           ...(error ? { "aria-invalid": true as const } : {}),
           ...(describedBy ? { "aria-describedby": describedBy } : {}),
-          // 1px hairline — the thinnest a border goes. Ink rather than a
-          // softer tone because the boundary has to clear 3:1 against both
-          // the white fill (12.6:1) and the terracotta card (5.4:1); slate
-          // would land at 2.9:1 on the card.
-          className: `w-full rounded-xl border bg-white px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted ${
-            error ? "border-[#6e1018]" : "border-ink"
+          // No frame at rest — the white fill is what separates a field from
+          // the terracotta card. The border stays in the box model as a
+          // transparent one so the error state can colour it without the
+          // field changing size.
+          className: `w-full rounded-xl border bg-white px-4 py-3.5 text-ink outline-none transition-colors placeholder:text-muted ${
+            error ? "border-[#6e1018]" : "border-transparent"
           }`,
         })}
       </div>
       {hint && (
-        <p id={`${id}-hint`} className="mt-2 text-xs text-ink">
+        <p id={`${id}-hint`} className="mt-2 text-base text-ink">
           {hint}
         </p>
       )}
@@ -115,7 +115,7 @@ export function Contact({ data }: { data: ContactSection }) {
   ];
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="bg-cream-50 py-20 md:py-28">
+    <section id="contact" aria-labelledby="contact-title" className="bg-cream-50 section">
       <div className="shell grid gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>
           <p className="eyebrow">{data.eyebrow}</p>
@@ -131,7 +131,7 @@ export function Contact({ data }: { data: ContactSection }) {
                   <detail.icon className="size-5" aria-hidden="true" />
                 </span>
                 <span>
-                  <span className="block text-sm text-muted">{detail.label}</span>
+                  <span className="block text-base text-muted">{detail.label}</span>
                   {detail.href ? (
                     <a
                       href={detail.href}
@@ -150,9 +150,7 @@ export function Contact({ data }: { data: ContactSection }) {
         </Reveal>
 
         <Reveal delay={140} className="on-accent rounded-3xl bg-accent p-6 md:p-9">
-          <h3 className="text-xl text-ink">השאירו פרטים ואחזור אליכם</h3>
-
-          <form ref={formRef} action={formAction} noValidate className="mt-6 space-y-5">
+          <form ref={formRef} action={formAction} noValidate className="space-y-7">
             <input ref={startedAtRef} type="hidden" name="startedAt" defaultValue="0" />
             {/* Honeypot - hidden from users and from assistive technology. */}
             <div aria-hidden="true" className="absolute h-px w-px overflow-hidden opacity-0">
@@ -160,13 +158,13 @@ export function Contact({ data }: { data: ContactSection }) {
               <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
             </div>
 
-            <Field id="name" label="שם מלא" required error={state.fieldErrors?.name}>
+            <Field id="name" label="איך קוראים לך" required error={state.fieldErrors?.name}>
               {(props) => (
                 <input {...props} type="text" autoComplete="name" defaultValue={state.values?.name} />
               )}
             </Field>
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-7 sm:grid-cols-2">
               <Field id="phone" label="טלפון" required error={state.fieldErrors?.phone}>
                 {(props) => (
                   <input
@@ -194,7 +192,7 @@ export function Contact({ data }: { data: ContactSection }) {
 
             <Field
               id="message"
-              label="במה אפשר לעזור?"
+              label="מה הכי מפיל לך את היום"
               hint="אין צורך לפרט מידע רפואי או אבחנות בשלב הזה."
               error={state.fieldErrors?.message}
             >
@@ -215,7 +213,7 @@ export function Contact({ data }: { data: ContactSection }) {
                     : {})}
                   className="mt-1 size-5 shrink-0 accent-[#465b6d]"
                 />
-                <label htmlFor="consent" className="text-sm leading-relaxed text-ink">
+                <label htmlFor="consent" className="text-base leading-relaxed text-ink">
                   {data.consentLabel}{" "}
                   <Link href="/privacy" className="text-ink underline underline-offset-4">
                     (מדיניות הפרטיות)

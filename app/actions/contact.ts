@@ -22,7 +22,8 @@ export type ContactState = {
 const digits = (value: string) => value.replace(/\D/g, "");
 
 const schema = z.object({
-  name: z.string().trim().min(2, "נא למלא שם מלא").max(80, "השם ארוך מדי"),
+  // Wording follows the field's own label, which is now "איך קוראים לך".
+  name: z.string().trim().min(2, "נא למלא שם").max(80, "השם ארוך מדי"),
   phone: z
     .string()
     .trim()

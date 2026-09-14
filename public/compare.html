@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>השוואה · האתר הקיים מול העמוד החדש</title>
+<!--
+  כלי עבודה זמני לתקופת ההתאמות בלבד.
+  נפתח ב־http://localhost:3000/compare.html
+  למחוק את הקובץ לפני העלייה לאוויר.
+-->
+<style>
+  :root {
+    --chrome: #1e2124;
+    --chrome-2: #282c30;
+    --edge: #3a3f45;
+    --text: #e9e6e0;
+    --dim: #9aa0a6;
+    --ours: #d69a7e;
+    --theirs: #a9bd8a;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--chrome);
+    color: var(--text);
+    font: 400 14px/1.5 "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  header {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 14px;
+    background: var(--chrome-2);
+    border-bottom: 1px solid var(--edge);
+  }
+  header h1 { font-size: 14px; font-weight: 600; margin: 0; white-space: nowrap; }
+  header .sp { flex: 1; }
+
+  button {
+    font: inherit;
+    font-size: 13px;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--edge);
+    border-radius: 6px;
+    padding: 4px 11px;
+    cursor: pointer;
+  }
+  button:hover { border-color: var(--dim); }
+  button[aria-pressed="true"] { background: var(--text); color: var(--chrome); border-color: var(--text); }
+  button:focus-visible { outline: 2px solid var(--theirs); outline-offset: 2px; }
+  .seg { display: inline-flex; gap: 4px; }
+
+  main { flex: 1; display: flex; min-height: 0; }
+
+  .pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .pane-head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 7px 12px;
+    background: var(--chrome-2);
+    border-bottom: 1px solid var(--edge);
+  }
+  .dot { width: 9px; height: 9px; border-radius: 99px; flex: none; }
+  .pane-name { font-weight: 600; font-size: 13px; white-space: nowrap; }
+  .pane-url { font-size: 11.5px; color: var(--dim); direction: ltr; }
+  .chips { display: flex; gap: 4px; flex-wrap: wrap; }
+  .chips button { padding: 2px 9px; font-size: 12px; border-radius: 99px; }
+
+  .stage { flex: 1; min-height: 0; background: #fff; display: flex; justify-content: center; overflow: auto; }
+  body[data-w="mobile"] .stage { background: #141618; padding: 14px 0; }
+  iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+  body[data-w="mobile"] iframe {
+    width: 390px;
+    flex: none;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+  }
+
+  .split {
+    flex: none;
+    width: 6px;
+    cursor: col-resize;
+    background: var(--edge);
+    position: relative;
+  }
+  .split::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline: -4px;
+  }
+  .split:hover { background: var(--dim); }
+</style>
+</head>
+<body data-w="full">
+
+<header>
+  <h1>השוואה זו לצד זו</h1>
+  <div class="seg">
+    <button type="button" data-w="full" aria-pressed="true">רוחב מלא</button>
+    <button type="button" data-w="mobile" aria-pressed="false">מובייל</button>
+  </div>
+  <button type="button" id="swap">החלפת צדדים</button>
+  <button type="button" id="reload">רענון שניהם</button>
+  <span class="sp"></span>
+  <span class="pane-url">localhost:3000/compare.html</span>
+</header>
+
+<main id="main">
+  <section class="pane" id="pane-ours" style="flex: 1 1 50%">
+    <div class="pane-head">
+      <span class="dot" style="background: var(--ours)"></span>
+      <span class="pane-name">אצלנו</span>
+      <span class="seg" id="which-ours">
+        <button type="button" data-base="/draft" aria-pressed="true">טיוטה</button>
+        <button type="button" data-base="/" aria-pressed="false">האתר החי</button>
+      </span>
+      <span class="chips" id="chips-ours"></span>
+    </div>
+    <div class="stage"><iframe id="f-ours" title="האתר הקיים"></iframe></div>
+  </section>
+
+  <div class="split" id="split" role="separator" aria-orientation="vertical" tabindex="0" aria-label="שינוי רוחב החלוניות"></div>
+
+  <section class="pane" id="pane-theirs" style="flex: 1 1 50%">
+    <div class="pane-head">
+      <span class="dot" style="background: var(--theirs)"></span>
+      <span class="pane-name">העמוד החדש</span>
+      <span class="pane-url">efrat-horut.vercel.app</span>
+      <span class="chips" id="chips-theirs"></span>
+    </div>
+    <div class="stage"><iframe id="f-theirs" title="העמוד החדש"></iframe></div>
+  </section>
+</main>
+
+<script>
+const PANES = {
+  ours: {
+    // Whatever port this page is served from — the dev server moves around.
+    base: location.origin + "/draft",
+    sameOrigin: true,
+    frame: document.getElementById("f-ours"),
+    chips: document.getElementById("chips-ours"),
+    sections: [
+      ["", "ראש"],
+      ["about", "אודות"],
+      ["approach", "הורות מותאמת"],
+      ["services", "שירותים"],
+      ["media", "בתקשורת"],
+      ["articles", "מאמרים"],
+      ["guide", "מדריך"],
+      ["faq", "שאלות"],
+      ["contact", "יצירת קשר"],
+    ],
+  },
+  theirs: {
+    base: "https://efrat-horut.vercel.app/",
+    sameOrigin: false,
+    frame: document.getElementById("f-theirs"),
+    chips: document.getElementById("chips-theirs"),
+    sections: [
+      ["top", "ראש"],
+      ["recognise", "אם זה הבית שלך"],
+      ["how", "איך זה עובד"],
+      ["about", "מי אני"],
+      ["work", "מה אפשר"],
+      ["talk", "דברי איתי"],
+    ],
+  },
+};
+
+function go(pane, id) {
+  if (pane.sameOrigin) {
+    try {
+      const w = pane.frame.contentWindow;
+      if (w && w.location.href.startsWith(pane.base)) {
+        w.location.hash = id ? "#" + id : "";
+        if (!id) w.scrollTo({ top: 0 });
+        return;
+      }
+    } catch (e) { /* not loaded yet — fall through to a full load */ }
+  }
+  // Cross-origin (or first load): only a fresh navigation lands on the anchor,
+  // and a URL that differs only by its hash does not navigate — hence the stamp.
+  pane.frame.src = pane.base + "?_=" + Date.now() + (id ? "#" + id : "");
+}
+
+for (const pane of Object.values(PANES)) {
+  pane.chips.innerHTML = pane.sections
+    .map(([id, label]) => `<button type="button" data-id="${id}">${label}</button>`)
+    .join("");
+  pane.chips.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (b) go(pane, b.dataset.id);
+  });
+  pane.frame.src = pane.base;
+}
+
+/* The left-hand pane can show either the draft or the live page. */
+document.getElementById("which-ours").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  PANES.ours.base = location.origin + b.dataset.base;
+  document
+    .querySelectorAll("#which-ours button")
+    .forEach((o) => o.setAttribute("aria-pressed", String(o === b)));
+  PANES.ours.frame.src = PANES.ours.base;
+});
+
+document.querySelectorAll("header [data-w]").forEach((b) => {
+  b.addEventListener("click", () => {
+    document.body.dataset.w = b.dataset.w;
+    document.querySelectorAll("header [data-w]").forEach((o) =>
+      o.setAttribute("aria-pressed", String(o === b)),
+    );
+  });
+});
+
+document.getElementById("reload").addEventListener("click", () => {
+  for (const pane of Object.values(PANES)) go(pane, "");
+});
+
+document.getElementById("swap").addEventListener("click", () => {
+  const main = document.getElementById("main");
+  const ours = document.getElementById("pane-ours");
+  const split = document.getElementById("split");
+  // Moving the node would reload both iframes; reordering with flex does not.
+  const flipped = main.style.flexDirection === "row-reverse";
+  main.style.flexDirection = flipped ? "row" : "row-reverse";
+  void ours; void split;
+});
+
+/* Draggable splitter — percentages, so it survives a window resize. */
+(function () {
+  const main = document.getElementById("main");
+  const split = document.getElementById("split");
+  const a = document.getElementById("pane-ours");
+  const b = document.getElementById("pane-theirs");
+  let dragging = false;
+
+  const setRatio = (r) => {
+    r = Math.min(0.85, Math.max(0.15, r));
+    a.style.flex = `1 1 ${r * 100}%`;
+    b.style.flex = `1 1 ${(1 - r) * 100}%`;
+  };
+
+  const fromEvent = (e) => {
+    const rect = main.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const rtl = getComputedStyle(main).flexDirection !== "row-reverse";
+    // The page is RTL, so the first pane occupies the RIGHT side.
+    const fromStart = rtl ? rect.width - x : x;
+    return fromStart / rect.width;
+  };
+
+  split.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    split.setPointerCapture(e.pointerId);
+    // Stops the iframes from swallowing the pointer mid-drag.
+    document.querySelectorAll("iframe").forEach((f) => (f.style.pointerEvents = "none"));
+  });
+  split.addEventListener("pointermove", (e) => { if (dragging) setRatio(fromEvent(e)); });
+  split.addEventListener("pointerup", () => {
+    dragging = false;
+    document.querySelectorAll("iframe").forEach((f) => (f.style.pointerEvents = ""));
+  });
+  split.addEventListener("keydown", (e) => {
+    const cur = parseFloat(a.style.flexBasis || "50");
+    if (e.key === "ArrowLeft") setRatio((cur + 4) / 100);
+    if (e.key === "ArrowRight") setRatio((cur - 4) / 100);
+  });
+})();
+</script>
+</body>
+</html>

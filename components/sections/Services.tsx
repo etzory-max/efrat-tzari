@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowLeft, Check } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import type { Service, ServicesSection } from "@/content/types";
@@ -48,9 +49,9 @@ function ServiceCard({ service }: { service: Service }) {
         />
       )}
 
-      <p className={`text-xs tracking-[0.18em] ${tone.kicker}`}>{service.kicker}</p>
+      <p className={`text-base tracking-[0.12em] ${tone.kicker}`}>{service.kicker}</p>
       <h3 className={`mt-2 text-2xl ${tone.title}`}>{service.title}</h3>
-      <p className={`mt-4 ${tone.body}`}>{service.body}</p>
+      <p className={`mt-4 text-lg ${tone.body}`}>{service.body}</p>
 
       {service.bullets.length > 0 && (
         <ul className="mt-6 space-y-3">
@@ -63,21 +64,40 @@ function ServiceCard({ service }: { service: Service }) {
         </ul>
       )}
 
-      {/* Only the lead card pushes its link to the bottom - it has to clear
-          the illustration. The shorter ones keep it next to their copy. */}
-      <details className={`group/more pt-8 ${primary ? "mt-auto" : ""}`}>
-        <summary className={`tap inline-flex cursor-pointer list-none items-center gap-2 text-sm font-medium transition-colors ${tone.more}`}>
-          <span className="group-open/more:hidden">{service.moreLabel}</span>
-          <span className="hidden group-open/more:inline">להצגה מצומצמת</span>
-          <ArrowLeft
-            className="size-4 transition-transform duration-300 group-open/more:rotate-90"
-            aria-hidden="true"
-          />
-        </summary>
-        <div className={`mt-5 border-t pt-5 ${tone.rule} ${tone.body}`}>
-          <PortableText value={service.details} components={proseInCard} />
-        </div>
-      </details>
+      {/* Follows the copy. It used to be pushed to the card's floor so it
+          would clear the illustration, but the illustration sits on the
+          opposite edge — and with a short lead card that push opened a hole
+          between the sentence and its own call to action. */}
+      <div className="pt-7">
+        {service.price && <p className={`text-base ${tone.title}`}>{service.price}</p>}
+        {service.note && <p className="mt-1.5 text-base text-muted">{service.note}</p>}
+        {service.ctaLabel && service.ctaHref && (
+          <Link
+            href={service.ctaHref}
+            className={`tap mt-4 inline-flex items-center gap-2 text-base font-medium transition-colors ${tone.more}`}
+          >
+            {service.ctaLabel}
+            <ArrowLeft className="size-4" aria-hidden="true" />
+          </Link>
+        )}
+      </div>
+
+      {/* The expander only exists where there is long-form copy behind it. */}
+      {service.details.length > 0 && (
+        <details className="group/more pt-8">
+          <summary className={`tap inline-flex cursor-pointer list-none items-center gap-2 text-base font-medium transition-colors ${tone.more}`}>
+            <span className="group-open/more:hidden">{service.moreLabel}</span>
+            <span className="hidden group-open/more:inline">להצגה מצומצמת</span>
+            <ArrowLeft
+              className="size-4 transition-transform duration-300 group-open/more:rotate-90"
+              aria-hidden="true"
+            />
+          </summary>
+          <div className={`mt-5 border-t pt-5 ${tone.rule} ${tone.body}`}>
+            <PortableText value={service.details} components={proseInCard} />
+          </div>
+        </details>
+      )}
     </article>
   );
 }
@@ -86,13 +106,14 @@ export function Services({ data }: { data: ServicesSection }) {
   const [primary, ...secondary] = data.services;
 
   return (
-    <section id="services" aria-labelledby="services-title" className="bg-cream-50 py-20 md:py-28">
+    <section id="services" aria-labelledby="services-title" className="bg-cream-50 section">
       <div className="shell">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>
           <h2 id="services-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
+          {data.lead && <p className="mt-5 text-lg text-muted">{data.lead}</p>}
         </Reveal>
 
         <div className="relative mt-14 grid gap-12 lg:grid-cols-2 lg:gap-x-16">
@@ -106,9 +127,15 @@ export function Services({ data }: { data: ServicesSection }) {
             <ServiceCard service={primary} />
           </Reveal>
 
-          <div className="flex flex-col gap-12 lg:order-2">
+          {/* With a single offer on this side there is nothing to stretch
+              against, so it sits centred rather than stranded at the top. */}
+          <div className="flex flex-col gap-12 lg:order-2 lg:justify-center">
             {secondary.map((service, index) => (
-              <Reveal key={service.id} delay={120 + index * 110} className="flex-1">
+              <Reveal
+                key={service.id}
+                delay={120 + index * 110}
+                className={secondary.length > 1 ? "flex-1" : ""}
+              >
                 {/* Stops around 60% - a mark, not a lid. */}
                 {index > 0 && (
                   <span aria-hidden="true" className="mb-12 block h-px w-3/5 bg-accent/60" />
