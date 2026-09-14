@@ -99,9 +99,9 @@ export default async function ArticlePage({ params }: Params) {
         </div>
 
         <Reveal className="mt-14 rounded-3xl border border-cream-200 bg-cream-100 p-8 text-center">
-          <h2 className="text-2xl text-slate">רוצים לדבר על מה שקורה אצלכם?</h2>
+          <h2 className="text-2xl text-slate">רוצה לדבר על מה שקורה אצלך בבית?</h2>
           <p className="mt-3 text-muted">
-            שיחת ההיכרות הראשונה היא ללא עלות וללא התחייבות.
+            השיחה הראשונה היא ללא עלות וללא התחייבות.
           </p>
           <Link
             href="/#contact"
