@@ -67,7 +67,7 @@ export function Approach({
                       that belongs to the words. */}
                   <div className="flex items-start justify-between gap-4">
                     {Drawn ? (
-                      <Drawn className="h-14 w-auto text-ink/80" />
+                      <Drawn className="h-14 w-auto text-white" />
                     ) : (
                       <Image
                         src={icon.src}

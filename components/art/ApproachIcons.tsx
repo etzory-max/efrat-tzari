@@ -18,7 +18,9 @@ const base: React.SVGProps<SVGSVGElement> = {
   viewBox: "0 0 100 100",
   fill: "none",
   stroke: "currentColor",
-  strokeWidth: 3.2,
+  // Heavier than the page's other line art: these sit in white on
+  // terracotta, where a thin stroke thins out further.
+  strokeWidth: 3.8,
   strokeLinecap: "round",
   strokeLinejoin: "round",
   "aria-hidden": true,
