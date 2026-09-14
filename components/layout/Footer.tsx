@@ -27,8 +27,8 @@ export function Footer() {
               jagged block with no edge to read down. */}
           <div className="md:col-span-2 lg:col-span-1">
             <p className="max-w-md text-lg leading-relaxed text-balance text-on-dark md:text-xl">
-              ליווי מקצועי וחם למשפחות עם ילדים על הרצף האוטיסטי - כלים מעשיים שמותאמים בדיוק
-              לכם.
+              אני עוזרת להורים שמגדלים ילדים על הרצף לחיות חיים מאפשרים, שמחים
+              ומלאים.
             </p>
             {/* Tinted light so the line art reads on the dark footer. */}
             <Image
@@ -92,6 +92,12 @@ export function Footer() {
         <div className="mt-16 flex flex-col gap-4 border-t border-white/15 pt-8 text-base text-on-dark-muted md:flex-row md:items-center md:justify-between">
           <p>
             © {year} {site.name}. כל הזכויות שמורות.
+            {/* The site addresses the reader as "you" in the feminine
+                throughout; saying so once is what keeps that a choice of
+                voice rather than an exclusion. */}
+            <span className="mt-1 block">
+              האתר כתוב בלשון נקבה מטעמי נוחות, ופונה לשני המינים באותה מידה.
+            </span>
           </p>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {legalItems.map((item) => (

@@ -2,25 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
-import { draftNavItems, navItems } from "@/lib/site";
+import { navItems } from "@/lib/site";
 
 export function Header() {
-  /**
-   * While the rewrite lives at /draft, its anchors have to stay there. The nav
-   * hrefs are root-relative ("/#about") so they work from article and legal
-   * pages, which means that from the draft they would jump back to the live
-   * home page mid-review. Temporary — it goes when the draft becomes /.
-   */
-  const pathname = usePathname();
-  const onDraft = pathname?.startsWith("/draft") ?? false;
-  const items = onDraft ? draftNavItems : navItems;
-  const scope = (href: string) =>
-    onDraft && href.startsWith("/#") ? `/draft${href.slice(1)}` : href;
-
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -107,10 +94,10 @@ export function Header() {
 
         <nav aria-label="ניווט ראשי" className="hidden lg:block">
           <ul className="flex items-center gap-4 xl:gap-6">
-            {items.map((item) => (
+            {navItems.map((item) => (
               <li key={item.href}>
                 <Link
-                  href={scope(item.href)}
+                  href={item.href}
                   className="relative inline-flex items-center py-2 text-base text-ink transition-colors duration-200 hover:text-accent-ink focus-visible:text-accent-ink after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-accent-ink after:transition-transform after:duration-200 hover:after:scale-x-100"
                 >
                   {item.label}
@@ -122,10 +109,10 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <Link
-            href={scope("/#contact")}
+            href="/#contact"
             className="btn btn-primary hidden px-5 py-3 text-base sm:inline-flex"
           >
-            דברו איתי
+            דברי איתי
           </Link>
 
           <button
@@ -175,10 +162,10 @@ export function Header() {
 
           <nav aria-label="ניווט ראשי (מובייל)" className="flex-1 overflow-y-auto px-6 py-4">
             <ul className="flex flex-col">
-              {items.map((item) => (
+              {navItems.map((item) => (
                 <li key={item.href}>
                   <Link
-                    href={scope(item.href)}
+                    href={item.href}
                     onClick={close}
                     className="tap flex items-center border-b border-cream-100 py-4 text-lg text-ink"
                   >
@@ -200,11 +187,11 @@ export function Header() {
               className="mx-auto mb-5 h-24 w-auto opacity-70"
             />
             <Link
-              href={scope("/#contact")}
+              href="/#contact"
               onClick={close}
               className="btn btn-primary w-full px-5 py-4 text-base"
             >
-              דברו איתי
+              דברי איתי
             </Link>
           </div>
         </div>

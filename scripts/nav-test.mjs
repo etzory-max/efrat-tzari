@@ -15,10 +15,11 @@ const browser = await puppeteer.launch({
 });
 
 const cases = [
-  { from: "/accessibility", link: "אודות", expectHash: "#about" },
-  { from: "/privacy", link: "מאמרים", expectHash: "#articles" },
-  { from: "/articles/kshe-haahim-margishim-shenishkehu", link: "צור קשר", expectHash: "#contact" },
-  { from: "/", link: "הרצאות", expectHash: "#service-lectures" },
+  { from: "/accessibility", link: "מי אני", expectHash: "#about" },
+  { from: "/privacy", link: "איך זה עובד", expectHash: "#approach" },
+  { from: "/articles/kshe-haahim-margishim-shenishkehu", link: "המדריך", expectHash: "#guide" },
+  { from: "/", link: "אם זה הבית שלך", expectHash: "#recognise" },
+  { from: "/", link: "מה אפשר", expectHash: "#services" },
 ];
 
 let failures = 0;

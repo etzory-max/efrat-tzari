@@ -176,5 +176,18 @@ function mergeContent(data: any): SiteContent {
     consentLabel: or(copy.consentLabel, d.contact.consentLabel),
   };
 
-  return { hero, about, approach, services, media, articles, guide: d.guide, faq, contact };
+  // recognise and notHere are code-owned for now — no CMS schema behind them.
+  return {
+    hero,
+    recognise: d.recognise,
+    about,
+    approach,
+    services,
+    media,
+    articles,
+    guide: d.guide,
+    faq,
+    notHere: d.notHere,
+    contact,
+  };
 }

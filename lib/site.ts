@@ -8,10 +8,10 @@
 export const site = {
   name: "אפרת צרי",
   legalName: "אפרת צרי - הורות מותאמת",
-  tagline: "המרחב שלך להורות מותאמת",
+  tagline: "הדרכת הורים לילדים על הרצף",
   description:
-    "אפרת צרי, יועצת משפחתית ומרצה, מלווה משפחות עם ילדים על הרצף האוטיסטי. ליווי משפחתי, הרצאות וסדנאות - עם כלים מעשיים שמותאמים בדיוק לכם.",
-  jobTitle: "יועצת משפחתית ומרצה",
+    "אפרת צרי מלווה הורים לילדים על הרצף לחיות חיים מאפשרים, שמחים ומלאים. ליווי אישי והרצאות, ומודל נמר״ה לניהול משבר בזמן אמת.",
+  jobTitle: "מדריכת הורים לילדים על הרצף",
 
   phoneDisplay: "052-6008172",
   phoneE164: "+972526008172",
@@ -69,27 +69,10 @@ export type NavItem = { label: string; href: string };
  * simply is not in the document.
  */
 export const navItems: NavItem[] = [
-  { label: "אודות", href: "/#about" },
-  { label: "הורות מותאמת", href: "/#approach" },
-  { label: "ליווי", href: "/#service-family" },
-  { label: "הרצאות", href: "/#service-lectures" },
-  { label: "סדנאות וקורסים", href: "/#service-workshops" },
-  { label: "בתקשורת", href: "/#media" },
-  { label: "מאמרים", href: "/#articles" },
-  { label: "צור קשר", href: "/#contact" },
+  { label: "אם זה הבית שלך", href: "/#recognise" },
+  { label: "איך זה עובד", href: "/#approach" },
+  { label: "מי אני", href: "/#about" },
+  { label: "מה אפשר", href: "/#services" },
+  { label: "המדריך", href: "/#guide" },
 ];
 
-/**
- * The draft's own menu. Not just the list above with a prefix: the draft has
- * no workshops section, so that entry would be a dead link, and its sections
- * are named in the new voice. Shorter on purpose — eight items is too many on
- * a phone. Folds into `navItems` when the draft becomes the home page.
- */
-export const draftNavItems: NavItem[] = [
-  { label: "אם זה הבית שלך", href: "/draft#recognise" },
-  { label: "איך זה עובד", href: "/draft#approach" },
-  { label: "מי אני", href: "/draft#about" },
-  { label: "מה אפשר", href: "/draft#services" },
-  { label: "מאמרים", href: "/draft#articles" },
-  { label: "דברי איתי", href: "/draft#contact" },
-];
