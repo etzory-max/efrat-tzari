@@ -3,12 +3,13 @@ import { ChevronDown } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { FaqSection } from "@/content/types";
 
-export function Faq({ data }: { data: FaqSection }) {
+/** See About: the band colour belongs to the page order, not the section. */
+export function Faq({ data, tone = "light" }: { data: FaqSection; tone?: "light" | "deep" }) {
   return (
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="relative overflow-hidden bg-cream-50 section"
+      className={`relative overflow-hidden ${tone === "deep" ? "bg-cream-100" : "bg-cream-50"} section`}
     >
       <div className="shell relative">
         <Reveal className="mx-auto max-w-3xl text-center">

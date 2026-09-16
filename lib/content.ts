@@ -183,6 +183,7 @@ function mergeContent(data: any): SiteContent {
     about,
     approach,
     services,
+    testimonials: d.testimonials,
     media,
     articles,
     guide: d.guide,

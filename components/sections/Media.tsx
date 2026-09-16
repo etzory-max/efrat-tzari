@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { FileText, Headphones, Play, X } from "lucide-react";
+import { ExternalLink, FileText, Headphones, Play, X } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { MediaItem, MediaSection } from "@/content/types";
 
@@ -133,7 +133,9 @@ function Card({
             {label}
           </p>
           <h3 className="mt-3 text-lg text-slate">{item.title}</h3>
-          <p className="mt-1 text-base text-muted">{item.outlet}</p>
+          {/* Guarded: an empty outlet would otherwise leave a blank line
+              between the title and the summary. */}
+          {item.outlet && <p className="mt-1 text-base text-muted">{item.outlet}</p>}
           {/* The summary carries the content in text, so a scanned PDF is
               never the only way to get at it. */}
           <p className="mt-3 text-base text-muted">{item.summary}</p>
@@ -146,8 +148,8 @@ function Card({
               className="tap mt-auto inline-flex items-center gap-2 pt-5 text-base font-medium text-accent-ink transition-colors hover:text-ink"
             >
               לקריאת הכתבה
-              <span className="sr-only">(קובץ PDF, נפתח בחלון חדש)</span>
-              <FileText className="size-4" aria-hidden="true" />
+              <span className="sr-only">(נפתח באתר החיצוני, בחלון חדש)</span>
+              <ExternalLink className="size-4" aria-hidden="true" />
             </a>
           )}
         </div>
@@ -156,7 +158,8 @@ function Card({
   );
 }
 
-export function Media({ data }: { data: MediaSection }) {
+/** See About: the band colour belongs to the page order, not the section. */
+export function Media({ data, tone = "deep" }: { data: MediaSection; tone?: "light" | "deep" }) {
   const [active, setActive] = useState<MediaItem | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
 
@@ -167,7 +170,11 @@ export function Media({ data }: { data: MediaSection }) {
   }, []);
 
   return (
-    <section id="media" aria-labelledby="media-title" className="bg-cream-100 section">
+    <section
+      id="media"
+      aria-labelledby="media-title"
+      className={`${tone === "deep" ? "bg-cream-100" : "bg-cream-50"} section`}
+    >
       <div className="shell">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>

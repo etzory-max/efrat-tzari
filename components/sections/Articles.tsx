@@ -3,15 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ArticlesSection } from "@/content/types";
-
-const dateFormatter = new Intl.DateTimeFormat("he-IL", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
 
 /** See About: the band colour belongs to the page order, not the section. */
 export function Articles({ data, tone = "deep" }: { data: ArticlesSection; tone?: "light" | "deep" }) {
@@ -82,16 +76,10 @@ export function Articles({ data, tone = "deep" }: { data: ArticlesSection; tone?
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <p className="text-base text-muted">
-                    <time dateTime={article.date}>
-                      {dateFormatter.format(new Date(article.date))}
-                    </time>
-                    <span className="mx-2" aria-hidden="true">
-                      ·
-                    </span>
-                    {article.readingMinutes} דקות קריאה
-                  </p>
-                  <h3 className="mt-3 text-lg text-slate transition-colors group-hover/card:text-accent-ink">
+                  {/* The date and the reading time are kept in the data — they
+                      feed the Article structured data — but they are not shown.
+                      A date ages a piece that is not news. */}
+                  <h3 className="text-lg text-slate transition-colors group-hover/card:text-accent-ink">
                     <Link
                       href={`/articles/${article.slug}`}
                       className="outline-none after:absolute after:inset-0 after:content-['']"
@@ -100,6 +88,18 @@ export function Articles({ data, tone = "deep" }: { data: ArticlesSection; tone?
                     </Link>
                   </h3>
                   <p className="mt-3 text-base text-muted">{article.excerpt}</p>
+
+                  {/* A quiet "there is more inside". Not a button — the whole
+                      card is already the link — so it stays decorative and out
+                      of the accessibility tree, and it leans in on hover
+                      rather than announcing itself at rest. */}
+                  <span
+                    aria-hidden="true"
+                    className="mt-auto flex items-center gap-2 pt-5 text-base text-accent-ink"
+                  >
+                    לקריאה
+                    <ArrowLeft className="size-4 transition-transform duration-300 ease-[var(--ease-soft)] group-hover/card:-translate-x-1" />
+                  </span>
                 </div>
               </article>
               </Reveal>

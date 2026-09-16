@@ -100,6 +100,20 @@ export type NotHereSection = {
   items: NotHereItem[];
 };
 
+/** One parent, in her own words. */
+export type Testimonial = {
+  quote: string;
+  name: string;
+  /** How she describes herself — "אמא לבן בן 7". Optional. */
+  role?: string;
+};
+
+export type TestimonialsSection = {
+  eyebrow: string;
+  title: string;
+  items: Testimonial[];
+};
+
 export type ApproachCard = {
   /**
    * The first three are the original photographic-style PNGs; the last three
@@ -192,6 +206,8 @@ export type SiteContent = {
   about: AboutSection;
   approach: ApproachSection;
   services: ServicesSection;
+  /** Optional: the section only renders when there are quotes to show. */
+  testimonials?: TestimonialsSection;
   media: MediaSection;
   articles: ArticlesSection;
   guide: GuideSection;

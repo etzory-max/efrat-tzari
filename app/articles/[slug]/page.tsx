@@ -11,12 +11,6 @@ import { ArticleJsonLd } from "@/components/seo/JsonLd";
 
 type Params = { params: Promise<{ slug: string }> };
 
-const dateFormatter = new Intl.DateTimeFormat("he-IL", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
-
 export async function generateStaticParams() {
   const articles = await getArticles();
   return articles.map((article) => ({ slug: article.slug }));
@@ -73,13 +67,6 @@ export default async function ArticlePage({ params }: Params) {
 
         <header className="mt-8">
           <h1 className="text-3xl text-slate md:text-5xl">{article.title}</h1>
-          <p className="mt-4 text-sm text-muted">
-            <time dateTime={article.date}>{dateFormatter.format(new Date(article.date))}</time>
-            <span className="mx-2" aria-hidden="true">
-              ·
-            </span>
-            {article.readingMinutes} דקות קריאה
-          </p>
           <p className="mt-5 text-lg text-muted">{article.excerpt}</p>
         </header>
 

@@ -48,24 +48,27 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
       className={`${tone === "deep" ? "bg-cream-100" : "bg-cream-50"} section`}
     >
       <div className="shell">
-        {/* A photograph under a heavy scrim, not a flat terracotta fill. White
-            copy on that fill was 2.4:1 and failed AA; over this ground it
-            clears 12:1, and the panel finally has the presence the strongest
-            call to action on the page deserves.
-            TODO(efrat): replace with a real photograph — this is the hero's
-            placeholder, which only passes here because the scrim buries it. */}
+        {/* A photograph under a scrim, not a flat terracotta fill. White copy
+            on that fill was 2.4:1 and failed AA; over this ground it clears 6:1
+            even against the brightest part of the picture.
+            The photograph is the guide's own advice: a parent down on her knees
+            at the child's height, holding him, in a public place with other
+            people in the background. That is step two of the model and the
+            first of its calming techniques, in one frame.
+            Unsplash, Олександр Білоцерківець — no attribution required, but
+            worth keeping a note of where it came from. */}
         <Reveal className="on-dark relative isolate overflow-hidden rounded-3xl p-8 md:p-12">
           <Image
-            src="/images/hero-hug.jpg"
+            src="/images/guide-panel.jpg"
             alt=""
             fill
             sizes="(min-width: 1280px) 1200px, 100vw"
             aria-hidden="true"
-            className="-z-20 object-cover object-[center_30%]"
+            className="-z-20 object-cover object-center"
           />
           {/* Two layers: a flat darkener for contrast, and a warm terracotta
               wash over it so the panel still belongs to the palette. */}
-          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-dark/85" />
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-dark/78" />
           <div
             aria-hidden="true"
             className="absolute inset-0 -z-10 bg-[linear-gradient(115deg,rgba(214,154,126,0.34)_0%,rgba(214,154,126,0.06)_60%)]"
