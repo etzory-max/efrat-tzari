@@ -17,6 +17,10 @@ const collections: { type: string; title: string }[] = [
 
 export const structure: StructureResolver = (S) =>
   S.list()
+    /* Sanity requires an id on every list, the root one included. Without it
+       the Studio refuses to draw the sidebar at all and shows nothing but
+       "`id` is required for lists". The list items below already carry theirs. */
+    .id("root")
     .title("תוכן האתר")
     .items([
       ...singletons.map((item) =>
