@@ -136,7 +136,6 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
                   type="email"
                   placeholder="אימייל *"
                   autoComplete="email"
-                  dir="ltr"
                   required
                   defaultValue={state.values?.email}
                   {...(state.fieldErrors?.email

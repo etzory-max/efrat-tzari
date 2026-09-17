@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { CheckCircle2, Mail, Phone } from "lucide-react";
+import { ChildBall } from "@/components/art/Illustrations";
 import { submitContact, type ContactState } from "@/app/actions/contact";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ContactSection } from "@/content/types";
@@ -91,7 +92,7 @@ function Field({
   );
 }
 
-export function Contact({ data }: { data: ContactSection }) {
+export function Contact({ data, art = false }: { data: ContactSection; art?: boolean }) {
   const [state, formAction] = useActionState(submitContact, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const statusRef = useRef<HTMLParagraphElement>(null);
@@ -147,6 +148,8 @@ export function Contact({ data }: { data: ContactSection }) {
               </li>
             ))}
           </ul>
+
+          {art && <ChildBall className="mt-12 h-24 w-auto text-accent-ink/55 md:h-28" />}
         </Reveal>
 
         <Reveal delay={140} className="on-accent rounded-3xl bg-accent p-6 md:p-9">
@@ -172,7 +175,12 @@ export function Contact({ data }: { data: ContactSection }) {
                     type="tel"
                     inputMode="tel"
                     autoComplete="tel"
-                    dir="ltr"
+                    /* Explicitly rtl, not merely inherited: browsers ship a
+                       user-agent rule that forces `direction: ltr` on tel
+                       inputs, which pinned the placeholder and the caret to
+                       the left of an otherwise right-aligned form. Bidi still
+                       renders the digits themselves left to right. */
+                    dir="rtl"
                     defaultValue={state.values?.phone}
                   />
                 )}
@@ -183,7 +191,6 @@ export function Contact({ data }: { data: ContactSection }) {
                     {...props}
                     type="email"
                     autoComplete="email"
-                    dir="ltr"
                     defaultValue={state.values?.email}
                   />
                 )}

@@ -4,7 +4,16 @@ import { Reveal } from "@/components/ui/Reveal";
 import type { FaqSection } from "@/content/types";
 
 /** See About: the band colour belongs to the page order, not the section. */
-export function Faq({ data, tone = "light" }: { data: FaqSection; tone?: "light" | "deep" }) {
+export function Faq({
+  data,
+  tone = "light",
+  art = "pair",
+}: {
+  data: FaqSection;
+  tone?: "light" | "deep";
+  /** "pair" mirrors a drawing on each side; "single" keeps only one. */
+  art?: "pair" | "single";
+}) {
   return (
     <section
       id="faq"
@@ -43,7 +52,7 @@ export function Faq({ data, tone = "light" }: { data: FaqSection; tone?: "light"
             height={900}
             sizes="140px"
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-0 left-[calc(100%+2.5rem)] hidden h-28 w-auto opacity-80 xl:block"
+            className={`pointer-events-none absolute bottom-0 left-[calc(100%+2.5rem)] h-28 w-auto opacity-80 ${art === "pair" ? "hidden xl:block" : "hidden"}`}
           />
 
           <div className="space-y-3">
@@ -83,14 +92,16 @@ export function Faq({ data, tone = "light" }: { data: FaqSection; tone?: "light"
               sizes="120px"
               className="h-14 w-auto"
             />
-            <Image
-              src="/images/art-kid-ball.png"
-              alt=""
-              width={691}
-              height={900}
-              sizes="100px"
-              className="h-16 w-auto"
-            />
+            {art === "pair" && (
+              <Image
+                src="/images/art-kid-ball.png"
+                alt=""
+                width={691}
+                height={900}
+                sizes="100px"
+                className="h-16 w-auto"
+              />
+            )}
           </div>
         </div>
       </div>

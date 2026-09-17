@@ -27,11 +27,15 @@ export function Approach({
   data,
   numbered = false,
   tone = "deep",
+  figures = true,
 }: {
   data: ApproachSection;
   numbered?: boolean;
   /** See the note on About: the band colour belongs to the page order. */
   tone?: "light" | "deep";
+  /** The strip of drawings under the quote. Off where the section already
+   *  carries three card icons and the page needs its art spread wider. */
+  figures?: boolean;
 }) {
   const List = numbered ? "ol" : "ul";
 
@@ -112,6 +116,8 @@ export function Approach({
           </figure>
         </Reveal>
 
+        {figures && (
+        <>
         {/* In normal flow rather than pinned to the section's floor. Pinned,
             they forced a bottom padding tall enough to clear them, which made
             this the widest join on the page by a long way — 323px against 224
@@ -137,6 +143,8 @@ export function Approach({
             />
           ))}
         </div>
+        </>
+        )}
       </div>
     </section>
   );

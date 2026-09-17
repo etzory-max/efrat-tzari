@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
+import { TwoChildren } from "@/components/art/Illustrations";
 import type { Testimonial, TestimonialsSection } from "@/content/types";
 
 /**
@@ -57,11 +58,14 @@ export function Testimonials({
   tone = "deep",
   surface = "plain",
   sectionId = "testimonials",
+  art = "table",
 }: {
   data: TestimonialsSection;
   tone?: "light" | "deep";
   surface?: TestimonialsSurface;
   sectionId?: string;
+  /** "table" is the drawing "מה אפשר" also uses, one section earlier. */
+  art?: "table" | "pair";
 }) {
   const [first, second, third] = data.items;
   const headingId = `${sectionId}-title`;
@@ -73,17 +77,20 @@ export function Testimonials({
   /** Option 3: colour lands on the short quote alone. */
   const single = surface === "single";
 
-  const drawing = (size: string) => (
-    <Image
-      src="/images/art-kids-table.png"
-      alt=""
-      width={900}
-      height={735}
-      sizes="220px"
-      aria-hidden="true"
-      className={`w-auto opacity-80 ${size}`}
-    />
-  );
+  const drawing = (size: string) =>
+    art === "pair" ? (
+      <TwoChildren className={`w-auto text-ink/70 ${size}`} />
+    ) : (
+      <Image
+        src="/images/art-kids-table.png"
+        alt=""
+        width={900}
+        height={735}
+        sizes="220px"
+        aria-hidden="true"
+        className={`w-auto opacity-80 ${size}`}
+      />
+    );
 
   return (
     <section

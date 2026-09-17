@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 import type { NotHereSection } from "@/content/types";
 
@@ -70,10 +71,13 @@ export function NotHere({
   data,
   variant = "plain",
   sectionId = "not-here",
+  art = false,
 }: {
   data: NotHereSection;
   variant?: NotHereVariant;
   sectionId?: string;
+  /** A drawing under the list. The light variant, for the dark ground. */
+  art?: boolean;
 }) {
   const t = theme[variant];
   const last = data.items.length - 1;
@@ -112,6 +116,20 @@ export function NotHere({
             </Reveal>
           ))}
         </dl>
+
+        {art && (
+          <Reveal delay={180} className="mt-12 flex justify-center">
+            <Image
+              src={`/images/art-kid-blocks${t.onDark ? "-light" : ""}.png`}
+              alt=""
+              width={900}
+              height={742}
+              sizes="180px"
+              aria-hidden="true"
+              className="h-20 w-auto opacity-75 md:h-24"
+            />
+          </Reveal>
+        )}
       </div>
     </section>
   );
