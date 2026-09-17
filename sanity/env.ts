@@ -1,5 +1,11 @@
-export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION ?? "2026-01-01";
-export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production";
+/*
+ * `||`, never `??`. Vercel's import creates every name it finds in
+ * .env.example, with an empty value — so these are present but blank, and `??`
+ * passes the empty string straight through. An empty api version is what the
+ * Sanity client rejects outright, which took the build down with it.
+ */
+export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-01-01";
+export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 
 /**
  * Efrat's project. Hard-coded rather than left to an environment variable
