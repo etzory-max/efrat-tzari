@@ -60,9 +60,13 @@ export function Approach({
           {data.cards.map((card, index) => (
             <li key={card.title} className="h-full">
               <Reveal delay={index * 110} className="flex h-full gap-5">
-                {/* Full strength terracotta is 3.0:1 on this cream — under the
-                    bar for text, fine for a rule, which is not text. */}
-                <span aria-hidden="true" className="w-1.5 shrink-0 rounded-full bg-accent" />
+                {/* accent-ink, the same terracotta as the number beside it.
+                    The site keeps two weights of the one colour - the light
+                    one for shapes, the dark one for text - and a rule could
+                    have taken either. Matching the number makes the pair read
+                    as a single mark, and the light terracotta at 2.1:1 on this
+                    cream was receding into it anyway. */}
+                <span aria-hidden="true" className="w-1.5 shrink-0 rounded-full bg-accent-ink" />
 
                 <div className="flex-1">
                   {/* The number and the heading are one unit, on a shared
