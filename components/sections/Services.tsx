@@ -35,9 +35,15 @@ import { Reveal } from "@/components/ui/Reveal";
  * that ever failed.
  */
 /* One literal string, not a joined one: Tailwind finds classes by scanning the
-   source text, so a name assembled at runtime produces no CSS at all. */
+   source text, so a name assembled at runtime produces no CSS at all.
+
+   The ramp is short on purpose. It has to be fully spent - not merely faint -
+   by the time it reaches the far corner, because the drawing there is a pencil
+   line in this very colour and any terracotta still under it takes the line
+   with it. Full strength holds through the copy, then falls away between 30%
+   and 70% and is gone from there on, so the drawing sits on bare cream. */
 const filled =
-  "rounded-3xl p-8 lg:p-10 on-accent bg-[radial-gradient(132%_118%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_46%,rgba(214,154,126,0.74)_64%,rgba(214,154,126,0.36)_82%,rgba(214,154,126,0.08)_100%)]";
+  "rounded-3xl p-8 lg:p-10 on-accent bg-[radial-gradient(118%_108%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_30%,rgba(214,154,126,0.62)_46%,rgba(214,154,126,0.26)_58%,rgba(214,154,126,0.06)_68%,rgba(214,154,126,0)_76%)]";
 
 function ServiceCard({ service }: { service: Service }) {
   const primary = service.variant === "dark";
@@ -85,7 +91,7 @@ function ServiceCard({ service }: { service: Service }) {
           height={834}
           sizes="260px"
           aria-hidden="true"
-          className="pointer-events-none order-last mt-8 h-14 w-auto self-end opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:bottom-2 lg:end-0 lg:order-none lg:mt-0 lg:h-24"
+          className="pointer-events-none order-last mt-8 h-24 w-auto self-end opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:bottom-2 lg:end-0 lg:order-none lg:mt-0 lg:h-36"
         />
       )}
 
