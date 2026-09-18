@@ -38,7 +38,7 @@ const QUERY = /* groq */ `{
   "about": *[_type == "about"][0] {
     eyebrow, title, paragraphs, portrait, badgeValue, badgeLabel, points
   },
-  "servicesCopy": *[_type == "servicesSection"][0] { eyebrow, title, lead },
+  "servicesCopy": *[_type == "servicesSection"][0] { eyebrow, title, lead, ctaTitle, ctaLabel, ctaHref },
   "services": *[_type == "service"] | order(order asc) {
     "id": slug.current, icon, kicker, title, body, bullets,
     price, note, ctaLabel, ctaHref, variant, moreLabel, details
@@ -149,6 +149,9 @@ function mergeContent(data: any): SiteContent {
         eyebrow: or(servicesCopy.eyebrow, d.services.eyebrow),
         title: or(servicesCopy.title, d.services.title),
         lead: or(servicesCopy.lead, d.services.lead),
+        ctaTitle: or(servicesCopy.ctaTitle, d.services.ctaTitle),
+        ctaLabel: or(servicesCopy.ctaLabel, d.services.ctaLabel),
+        ctaHref: or(servicesCopy.ctaHref, d.services.ctaHref),
         services: data.services.map((service: any) => ({
           id: or(service.id, "service"),
           icon: or(service.icon, "users"),

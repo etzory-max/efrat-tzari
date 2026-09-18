@@ -144,6 +144,9 @@ async function run() {
     eyebrow: kept(old.servicesEyebrow, c.services.eyebrow),
     title: kept(old.servicesTitle, c.services.title),
     lead: c.services.lead,
+    ctaTitle: c.services.ctaTitle,
+    ctaLabel: c.services.ctaLabel,
+    ctaHref: c.services.ctaHref,
   });
 
   c.services.services.forEach((service, index) => {

@@ -290,7 +290,18 @@ const servicesSection = defineType({
   name: "servicesSection",
   title: "מה אפשר — כותרת האזור",
   type: "document",
-  fields: heading("מה אפשר", { lead: true }),
+  fields: [
+    ...heading("מה אפשר", { lead: true }),
+    defineField({
+      name: "ctaTitle",
+      title: "המשפט שסוגר את האזור",
+      type: "text",
+      rows: 2,
+      description: "מופיע גדול מתחת לשני הכרטיסים. ריק — והשורה והכפתור לא יוצגו.",
+    }),
+    defineField({ name: "ctaLabel", title: "כפתור — טקסט", type: "string" }),
+    defineField({ name: "ctaHref", title: "כפתור — יעד", type: "string", initialValue: "/#contact" }),
+  ],
   preview: { prepare: () => ({ title: "מה אפשר — כותרת האזור" }) },
 });
 

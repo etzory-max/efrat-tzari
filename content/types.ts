@@ -161,6 +161,10 @@ export type ServicesSection = {
   /** Optional standfirst under the section heading. */
   lead?: string;
   services: Service[];
+  /** The line that closes the section, and the button under it. */
+  ctaTitle?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 };
 
 export type Article = {

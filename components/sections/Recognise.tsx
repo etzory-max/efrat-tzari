@@ -92,7 +92,9 @@ export function Recognise({ data }: { data: RecogniseSection }) {
           <h2 id="recognise-title" className="mt-3 text-3xl text-balance text-slate md:text-4xl">
             {data.title}
           </h2>
-          <p className="mt-5 text-xl text-muted">{data.lead}</p>
+          {/* pre-line, so a break typed in the Studio is a break on the page:
+              these two sentences land harder apart than as one block. */}
+          <p className="mt-5 text-xl whitespace-pre-line text-muted">{data.lead}</p>
         </Reveal>
 
         <Reveal delay={80} className="mx-auto mt-14 max-w-2xl">

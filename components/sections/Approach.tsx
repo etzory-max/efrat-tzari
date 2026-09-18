@@ -35,7 +35,9 @@ export function Approach({
           <h2 id="approach-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
-          <p className="mt-5 text-xl text-muted">{data.lead}</p>
+          {/* pre-line, so a break typed in the Studio is a break on the page.
+              This lead is two sentences that work better apart. */}
+          <p className="mt-5 text-xl whitespace-pre-line text-muted">{data.lead}</p>
         </Reveal>
 
         <List className="mt-14 grid gap-6 md:grid-cols-3">

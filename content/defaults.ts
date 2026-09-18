@@ -26,7 +26,8 @@ export const defaultContent: SiteContent = {
   recognise: {
     eyebrow: "אם זה הבית שלך",
     title: "את לא צריכה עוד מישהו שיסביר לך מה זה אוטיזם. את חיה את זה.",
-    lead: "את יודעת יותר על הילד שלך מכל מי שישב מולך בוועדה. מה שחסר לך זה לא ידע, זה יום שאפשר לחיות בו.",
+    lead:
+      "את יודעת יותר על הילד שלך מכל מי שישב מולך בוועדה.\nמה שחסר לך זה לא ידע, זה יום שאפשר לחיות בו.",
     timelineLabel: "יום אחד בבית שלך",
     items: [
       {
@@ -82,7 +83,10 @@ export const defaultContent: SiteContent = {
   approach: {
     eyebrow: "איך זה עובד",
     title: "שלושה עמודי תווך, ובסדר הזה",
-    lead: "אין כאן שיטה שתשנה את הילד ואין כאן פרוטוקול. יש דרך להסתכל, דרך לנהל את השגרה, ומודל לרגע שבו השגרה מתפוצצת.",
+    // The line break is content, not layout: the first sentence says what this
+    // is not and the second says what it is, and they land harder apart.
+    lead:
+      "אין כאן שיטה שתשנה את הילד ואין כאן פרוטוקול.\nיש דרך להסתכל, דרך לנהל את השגרה, ומודל לרגע שבו השגרה מתפוצצת.",
     cards: [
       {
         icon: "shift",
@@ -108,6 +112,9 @@ export const defaultContent: SiteContent = {
     eyebrow: "מה אפשר",
     title: "שתי דרכים להתחיל",
     lead: "שתיהן מתחילות באותו מקום, במה שקורה אצלכם בבית ביום רגיל. שתיהן קיימות גם פרונטלי וגם בזום.",
+    ctaTitle: "הצעד הראשון הוא לא התחייבות. הוא שיחה.",
+    ctaLabel: "דברי איתי",
+    ctaHref: "/#contact",
     /* The first entry is the lead card — the washed one, on the right. */
     services: [
       {

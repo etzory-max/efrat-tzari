@@ -145,6 +145,30 @@ export function Services({ data }: { data: ServicesSection }) {
             ))}
           </div>
         </div>
+
+        {/* The section ends on a decision, not on a second card.
+            Both offers carry their own link, but a reader who has not chosen
+            between them has nowhere to go from here - and the only other way
+            on is the form at the very bottom of the page.
+
+            One line and one button, nothing under it: the sentence already
+            says the step is small, and a reassurance line beneath the button
+            would say it twice. */}
+        {data.ctaTitle && (
+          <Reveal delay={240} className="mt-16 text-center">
+            <p className="mx-auto max-w-2xl text-2xl text-balance text-ink md:text-3xl">
+              {data.ctaTitle}
+            </p>
+            {data.ctaLabel && (
+              <Link
+                href={data.ctaHref ?? "/#contact"}
+                className="btn btn-primary mt-7 px-8 py-4 text-base"
+              >
+                {data.ctaLabel}
+              </Link>
+            )}
+          </Reveal>
+        )}
       </div>
     </section>
   );
