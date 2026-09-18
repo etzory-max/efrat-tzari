@@ -111,7 +111,7 @@ export function Approach({
               height={900}
               sizes="300px"
               aria-hidden="true"
-              className="h-40 w-auto select-none md:h-56"
+              className="h-28 w-auto select-none md:h-40"
             />
           </Reveal>
         )}
