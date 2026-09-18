@@ -80,7 +80,7 @@ export function About({ data, tone = "light" }: { data: AboutSection; tone?: "li
                     {data.book.title}
                     <span className="mt-1 block text-base text-muted">{data.book.subtitle}</span>
                   </h3>
-                  <p className="mt-3 text-muted">{data.book.blurb}</p>
+                  <p className="mt-3 text-lg text-muted">{data.book.blurb}</p>
                 </div>
               </div>
               <a

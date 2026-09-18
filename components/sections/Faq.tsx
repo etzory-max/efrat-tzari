@@ -26,7 +26,7 @@ export function Faq({
           <h2 id="faq-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
-          <p className="mt-5 text-lg text-muted">{data.lead}</p>
+          <p className="mt-5 text-xl text-muted">{data.lead}</p>
         </Reveal>
 
         {/* Native <details> keeps every answer in the HTML - good for screen
@@ -63,14 +63,14 @@ export function Faq({
               open={index === 0}
               className="group rounded-2xl border border-cream-200 bg-white/70 px-6 open:bg-white"
             >
-              <summary className="tap flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-start text-base font-medium text-ink md:text-lg">
+              <summary className="tap flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-start text-lg font-medium text-ink md:text-xl">
                 <span>{item.question}</span>
                 <ChevronDown
                   className="size-5 shrink-0 text-accent-ink transition-transform duration-300 group-open:rotate-180"
                   aria-hidden="true"
                 />
               </summary>
-              <p className="border-t border-accent/60 py-5 leading-relaxed text-muted">
+              <p className="border-t border-accent/60 py-5 text-lg leading-relaxed text-muted">
                 {item.answer}
               </p>
             </details>

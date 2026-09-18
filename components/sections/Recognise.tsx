@@ -61,8 +61,8 @@ function Moment({
         {/* Hebrew gains nothing from wide tracking and loses word shape, so the
             phase labels sit tighter than an eyebrow. */}
         <p className="text-sm tracking-[0.12em] text-accent-ink">{item.time}</p>
-        <h3 className="mt-2 text-xl text-slate">{item.title}</h3>
-        <p className="mt-2 text-muted">{item.body}</p>
+        <h3 className="mt-2 text-2xl text-slate">{item.title}</h3>
+        <p className="mt-2 text-lg text-muted">{item.body}</p>
       </div>
     </Reveal>
   );
@@ -92,7 +92,7 @@ export function Recognise({ data }: { data: RecogniseSection }) {
           <h2 id="recognise-title" className="mt-3 text-3xl text-balance text-slate md:text-4xl">
             {data.title}
           </h2>
-          <p className="mt-5 text-lg text-muted">{data.lead}</p>
+          <p className="mt-5 text-xl text-muted">{data.lead}</p>
         </Reveal>
 
         <Reveal delay={80} className="mx-auto mt-14 max-w-2xl">

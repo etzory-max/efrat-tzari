@@ -79,7 +79,7 @@ export function Articles({ data, tone = "deep" }: { data: ArticlesSection; tone?
                   {/* The date and the reading time are kept in the data — they
                       feed the Article structured data — but they are not shown.
                       A date ages a piece that is not news. */}
-                  <h3 className="text-lg text-slate transition-colors group-hover/card:text-accent-ink">
+                  <h3 className="text-xl text-slate transition-colors group-hover/card:text-accent-ink">
                     <Link
                       href={`/articles/${article.slug}`}
                       className="outline-none after:absolute after:inset-0 after:content-['']"
@@ -87,7 +87,7 @@ export function Articles({ data, tone = "deep" }: { data: ArticlesSection; tone?
                       {article.title}
                     </Link>
                   </h3>
-                  <p className="mt-3 text-base text-muted">{article.excerpt}</p>
+                  <p className="mt-3 text-lg text-muted">{article.excerpt}</p>
 
                   {/* A quiet "there is more inside". Not a button — the whole
                       card is already the link — so it stays decorative and out

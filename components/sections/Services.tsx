@@ -113,7 +113,7 @@ export function Services({ data }: { data: ServicesSection }) {
           <h2 id="services-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
-          {data.lead && <p className="mt-5 text-lg text-muted">{data.lead}</p>}
+          {data.lead && <p className="mt-5 text-xl text-muted">{data.lead}</p>}
         </Reveal>
 
         <div className="relative mt-14 grid gap-12 lg:grid-cols-2 lg:gap-x-16">

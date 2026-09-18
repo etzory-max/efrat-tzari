@@ -131,7 +131,7 @@ export function Contact({
           <h2 id="contact-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
-          <p className="mt-5 text-lg text-muted">{data.lead}</p>
+          <p className="mt-5 text-xl text-muted">{data.lead}</p>
 
           <ul className="mt-10 space-y-6">
             {details.map((detail) => (

@@ -35,7 +35,7 @@ export function Approach({
           <h2 id="approach-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
-          <p className="mt-5 text-lg text-muted">{data.lead}</p>
+          <p className="mt-5 text-xl text-muted">{data.lead}</p>
         </Reveal>
 
         <List className="mt-14 grid gap-6 md:grid-cols-3">
@@ -73,7 +73,7 @@ export function Approach({
                   <h3 className="text-2xl text-ink">{card.title}</h3>
                 </div>
                 <span aria-hidden="true" className="mt-5 block h-px bg-ink/20" />
-                <p className="mt-5 text-ink">{card.body}</p>
+                <p className="mt-5 text-lg text-ink">{card.body}</p>
               </Reveal>
             </li>
           ))}

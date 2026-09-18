@@ -22,7 +22,7 @@ const theme = {
     title: "text-slate",
     rule: "border-cream-200",
     mark: "bg-accent",
-    term: "text-xl text-slate",
+    term: "text-2xl text-slate",
     termBox: "",
     body: "text-lg text-muted",
     onDark: false,
@@ -36,7 +36,7 @@ const theme = {
      * The light terracotta, not the full one: full accent on slate is 2.99:1
      * and fails AA, while this reads just as terracotta at 4.9:1.
      */
-    term: "text-xl text-accent-light",
+    term: "text-2xl text-accent-light",
     termBox: "",
     /**
      * White rather than `on-dark-muted`. That muted tone is a warm beige built
@@ -50,7 +50,7 @@ const theme = {
     title: "text-slate",
     rule: "border-cream-200",
     mark: "bg-accent",
-    term: "text-xl text-ink",
+    term: "text-2xl text-ink",
     termBox: "self-start rounded-2xl bg-accent/20 px-5 py-4",
     body: "text-lg text-muted",
     onDark: false,
@@ -60,7 +60,7 @@ const theme = {
     title: "text-slate",
     rule: "border-cream-200",
     mark: "",
-    term: "inline-block rounded-full bg-accent/25 px-4 py-1.5 text-xl text-ink",
+    term: "inline-block rounded-full bg-accent/25 px-4 py-1.5 text-2xl text-ink",
     termBox: "",
     body: "text-lg text-muted",
     onDark: false,

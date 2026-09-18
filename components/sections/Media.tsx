@@ -132,13 +132,13 @@ function Card({
             <Icon className="size-4" aria-hidden="true" />
             {label}
           </p>
-          <h3 className="mt-3 text-lg text-slate">{item.title}</h3>
+          <h3 className="mt-3 text-xl text-slate">{item.title}</h3>
           {/* Guarded: an empty outlet would otherwise leave a blank line
               between the title and the summary. */}
           {item.outlet && <p className="mt-1 text-base text-muted">{item.outlet}</p>}
           {/* The summary carries the content in text, so a scanned PDF is
               never the only way to get at it. */}
-          <p className="mt-3 text-base text-muted">{item.summary}</p>
+          <p className="mt-3 text-lg text-muted">{item.summary}</p>
 
           {isPress && item.href && (
             <a
@@ -181,7 +181,7 @@ export function Media({ data, tone = "deep" }: { data: MediaSection; tone?: "lig
           <h2 id="media-title" className="mt-3 text-3xl text-slate md:text-5xl">
             {data.title}
           </h2>
-          <p className="mt-5 text-lg text-muted">{data.lead}</p>
+          <p className="mt-5 text-xl text-muted">{data.lead}</p>
         </Reveal>
 
         <ul className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

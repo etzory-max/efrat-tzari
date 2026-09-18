@@ -80,13 +80,13 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
               <h2 id="guide-title" className="mt-3 text-3xl text-white md:text-4xl">
                 {data.title}
               </h2>
-              <p className="mt-5 text-lg text-white">{data.lead}</p>
+              <p className="mt-5 text-xl text-white">{data.lead}</p>
 
               <ul className="mt-6 space-y-3">
                 {data.bullets.map((bullet) => (
                   <li key={bullet} className="flex items-start gap-3">
                     <Check className="mt-1 size-5 shrink-0 text-white" aria-hidden="true" />
-                    <span className="text-white">{bullet}</span>
+                    <span className="text-lg text-white">{bullet}</span>
                   </li>
                 ))}
               </ul>
