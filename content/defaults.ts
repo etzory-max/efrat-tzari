@@ -150,26 +150,26 @@ export const defaultContent: SiteContent = {
     eyebrow: "המלצות",
     title: "מה אומרות אמהות שכבר עברו את זה",
     items: [
+      // Signed with a name alone, and nothing about who each one is. The three
+      // descriptions we had were doing different jobs - one placed the parent,
+      // one was a nickname, one explained where the quote came from - and read
+      // as three inconsistent afterthoughts under otherwise plain voices.
       {
         quote:
           "הגעתי אל אפרת במצב נפשי מאוד לא טוב, והיא הרימה אותי, כיוונה אותי, נתנה לי כלים ולימדה אותי איך לגשת. ההדרכה שיחררה ממני דברים שאני סוחבת חמש וחצי שנים.",
-        // TODO(efrat): the initial and the description are placeholders until
-        // she tells us how this parent wants to be credited.
+        // TODO(efrat): an initial until she tells us how this parent wants to
+        // be credited.
         name: "א׳",
-        role: "אמא במשפחה שליוויתי",
       },
       {
         quote:
           "הרגשתי שאת מעניקה לי כלים טקטיים, משרטטת איתי אסטרטגיה, מתקפת את הרגשות העוצמתיים שנולדים עם האבחנה, ועוזרת לי לגלות את האומץ ואת הכוחות מתוכי. חוללת שינוי מיטיב בחיינו.",
         name: "רחלי",
-        role: "אום אוריקי",
       },
       {
-        quote: "שינתה את חיי לטובה.",
-        // TODO(efrat): this came from a WhatsApp referral. Confirm she is happy
-        // to be quoted, and how she wants to be named, before launch.
-        name: "ו׳",
-        role: "בהמלצה להורה אחרת",
+        quote:
+          "אפרת ממש עזרה לי להתפקס, על עצמי, כי ראיתי די מהר שאת העולם מסביבי קשה הרבה יותר… לקח כמה צעדים אבל אנחנו על דרך אחרת לגמרי!",
+        name: "רינה",
       },
     ],
   },
