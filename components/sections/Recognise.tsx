@@ -114,7 +114,10 @@ export function Recognise({ data }: { data: RecogniseSection }) {
           <h3 className="text-center text-2xl text-slate md:text-[1.75rem]">
             {data.timelineLabel}
           </h3>
-          <span aria-hidden="true" className="mt-5 block h-px bg-cream-200" />
+          {/* The same rule the pillars in "איך זה עובד" are drawn with - 6px,
+              accent-ink, fully rounded - turned on its side. A cream hairline
+              was too faint to claim the list beneath it. */}
+          <span aria-hidden="true" className="mt-5 block h-1.5 rounded-full bg-accent-ink" />
         </Reveal>
 
         {/* Marker column and copy column, so the thread needs no absolute
