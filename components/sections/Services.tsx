@@ -15,25 +15,58 @@ import { Reveal } from "@/components/ui/Reveal";
 /* The lead service gets colour without getting a box: a wash that is
    strongest behind the heading and fades out before it reaches an edge.
    Presence, but no rectangle to close the section back up. */
-const wash =
-  "rounded-3xl p-8 lg:p-10 bg-[radial-gradient(70%_58%_at_8%_100%,rgba(214,154,126,0)_0%,rgba(214,154,126,0.06)_30%,rgba(214,154,126,0.28)_72%)]";
+/**
+ * The lead offer, on terracotta that fades across the card.
+ *
+ * Once the three steps above gave up their fills this became the only filled
+ * block on the page, and it is the one thing the page is built to lead to, so
+ * it is the one that has earned it. The old wash was far too faint to say so.
+ *
+ * But a flat fill swallowed the drawing in the far corner - it is a pencil
+ * line in the same terracotta, so on solid terracotta it simply disappears.
+ * The gradient is anchored off the top start corner, where the copy is, and
+ * thins to almost nothing by the opposite corner, where the drawing sits. The
+ * block still reads as terracotta; the drawing gets a pale ground to be seen
+ * against.
+ *
+ * Ink survives the whole ramp - 5.4:1 on the full colour, 11.6:1 where it
+ * fades to cream - which is why every word on this card is ink, the label
+ * included. accent-ink on full accent is 2.5:1 and was the only thing here
+ * that ever failed.
+ */
+/* One literal string, not a joined one: Tailwind finds classes by scanning the
+   source text, so a name assembled at runtime produces no CSS at all. */
+const filled =
+  "rounded-3xl p-8 lg:p-10 on-accent bg-[radial-gradient(132%_118%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_46%,rgba(214,154,126,0.74)_64%,rgba(214,154,126,0.36)_82%,rgba(214,154,126,0.08)_100%)]";
 
 function ServiceCard({ service }: { service: Service }) {
   const primary = service.variant === "dark";
 
-  const tone = {
-    kicker: "text-accent-ink",
-    title: "text-slate",
-    body: "text-muted",
-    mark: "text-accent-ink",
-    more: "text-accent-ink hover:text-ink",
-    rule: "border-accent/50",
-  };
+  /* Everything on the terracotta is ink: slate is 2.9:1 on it and the muted
+     grey is worse, so the whole card steps to the one tone that clears AA
+     there at 5.4:1. The rule and the mark go dark for the same reason. */
+  const tone = primary
+    ? {
+        kicker: "text-ink",
+        title: "text-ink",
+        body: "text-ink",
+        mark: "text-ink",
+        more: "text-ink hover:text-accent-ink",
+        rule: "border-ink/25",
+      }
+    : {
+        kicker: "text-accent-ink",
+        title: "text-slate",
+        body: "text-muted",
+        mark: "text-accent-ink",
+        more: "text-accent-ink hover:text-ink",
+        rule: "border-accent/50",
+      };
 
   return (
     <article
       id={service.id}
-      className={`group relative flex h-full flex-col ${primary ? wash : ""}`}
+      className={`group relative flex h-full flex-col ${primary ? filled : ""}`}
     >
       {primary && (
         /* Decorative, and it steps aside when the long copy opens — the
