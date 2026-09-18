@@ -40,19 +40,19 @@ export function Faq({
             src="/images/art-kid-blocks.png"
             alt=""
             width={900}
-            height={783}
+            height={791}
             sizes="140px"
             aria-hidden="true"
-            className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-24 w-auto opacity-80 xl:block"
+            className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-24 w-auto xl:block"
           />
           <Image
             src="/images/art-kid-ball.png"
             alt=""
-            width={704}
+            width={710}
             height={900}
             sizes="140px"
             aria-hidden="true"
-            className={`pointer-events-none absolute bottom-0 left-[calc(100%+2.5rem)] h-28 w-auto opacity-80 ${art === "pair" ? "hidden xl:block" : "hidden"}`}
+            className={`pointer-events-none absolute bottom-0 left-[calc(100%+2.5rem)] h-28 w-auto ${art === "pair" ? "hidden xl:block" : "hidden"}`}
           />
 
           <div className="space-y-3">
@@ -82,13 +82,13 @@ export function Faq({
               sit under it instead - same sizes as the strip further up. */}
           <div
             aria-hidden="true"
-            className="mt-12 flex items-end justify-center gap-8 opacity-80 xl:hidden"
+            className="mt-12 flex items-end justify-center gap-8 xl:hidden"
           >
             <Image
               src="/images/art-kid-blocks.png"
               alt=""
               width={900}
-              height={783}
+              height={791}
               sizes="120px"
               className="h-14 w-auto"
             />
@@ -96,7 +96,7 @@ export function Faq({
               <Image
                 src="/images/art-kid-ball.png"
                 alt=""
-                width={704}
+                width={710}
                 height={900}
                 sizes="100px"
                 className="h-16 w-auto"

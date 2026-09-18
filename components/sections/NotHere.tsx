@@ -123,7 +123,7 @@ export function NotHere({
               src={`/images/art-kid-blocks${t.onDark ? "-light" : ""}.png`}
               alt=""
               width={900}
-              height={783}
+              height={791}
               sizes="180px"
               aria-hidden="true"
               className="h-20 w-auto opacity-75 md:h-24"

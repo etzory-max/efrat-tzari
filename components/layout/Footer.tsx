@@ -33,7 +33,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
             <Image
               src="/images/art-kid-ball-light.png"
               alt=""
-              width={704}
+              width={710}
               height={900}
               sizes="160px"
               className="mx-auto mt-8 h-24 w-auto opacity-75 md:h-28 lg:mx-0"

@@ -54,7 +54,7 @@ export function Articles({
                 src="/images/art-child-sprawl.png"
                 alt=""
                 width={787}
-                height={541}
+                height={542}
                 sizes="140px"
                 aria-hidden="true"
                 className="hidden h-28 w-auto shrink-0 sm:block"
