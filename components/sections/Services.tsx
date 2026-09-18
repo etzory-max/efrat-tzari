@@ -69,13 +69,20 @@ function ServiceCard({ service }: { service: Service }) {
       className={`group relative flex h-full flex-col ${primary ? filled : ""}`}
     >
       {primary && (
-        /* Decorative, and it steps aside when the long copy opens — the
+        /* A path leading home: accompaniment is a journey towards somewhere,
+           and the card says as much. The two children at a table went because
+           the same drawing now had to serve the testimonials as well, and the
+           other candidates repeated what the page already has - a parent and
+           child walking closes "אם זה הבית שלך", and cupped hands close "איך
+           זה עובד". This is the only one with neither.
+
+           Decorative, and it steps aside when the long copy opens — the
            has-[details[open]] selector does it without a line of JS. */
         <Image
-          src="/images/art-kids-table.png"
+          src="/images/art-path-home.png"
           alt=""
-          width={900}
-          height={735}
+          width={762}
+          height={834}
           sizes="260px"
           aria-hidden="true"
           className="pointer-events-none order-last mt-8 h-14 w-auto self-end opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:bottom-2 lg:end-0 lg:order-none lg:mt-0 lg:h-24"
