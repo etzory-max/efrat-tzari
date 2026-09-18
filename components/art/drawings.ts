@@ -52,8 +52,8 @@ export const drawings = {
     "height": 833
   },
   "art-tin-can": {
-    "src": "/images/art-tin-can.d0c3442c.png",
-    "width": 562,
+    "src": "/images/art-tin-can.73fbf7c9.png",
+    "width": 530,
     "height": 753
   },
   "day-collapse": {

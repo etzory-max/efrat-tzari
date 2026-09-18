@@ -83,10 +83,11 @@ CUTS = [
     # of the girl; she begins at her pigtail just after it.
     ("art-girl-blocks", "play-source.jpg", (360, 1058), True),
     ("art-boy-ball", "play-source.jpg", (1765, None), True),
-    # Only the girl, her tin can and the string trailing off: the blocks to her
-    # right belong to a different idea, and a line running out of frame says
-    # the other end is somewhere rather than nowhere.
-    ("art-tin-can", "tincan-source.jpg", (90, 680), False),
+    # Only the girl, her tin can and the string trailing off. The blocks to
+    # her right belong to a different idea; they begin at 655, so the cut
+    # lands just before them rather than through the first one. A line running
+    # out of frame says the other end is somewhere rather than nowhere.
+    ("art-tin-can", "tincan-source.jpg", (90, 648), False),
 ]
 
 
