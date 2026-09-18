@@ -40,7 +40,7 @@ export function Faq({
             src="/images/art-kid-blocks.png"
             alt=""
             width={900}
-            height={791}
+            height={782}
             sizes="140px"
             aria-hidden="true"
             className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-24 w-auto xl:block"
@@ -48,7 +48,7 @@ export function Faq({
           <Image
             src="/images/art-kid-ball.png"
             alt=""
-            width={710}
+            width={689}
             height={900}
             sizes="140px"
             aria-hidden="true"
@@ -88,7 +88,7 @@ export function Faq({
               src="/images/art-kid-blocks.png"
               alt=""
               width={900}
-              height={791}
+              height={782}
               sizes="120px"
               className="h-14 w-auto"
             />
@@ -96,7 +96,7 @@ export function Faq({
               <Image
                 src="/images/art-kid-ball.png"
                 alt=""
-                width={710}
+                width={689}
                 height={900}
                 sizes="100px"
                 className="h-16 w-auto"

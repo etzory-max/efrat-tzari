@@ -88,7 +88,7 @@ export function Testimonials({
         src="/images/art-family-hold.png"
         alt=""
         width={900}
-        height={739}
+        height={760}
         sizes="260px"
         aria-hidden="true"
         className={`w-auto ${size}`}

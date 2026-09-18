@@ -117,8 +117,8 @@ export function Approach({
             <Image
               src="/images/art-hands-home.png"
               alt=""
-              width={900}
-              height={785}
+              width={874}
+              height={900}
               sizes="300px"
               aria-hidden="true"
               className="h-28 w-auto select-none md:h-40"

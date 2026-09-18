@@ -13,10 +13,10 @@ import type { RecogniseItem, RecogniseSection } from "@/content/types";
  * schema caps the list at the four these were drawn for.
  */
 const MARKS = [
-  { src: "/images/day-morning.png", width: 643, height: 523 },
-  { src: "/images/day-translate.png", width: 534, height: 397 },
-  { src: "/images/day-help.png", width: 513, height: 511 },
-  { src: "/images/day-collapse.png", width: 459, height: 464 },
+  { src: "/images/day-morning.png", width: 641, height: 522 },
+  { src: "/images/day-translate.png", width: 533, height: 397 },
+  { src: "/images/day-help.png", width: 507, height: 492 },
+  { src: "/images/day-collapse.png", width: 441, height: 464 },
 ];
 
 function Moment({
@@ -145,7 +145,7 @@ export function Recognise({ data }: { data: RecogniseSection }) {
           <Image
             src="/images/art-mother-walk.png"
             alt=""
-            width={768}
+            width={752}
             height={900}
             sizes="180px"
             aria-hidden="true"

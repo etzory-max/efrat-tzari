@@ -56,34 +56,36 @@ def cut(name, sheet_file, span, light):
     sheet = Image.open(f"{SRC}/{sheet_file}").convert("RGB")
     rgb = np.asarray(sheet).astype(np.float32)
 
-    # The ink: the mean of the two thousand darkest pixels. A percentage of the
-    # sheet is the wrong measure - these sheets are almost entirely paper, so
-    # even half a percent of them reaches well up into the mid-tones and
-    # returns an ink far lighter than any stroke actually is.
+    # Each pixel keeps its own colour. Only the paper is removed: anything
+    # more than a few levels off white becomes fully opaque and carries the
+    # exact value the sheet had, so the drawing on cream is the drawing that
+    # was handed over. Deriving a single ink colour and re-solving the shading
+    # against it - which is what this did before - kept coming back greyer and
+    # paler than the original, because the darkest pixels on these sheets are
+    # where strokes overlap and those are the least saturated ones on the page.
     lightness = rgb.max(axis=2)
-    ink = rgb.reshape(-1, 3)[np.argsort(lightness, axis=None)[:2000]].mean(axis=0)
-
-    # How much of that ink each pixel holds. Taken per channel and kept at the
-    # strongest, so a stroke reads at its full weight rather than at the
-    # average of three channels that disagree.
-    coverage = np.clip((255.0 - rgb) / np.maximum(255.0 - ink, 1.0), 0, 1).max(axis=2)
+    coverage = np.clip((255.0 - lightness) / 22.0, 0, 1)
+    # A separate, stricter test for where the drawing actually is. The soft
+    # ramp above reaches almost every pixel on a scanned sheet, so using it to
+    # find the bounds returns the whole page.
+    inked = lightness < 238
 
     x0, x1 = span or (0, None)
     band = coverage[:, x0:x1]
-    ys = np.where((band > 0.06).any(axis=1))[0]
-    xs = np.where((band > 0.06).any(axis=0))[0]
+    mask = inked[:, x0:x1]
+    ys = np.where(mask.any(axis=1))[0]
+    xs = np.where(mask.any(axis=0))[0]
     pad = 10
     top, bottom = max(0, ys.min() - pad), ys.max() + 1 + pad
     left, right = max(0, xs.min() - pad), xs.max() + 1 + pad
     alpha = band[top:bottom, left:right]
 
-    out = np.empty((*alpha.shape, 4), dtype=np.uint8)
-    out[..., 0], out[..., 1], out[..., 2] = ink.round().astype(np.uint8)
-    out[..., 3] = (alpha * 255).round().astype(np.uint8)
+    colour = rgb[:, x0:x1][top:bottom, left:right].round().astype(np.uint8)
+    out = np.dstack([colour, (alpha * 255).round().astype(np.uint8)])
     image = Image.fromarray(out, "RGBA")
     image.thumbnail((900, 900), Image.LANCZOS)
     image.save(f"{SRC}/{name}.png")
-    print(f"  {name}.png {image.size}  ink #{'%02x%02x%02x' % tuple(ink.round().astype(int))}")
+    print(f"  {name}.png {image.size}")
 
     if light:
         pale = out.copy()
