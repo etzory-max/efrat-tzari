@@ -8,7 +8,16 @@ import { Reveal } from "@/components/ui/Reveal";
 import type { ArticlesSection } from "@/content/types";
 
 /** See About: the band colour belongs to the page order, not the section. */
-export function Articles({ data, tone = "deep" }: { data: ArticlesSection; tone?: "light" | "deep" }) {
+export function Articles({
+  data,
+  tone = "deep",
+  art = true,
+}: {
+  data: ArticlesSection;
+  tone?: "light" | "deep";
+  /** The drawing beside the heading. Off where the page needs the air. */
+  art?: boolean;
+}) {
   const railRef = useRef<HTMLUListElement>(null);
 
   const scrollBy = (direction: 1 | -1) => {
@@ -26,11 +35,37 @@ export function Articles({ data, tone = "deep" }: { data: ArticlesSection; tone?
     >
       <div className="shell">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="eyebrow">{data.eyebrow}</p>
-            <h2 id="articles-title" className="mt-3 text-3xl text-slate md:text-5xl">
-              {data.title}
-            </h2>
+          <div className="flex items-end gap-5">
+            {/* Media and articles are two rectangular grids back to back -
+                the most boxed-in stretch of the page - and this is the relief.
+                It sits beside the heading, before the cards start, rather than
+                among them: inside the grid it would be a third visual language
+                in an already busy block, next to poster photographs and card
+                images.
+
+                The sprawl and not the child sitting upright. It is wide and
+                low, so it runs along the two lines of the heading instead of
+                overtopping them, and the books scattered around it say how
+                many articles there are, which is what the section offers.
+
+                Hidden below 640px, where the heading needs the full width. */}
+            {art && (
+              <Image
+                src="/images/art-child-sprawl.png"
+                alt=""
+                width={787}
+                height={541}
+                sizes="140px"
+                aria-hidden="true"
+                className="hidden h-28 w-auto shrink-0 sm:block"
+              />
+            )}
+            <div>
+              <p className="eyebrow">{data.eyebrow}</p>
+              <h2 id="articles-title" className="mt-3 text-3xl text-slate md:text-5xl">
+                {data.title}
+              </h2>
+            </div>
           </div>
 
           <div className="flex items-center gap-2">

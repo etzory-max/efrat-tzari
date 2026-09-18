@@ -53,7 +53,7 @@ export function About({ data, tone = "light" }: { data: AboutSection; tone?: "li
               index === data.highlight ? (
                 <p
                   key={paragraph.slice(0, 24)}
-                  className="border-s-[3px] border-accent-ink ps-5 text-xl leading-relaxed text-ink md:text-2xl"
+                  className="border-s-2 border-accent-ink ps-5 text-xl leading-relaxed text-ink md:text-2xl"
                 >
                   {paragraph}
                 </p>
