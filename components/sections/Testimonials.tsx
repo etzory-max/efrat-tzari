@@ -64,7 +64,6 @@ export function Testimonials({
   tone?: "light" | "deep";
   surface?: TestimonialsSurface;
   sectionId?: string;
-  /** "table" is the drawing "מה אפשר" also uses, one section earlier. */
   art?: "table" | "pair";
 }) {
   const [first, second, third] = data.items;
@@ -81,14 +80,18 @@ export function Testimonials({
     art === "pair" ? (
       <TwoChildren className={`w-auto text-ink/70 ${size}`} />
     ) : (
+      /* A family holding one another, not the two children at a table that
+         used to sit here - that drawing also opens the lead service card one
+         section up, and three parents' voices deserve their own image rather
+         than a second showing of somebody else's. */
       <Image
-        src="/images/art-kids-table.png"
+        src="/images/art-family-hold.png"
         alt=""
         width={900}
-        height={735}
-        sizes="220px"
+        height={739}
+        sizes="260px"
         aria-hidden="true"
-        className={`w-auto opacity-80 ${size}`}
+        className={`w-auto ${size}`}
       />
     );
 

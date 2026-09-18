@@ -34,6 +34,8 @@ export type AboutSection = {
   eyebrow: string;
   title: string;
   paragraphs: string[];
+  /** Which paragraph is set as the pull quote. Zero-based; omit for none. */
+  highlight?: number;
   portrait: Img;
   badgeValue: string;
   badgeLabel: string;

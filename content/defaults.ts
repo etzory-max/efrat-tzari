@@ -64,6 +64,10 @@ export const defaultContent: SiteContent = {
       "אני לא מטפלת ואני לא מחליפה אף איש מקצוע. אני זו שמבינה אותך ומכירה לעומק, שיושבת איתך על היום עצמו, על מה שקורה בשבע בבוקר ובשבע בערב, ועוזרת לך לנהל אותו כך שיישאר בו מקום גם לך.",
       "אני עוזרת להורים שמגדלים ילדים על הרצף לחיות חיים מאפשרים, שמחים ומלאים.",
     ],
+    // The fourth: the only paragraph that says what she is not, and the one
+    // thing in the section that separates her from every other professional
+    // the reader has already sat across from.
+    highlight: 3,
     portrait: {
       src: "/images/efrat-portrait.jpg",
       alt: "אפרת צרי, מחייכת אל המצלמה",

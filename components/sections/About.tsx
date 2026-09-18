@@ -39,10 +39,28 @@ export function About({ data, tone = "light" }: { data: AboutSection; tone?: "li
             {data.title}
           </h2>
 
+          {/* One paragraph is set as a pull quote without the quote marks.
+              The whole section is already her voice, so quoting her inside it
+              would be quoting someone from themselves; what the treatment has
+              to carry is weight, not attribution. The start-side rule is the
+              blockquote idiom with the marks taken off - and it is the mark
+              this page already uses for a pillar and for the day's heading.
+
+              Ink, because this is the emphasis tone (see globals.css), and
+              one more place the page spends it deliberately. */}
           <div className="mt-6 space-y-5 text-lg text-muted">
-            {data.paragraphs.map((paragraph) => (
-              <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-            ))}
+            {data.paragraphs.map((paragraph, index) =>
+              index === data.highlight ? (
+                <p
+                  key={paragraph.slice(0, 24)}
+                  className="border-s-[3px] border-accent-ink ps-5 text-xl leading-relaxed text-ink md:text-2xl"
+                >
+                  {paragraph}
+                </p>
+              ) : (
+                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+              ),
+            )}
           </div>
 
           {/* Guarded: the rule belongs to the list, and an empty list would

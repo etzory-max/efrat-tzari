@@ -36,7 +36,7 @@ const QUERY = /* groq */ `{
     eyebrow, title, lead, cards[] { icon, title, body }, quote, quoteAuthor
   },
   "about": *[_type == "about"][0] {
-    eyebrow, title, paragraphs, portrait, badgeValue, badgeLabel, points
+    eyebrow, title, paragraphs, highlight, portrait, badgeValue, badgeLabel, points
   },
   "servicesCopy": *[_type == "servicesSection"][0] { eyebrow, title, lead, ctaTitle, ctaLabel, ctaHref },
   "services": *[_type == "service"] | order(order asc) {
@@ -124,6 +124,9 @@ function mergeContent(data: any): SiteContent {
         eyebrow: or(data.about.eyebrow, d.about.eyebrow),
         title: or(data.about.title, d.about.title),
         paragraphs: or(data.about.paragraphs, d.about.paragraphs),
+        /* The Studio counts from 1, the array from 0. */
+        highlight:
+          typeof data.about.highlight === "number" ? data.about.highlight - 1 : d.about.highlight,
         portrait: toImg(data.about.portrait, d.about.portrait, 1000),
         badgeValue: or(data.about.badgeValue, d.about.badgeValue),
         badgeLabel: or(data.about.badgeLabel, d.about.badgeLabel),

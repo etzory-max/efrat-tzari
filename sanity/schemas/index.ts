@@ -271,6 +271,14 @@ const about = defineType({
       type: "array",
       of: [defineArrayMember({ type: "text" })],
     }),
+    defineField({
+      name: "highlight",
+      title: "איזו פסקה להדגיש",
+      type: "number",
+      description:
+        "מספר הפסקה שתוצג גדולה יותר ועם קו טרקוטה בצד. 1 היא הראשונה. ריק — ואף פסקה לא תודגש.",
+      validation: (r) => r.min(1).max(12),
+    }),
     accessibleImage("portrait", "תמונת פורטרט"),
     defineField({ name: "badgeValue", title: "באדג' — מספר", type: "string" }),
     defineField({ name: "badgeLabel", title: "באדג' — תיאור", type: "string" }),

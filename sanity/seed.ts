@@ -132,6 +132,7 @@ async function run() {
     eyebrow: c.about.eyebrow,
     title: c.about.title,
     paragraphs: c.about.paragraphs,
+    highlight: c.about.highlight === undefined ? undefined : c.about.highlight + 1,
     portrait: await uploadImage(c.about.portrait),
     badgeValue: c.about.badgeValue,
     badgeLabel: c.about.badgeLabel,
