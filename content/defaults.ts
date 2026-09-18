@@ -27,7 +27,7 @@ export const defaultContent: SiteContent = {
     eyebrow: "אם זה הבית שלך",
     title: "את לא צריכה עוד מישהו שיסביר לך מה זה אוטיזם. את חיה את זה.",
     lead: "מה שחסר לך זה לא ידע, זה יום שאפשר לחיות בו.",
-    timelineLabel: "יום אחד בבית שלך",
+    timelineLabel: "יום אחד בבית שלך…",
     items: [
       {
         time: "שבע בבוקר",
