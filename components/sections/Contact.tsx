@@ -135,10 +135,10 @@ export function Contact({
 
           <ul className="mt-10 space-y-6">
             {details.map((detail) => (
-              <li key={detail.label} className="flex items-start gap-4">
-                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent text-ink">
-                  <detail.icon className="size-5" aria-hidden="true" />
-                </span>
+              <li key={detail.label} className="flex items-start gap-3">
+                {/* The mark alone, no filled tile behind it. A terracotta
+                    square is a button shape, and these are not buttons. */}
+                <detail.icon className="mt-1 size-5 shrink-0 text-accent-ink" aria-hidden="true" />
                 <span>
                   <span className="block text-base text-muted">{detail.label}</span>
                   {detail.href ? (

@@ -37,7 +37,7 @@ export function Faq({
               and one to the last, so the pair reads as a mirrored frame.
               Decorative. */}
           <Image
-            src="/images/art-kid-blocks.png"
+            src="/images/art-girl-blocks.png"
             alt=""
             width={900}
             height={782}
@@ -46,7 +46,7 @@ export function Faq({
             className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-24 w-auto xl:block"
           />
           <Image
-            src="/images/art-kid-ball.png"
+            src="/images/art-boy-ball.png"
             alt=""
             width={689}
             height={900}
@@ -85,7 +85,7 @@ export function Faq({
             className="mt-12 flex items-end justify-center gap-8 xl:hidden"
           >
             <Image
-              src="/images/art-kid-blocks.png"
+              src="/images/art-girl-blocks.png"
               alt=""
               width={900}
               height={782}
@@ -94,7 +94,7 @@ export function Faq({
             />
             {art === "pair" && (
               <Image
-                src="/images/art-kid-ball.png"
+                src="/images/art-boy-ball.png"
                 alt=""
                 width={689}
                 height={900}

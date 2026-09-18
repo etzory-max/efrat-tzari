@@ -47,8 +47,8 @@ CUTS = [
     ("day-collapse", "day-icons-source.jpg", (2650, None), False),
     ("art-path-home", "paths-source.jpg", (1898, None), False),
     ("art-child-sprawl", "reading-source.jpg", (1833, None), False),
-    ("art-kid-blocks", "play-source.jpg", (120, 1058), True),
-    ("art-kid-ball", "play-source.jpg", (1780, None), True),
+    ("art-girl-blocks", "play-source.jpg", (120, 1058), True),
+    ("art-boy-ball", "play-source.jpg", (1780, None), True),
 ]
 
 

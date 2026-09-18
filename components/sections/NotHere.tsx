@@ -120,7 +120,7 @@ export function NotHere({
         {art && (
           <Reveal delay={180} className="mt-12 flex justify-center">
             <Image
-              src={`/images/art-kid-blocks${t.onDark ? "-light" : ""}.png`}
+              src={`/images/art-girl-blocks${t.onDark ? "-light" : ""}.png`}
               alt=""
               width={900}
               height={782}

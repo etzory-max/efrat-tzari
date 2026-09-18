@@ -92,7 +92,7 @@ for name, size in [("public/icon-192.png", 192), ("public/icon-512.png", 512), (
     print(f"{name} {size}x{size}")
 
 # ---- light illustrations for dark surfaces --------------------------------
-for name in ["art-kid-ball", "art-kid-blocks", "art-kids-table"]:
+for name in ["art-boy-ball", "art-girl-blocks", "art-kids-table"]:
     src = Image.open(f"public/images/{name}.png").convert("RGBA")
     tint = Image.new("RGBA", src.size, (242, 208, 188, 0))
     tint.putalpha(src.getchannel("A"))

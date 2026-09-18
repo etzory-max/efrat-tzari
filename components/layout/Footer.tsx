@@ -31,7 +31,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
             </p>
             {/* Tinted light so the line art reads on the dark footer. */}
             <Image
-              src="/images/art-kid-ball-light.png"
+              src="/images/art-boy-ball-light.png"
               alt=""
               width={689}
               height={900}
