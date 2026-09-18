@@ -61,7 +61,7 @@ function Moment({
         {/* Hebrew gains nothing from wide tracking and loses word shape, so the
             phase labels sit tighter than an eyebrow. */}
         <p className="text-sm tracking-[0.12em] text-accent-ink">{item.time}</p>
-        <h3 className="mt-2 text-2xl text-slate">{item.title}</h3>
+        <h4 className="mt-2 text-2xl text-slate">{item.title}</h4>
         <p className="mt-2 text-lg text-muted">{item.body}</p>
       </div>
     </Reveal>
@@ -98,9 +98,23 @@ export function Recognise({ data }: { data: RecogniseSection }) {
         </Reveal>
 
         <Reveal delay={80} className="mx-auto mt-14 max-w-2xl">
-          {/* A step above the phase labels below it, so the caption still reads
-              as the heading of the list rather than as one more entry in it. */}
-          <p className="eyebrow">{data.timelineLabel}</p>
+          {/* The heading of the four moments, not a second section label.
+              It was styled as an eyebrow, which is the same mark the section
+              opens with a few lines above - two opening labels, one of which
+              opens nothing. It was also a plain <p>, so the four items below
+              hung directly off the section heading with nothing introducing
+              them.
+
+              The distinction from the item headings is carried by position,
+              by the rule beneath and by a size step on wide screens - not by
+              shrinking the items, which sit at 24 over 18px copy and have no
+              room to give. The rule goes underneath on purpose: an eyebrow's
+              rule leads into something new, this one says that what follows
+              belongs to it. */}
+          <h3 className="text-center text-2xl text-slate md:text-[1.75rem]">
+            {data.timelineLabel}
+          </h3>
+          <span aria-hidden="true" className="mt-5 block h-px bg-cream-200" />
         </Reveal>
 
         {/* Marker column and copy column, so the thread needs no absolute
