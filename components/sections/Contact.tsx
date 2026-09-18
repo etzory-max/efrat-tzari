@@ -169,7 +169,7 @@ export function Contact({
               alt=""
               sizes="220px"
               aria-hidden="true"
-              className="mx-auto mt-10 h-32 w-auto md:h-40"
+              className="mx-auto mt-10 h-28 w-auto md:h-52"
             />
           )}
         </Reveal>

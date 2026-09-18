@@ -116,7 +116,7 @@ export function Testimonials({
                 {first && <Quote item={first} />}
               </Reveal>
               <Reveal delay={90} className="flex justify-center">
-                {drawing("h-28 lg:h-32")}
+                {drawing("h-28 lg:h-44")}
               </Reveal>
               <Reveal delay={180} className={single ? "" : perQuote}>
                 {third && <Quote item={third} highlight={single} />}
@@ -166,7 +166,7 @@ export function Testimonials({
             ))}
           </ol>
 
-          <div className="mt-10 flex justify-center md:hidden">{drawing("h-24")}</div>
+          <div className="mt-10 flex justify-center md:hidden">{drawing("h-28")}</div>
         </div>
       </div>
     </section>

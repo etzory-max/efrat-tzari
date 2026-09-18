@@ -120,7 +120,7 @@ export function Approach({
               alt=""
               sizes="300px"
               aria-hidden="true"
-              className="h-28 w-auto select-none md:h-40"
+              className="h-28 w-auto select-none md:h-44"
             />
           </Reveal>
         )}

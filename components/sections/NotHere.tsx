@@ -125,7 +125,7 @@ export function NotHere({
               alt=""
               sizes="180px"
               aria-hidden="true"
-              className="h-20 w-auto opacity-75 md:h-24"
+              className="h-28 w-auto md:h-44"
             />
           </Reveal>
         )}

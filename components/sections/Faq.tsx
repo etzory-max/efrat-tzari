@@ -42,7 +42,7 @@ export function Faq({
             alt=""
             sizes="140px"
             aria-hidden="true"
-            className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-24 w-auto xl:block"
+            className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-28 w-auto xl:block"
           />
           <Image
             {...drawings["art-boy-ball"]}
@@ -85,14 +85,14 @@ export function Faq({
               {...drawings["art-girl-blocks"]}
               alt=""
               sizes="120px"
-              className="h-14 w-auto"
+              className="h-24 w-auto"
             />
             {art === "pair" && (
               <Image
                 {...drawings["art-boy-ball"]}
                 alt=""
                 sizes="100px"
-                className="h-16 w-auto"
+                className="h-24 w-auto"
               />
             )}
           </div>

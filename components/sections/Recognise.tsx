@@ -146,7 +146,7 @@ export function Recognise({ data }: { data: RecogniseSection }) {
             alt=""
             sizes="180px"
             aria-hidden="true"
-            className="mx-auto h-32 w-auto md:h-40"
+            className="mx-auto h-36 w-auto md:h-56"
           />
           {/* Ink, and one of only two places on the page that gets it.
               The site reads in its blue - slate for headings, the blue-grey
