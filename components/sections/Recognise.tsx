@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
-import type { RecogniseSection } from "@/content/types";
+import type { RecogniseItem, RecogniseSection } from "@/content/types";
 
 /**
  * A drawn mark for each moment, in the order the moments are written: the
@@ -19,6 +19,55 @@ const MARKS = [
   { src: "/images/day-collapse.png", width: 301, height: 320 },
 ];
 
+function Moment({
+  item,
+  index,
+  last,
+}: {
+  item: RecogniseItem;
+  index: number;
+  last: boolean;
+}) {
+  const mark = MARKS[index];
+
+  return (
+    <Reveal delay={index * 90} className="grid grid-cols-[auto_1fr] gap-x-5">
+      {/* The dot lines up with the middle of the drawing, so the thread reads
+          as hanging each one.
+
+          The dot stays. Taking it out to make room for the drawing was the
+          wrong fix: the dot-on-a-thread is the device this section shares with
+          the testimonials further down, and without it the two stop rhyming.
+          The crowding was never about position - the dot, the drawing and the
+          label were all about the same size, so nothing among them read as
+          more important. Size alone settles it. */}
+      <div aria-hidden="true" className="flex flex-col items-center">
+        <span className="mt-7 size-3 shrink-0 rounded-full bg-accent md:mt-8" />
+        {!last && <span className="mt-2 w-px flex-1 bg-cream-200" />}
+      </div>
+
+      <div className={last ? "" : "pb-10"}>
+        {mark && (
+          <Image
+            src={mark.src}
+            alt=""
+            width={mark.width}
+            height={mark.height}
+            sizes="120px"
+            aria-hidden="true"
+            className="mb-3 h-14 w-auto md:h-18"
+          />
+        )}
+        {/* Hebrew gains nothing from wide tracking and loses word shape, so the
+            phase labels sit tighter than an eyebrow. */}
+        <p className="text-sm tracking-[0.12em] text-accent-ink">{item.time}</p>
+        <h3 className="mt-2 text-xl text-slate">{item.title}</h3>
+        <p className="mt-2 text-muted">{item.body}</p>
+      </div>
+    </Reveal>
+  );
+}
+
 /**
  * Recognition, before anything is offered.
  *
@@ -36,18 +85,11 @@ export function Recognise({ data }: { data: RecogniseSection }) {
   const last = data.items.length - 1;
 
   return (
-    <section
-      id="recognise"
-      aria-labelledby="recognise-title"
-      className="bg-cream-100 section"
-    >
+    <section id="recognise" aria-labelledby="recognise-title" className="bg-cream-100 section">
       <div className="shell">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">{data.eyebrow}</p>
-          <h2
-            id="recognise-title"
-            className="mt-3 text-3xl text-balance text-slate md:text-4xl"
-          >
+          <h2 id="recognise-title" className="mt-3 text-3xl text-balance text-slate md:text-4xl">
             {data.title}
           </h2>
           <p className="mt-5 text-lg text-muted">{data.lead}</p>
@@ -66,36 +108,7 @@ export function Recognise({ data }: { data: RecogniseSection }) {
             <li key={item.title}>
               {/* The node and its copy reveal together — staggering them left
                   a row of dots standing over empty space. */}
-              <Reveal delay={index * 90} className="grid grid-cols-[auto_1fr] gap-x-5">
-                <div aria-hidden="true" className="flex flex-col items-center">
-                  <span className="mt-1.5 size-3 shrink-0 rounded-full bg-accent" />
-                  {index < last && <span className="mt-2 w-px flex-1 bg-cream-200" />}
-                </div>
-
-                <div className={index < last ? "pb-10" : ""}>
-                  {/* Hebrew gains nothing from wide tracking and loses word
-                      shape, so the phase labels sit tighter than an eyebrow.
-                      The mark rides on the same line rather than above the
-                      heading: it is a small aside to the moment, and stacking
-                      it would give every entry a second heading. */}
-                  <div className="flex items-center gap-2.5">
-                    {MARKS[index] && (
-                      <Image
-                        src={MARKS[index].src}
-                        alt=""
-                        width={MARKS[index].width}
-                        height={MARKS[index].height}
-                        sizes="40px"
-                        aria-hidden="true"
-                        className="h-8 w-auto shrink-0 md:h-9"
-                      />
-                    )}
-                    <p className="text-sm tracking-[0.12em] text-accent-ink">{item.time}</p>
-                  </div>
-                  <h3 className="mt-2 text-xl text-slate">{item.title}</h3>
-                  <p className="mt-2 text-muted">{item.body}</p>
-                </div>
-              </Reveal>
+              <Moment item={item} index={index} last={index === last} />
             </li>
           ))}
         </ol>
