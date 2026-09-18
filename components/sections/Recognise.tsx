@@ -1,5 +1,5 @@
+import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
-import { FamilyWalk } from "@/components/art/Illustrations";
 import type { RecogniseSection } from "@/content/types";
 
 /**
@@ -70,7 +70,20 @@ export function Recognise({ data }: { data: RecogniseSection }) {
         {/* The turn. Ink rather than muted — it is the sentence the section
             was built to earn, and the only place colour enters as a figure. */}
         <Reveal delay={160} className="mx-auto mt-16 max-w-3xl text-center">
-          <FamilyWalk className="mx-auto h-24 w-auto text-accent-ink/55 md:h-28" />
+          {/* A drawn mother and child rather than the stick figures that stood
+              here: the section has just spent four moments describing this
+              person's day, and the closing image should look like her.
+              Decorative, so it is hidden from screen readers - the sentence
+              underneath is what carries the meaning. */}
+          <Image
+            src="/images/art-mother-walk.png"
+            alt=""
+            width={767}
+            height={900}
+            sizes="180px"
+            aria-hidden="true"
+            className="mx-auto h-32 w-auto md:h-40"
+          />
           <p className="mt-6 text-xl leading-relaxed text-balance text-ink md:text-2xl">
             {data.closer}
           </p>
