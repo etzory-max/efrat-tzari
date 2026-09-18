@@ -43,7 +43,12 @@ import { Reveal } from "@/components/ui/Reveal";
    with it. Full strength holds through the copy, then falls away between 30%
    and 70% and is gone from there on, so the drawing sits on bare cream. */
 const filled =
-  "rounded-3xl p-8 lg:p-10 on-accent bg-[radial-gradient(118%_108%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_30%,rgba(214,154,126,0.62)_46%,rgba(214,154,126,0.26)_58%,rgba(214,154,126,0.06)_68%,rgba(214,154,126,0)_76%)]";
+  "overflow-hidden rounded-3xl p-8 lg:p-10 on-accent " +
+  /* A phone card is tall and narrow, so the same ellipse runs out of colour
+     a third of the way down and leaves most of the card bare. The narrow
+     ramp is longer and wider to cover the copy that is stacked there. */
+  "bg-[radial-gradient(150%_120%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_38%,rgba(214,154,126,0.7)_56%,rgba(214,154,126,0.32)_70%,rgba(214,154,126,0.08)_82%,rgba(214,154,126,0)_92%)] " +
+  "lg:bg-[radial-gradient(148%_126%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_42%,rgba(214,154,126,0.74)_58%,rgba(214,154,126,0.36)_72%,rgba(214,154,126,0.1)_84%,rgba(214,154,126,0)_94%)]";
 
 function ServiceCard({ service }: { service: Service }) {
   const primary = service.variant === "dark";
@@ -91,7 +96,7 @@ function ServiceCard({ service }: { service: Service }) {
           height={834}
           sizes="260px"
           aria-hidden="true"
-          className="pointer-events-none order-last mt-8 h-24 w-auto self-end opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:bottom-2 lg:end-0 lg:order-none lg:mt-0 lg:h-36"
+          className="pointer-events-none order-last mt-4 h-24 w-auto self-end opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:-bottom-5 lg:-end-3 lg:order-none lg:mt-0 lg:h-44"
         />
       )}
 
