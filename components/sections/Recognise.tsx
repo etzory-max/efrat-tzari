@@ -3,6 +3,23 @@ import { Reveal } from "@/components/ui/Reveal";
 import type { RecogniseSection } from "@/content/types";
 
 /**
+ * A drawn mark for each moment, in the order the moments are written: the
+ * clothes and shoes for the fight to get out of the door, two bubbles for a
+ * day spent translating, an open hand for help that does not arrive, and the
+ * blocks coming down for the small fault that takes the day with it.
+ *
+ * Held here and not in the CMS on purpose. Each one illustrates its own
+ * sentence, so it is not a choice an editor should have to make - and the
+ * schema caps the list at the four these were drawn for.
+ */
+const MARKS = [
+  { src: "/images/day-morning.png", width: 320, height: 269 },
+  { src: "/images/day-translate.png", width: 320, height: 248 },
+  { src: "/images/day-help.png", width: 308, height: 320 },
+  { src: "/images/day-collapse.png", width: 301, height: 320 },
+];
+
+/**
  * Recognition, before anything is offered.
  *
  * The four observations are moments in one day, so they are drawn as one — a
@@ -57,8 +74,24 @@ export function Recognise({ data }: { data: RecogniseSection }) {
 
                 <div className={index < last ? "pb-10" : ""}>
                   {/* Hebrew gains nothing from wide tracking and loses word
-                      shape, so the phase labels sit tighter than an eyebrow. */}
-                  <p className="text-sm tracking-[0.12em] text-accent-ink">{item.time}</p>
+                      shape, so the phase labels sit tighter than an eyebrow.
+                      The mark rides on the same line rather than above the
+                      heading: it is a small aside to the moment, and stacking
+                      it would give every entry a second heading. */}
+                  <div className="flex items-center gap-2.5">
+                    {MARKS[index] && (
+                      <Image
+                        src={MARKS[index].src}
+                        alt=""
+                        width={MARKS[index].width}
+                        height={MARKS[index].height}
+                        sizes="40px"
+                        aria-hidden="true"
+                        className="h-8 w-auto shrink-0 md:h-9"
+                      />
+                    )}
+                    <p className="text-sm tracking-[0.12em] text-accent-ink">{item.time}</p>
+                  </div>
                   <h3 className="mt-2 text-xl text-slate">{item.title}</h3>
                   <p className="mt-2 text-muted">{item.body}</p>
                 </div>
