@@ -27,13 +27,13 @@ export const drawings = {
     "height": 760
   },
   "art-girl-blocks": {
-    "src": "/images/art-girl-blocks.6b3789cd.png",
-    "width": 588,
+    "src": "/images/art-girl-blocks.0fb6202f.png",
+    "width": 698,
     "height": 815
   },
   "art-girl-blocks-light": {
-    "src": "/images/art-girl-blocks-light.63604bb0.png",
-    "width": 588,
+    "src": "/images/art-girl-blocks-light.4ecfb795.png",
+    "width": 698,
     "height": 815
   },
   "art-hands-home": {

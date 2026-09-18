@@ -79,7 +79,9 @@ CUTS = [
     # 120..244 is a tree and some grass at the very edge of the sheet, drawn
     # as a border and not as part of the girl; 1765 catches the whole ball,
     # which the boy is kicking and which starts before he does.
-    ("art-girl-blocks", "play-source.jpg", (210, 1058), True, True),
+    # 230..355 is a soft drape drawn as a backdrop for the sheet, not part
+    # of the girl; she begins at her pigtail just after it.
+    ("art-girl-blocks", "play-source.jpg", (360, 1058), True),
     ("art-boy-ball", "play-source.jpg", (1765, None), True),
     # Only the girl, her tin can and the string trailing off: the blocks to her
     # right belong to a different idea, and a line running out of frame says
@@ -107,15 +109,14 @@ def cut(name, sheet_file, span, light, trim_edge=False):
     inked = lightness < 238
 
     if trim_edge:
-        # Some sheets are framed with a faint vertical stroke and a tuft of
-        # grass that belong to the page rather than to the drawing. They sit
-        # too close to the figure to cut away with the span, so the left edge
-        # walks in until it meets a column with real ink in it.
-        x_start = span[0]
-        counts = (lightness[:, x_start:] < 238).sum(axis=0)
-        while x_start - span[0] < 260 and counts[x_start - span[0]] < 300:
-            x_start += 1
-        span = (x_start, span[1])
+        # This sheet is framed with a soft vertical stroke - a wall, or a
+        # curtain - that stands right beside the girl rather than out at the
+        # edge, so no crop can take it without taking her arm with it. It is
+        # much fainter than she is drawn, so within that strip only the firm
+        # ink is kept.
+        x_start, width = span[0], 90
+        strip = coverage[:, x_start : x_start + width]
+        coverage[:, x_start : x_start + width] = np.where(strip > 0.45, strip, 0.0)
 
     x0, x1 = span or (0, None)
     band = coverage[:, x0:x1]
