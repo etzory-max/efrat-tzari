@@ -53,7 +53,7 @@ export function About({ data, tone = "light" }: { data: AboutSection; tone?: "li
                 <li key={point}>
                   <Reveal delay={200 + index * 80} className="flex items-start gap-3">
                     <Check className="mt-1 size-5 shrink-0 text-accent-ink" aria-hidden="true" />
-                    <span className="text-lg text-ink">{point}</span>
+                    <span className="text-lg text-muted">{point}</span>
                   </Reveal>
                 </li>
               ))}

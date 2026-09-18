@@ -189,6 +189,8 @@ export function Services({ data }: { data: ServicesSection }) {
             would say it twice. */}
         {data.ctaTitle && (
           <Reveal delay={240} className="mt-16 text-center">
+            {/* The other one. See the note in Recognise: ink is the emphasis
+                tone, not a second body colour. */}
             <p className="mx-auto max-w-2xl text-2xl text-balance text-ink md:text-3xl">
               {data.ctaTitle}
             </p>

@@ -42,7 +42,7 @@ function Quote({
 }) {
   return (
     <figure className={highlight ? "rounded-2xl bg-accent/25 p-6" : undefined}>
-      <blockquote className="text-lg leading-relaxed text-ink">
+      <blockquote className="text-lg leading-relaxed text-muted">
         <p>{item.quote}</p>
       </blockquote>
       <figcaption className="mt-4 text-base text-muted">

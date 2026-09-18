@@ -11,13 +11,18 @@
   --color-cream-200: #e2ddd3; /* hairlines on cream */
 
   /* Brand */
-  --color-slate: #465b6d; /* headings, CTA, dark card — 6.3:1 on cream */
+  --color-slate: #465b6d; /* every heading, the CTA, the dark card — 6.3:1 on cream */
   --color-slate-deep: #35485a; /* hover / active */
   --color-dark: #2c3238; /* footer, quote block, image overlay */
 
-  /* Text */
-  --color-ink: #2c333a; /* body — 11.5:1 on cream */
-  --color-muted: #55606b; /* secondary body — 5.7:1 on cream */
+  /* Text — one colour per role, and the roles are these. The page is read in
+     the blue: slate for every heading, the blue-grey muted for every
+     paragraph. --color-ink is NOT a second body colour; it is the emphasis
+     tone, spent on the two sentences a section was built to earn, and on
+     anything sitting on terracotta, where slate is 2.9:1 and fails.
+     Half the text in one family and half in the other is what this replaced. */
+  --color-ink: #2c333a; /* emphasis, and text on accent — 11.5:1 on cream */
+  --color-muted: #55606b; /* body — 5.7:1 on cream */
   --color-on-dark: #f5f2ed; /* text on --color-dark */
   --color-on-dark-muted: #d7d2c9; /* secondary text on dark — 8.6:1 */
 

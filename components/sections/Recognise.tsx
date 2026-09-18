@@ -132,6 +132,11 @@ export function Recognise({ data }: { data: RecogniseSection }) {
             aria-hidden="true"
             className="mx-auto h-32 w-auto md:h-40"
           />
+          {/* Ink, and one of only two places on the page that gets it.
+              The site reads in its blue - slate for headings, the blue-grey
+              muted for body - and the near-black is held back for the sentence
+              a section was built to earn. Scattered, as it was, it stopped
+              anyone from noticing it anywhere. */}
           <p className="mt-6 text-xl leading-relaxed text-balance text-ink md:text-2xl">
             {data.closer}
           </p>

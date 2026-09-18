@@ -63,7 +63,7 @@ export function Faq({
               open={index === 0}
               className="group rounded-2xl border border-cream-200 bg-white/70 px-6 open:bg-white"
             >
-              <summary className="tap flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-start text-lg font-medium text-ink md:text-xl">
+              <summary className="tap flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-start text-lg font-medium text-slate md:text-xl">
                 <span>{item.question}</span>
                 <ChevronDown
                   className="size-5 shrink-0 text-accent-ink transition-transform duration-300 group-open:rotate-180"
