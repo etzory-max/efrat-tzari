@@ -33,7 +33,7 @@ export default async function HomePage() {
       <Faq data={content.faq} tone="deep" />
       {/* Last thing read before the form: what she is not being sold. */}
       {content.notHere && <NotHere data={content.notHere} variant="dark" />}
-      <Contact data={content.contact} settings={settings} />
+      <Contact data={content.contact} settings={settings} art />
 
       <FaqJsonLd items={content.faq.items} />
       <ServicesJsonLd services={content.services.services} />

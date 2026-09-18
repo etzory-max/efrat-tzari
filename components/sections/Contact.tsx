@@ -1,10 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { CheckCircle2, Mail, Phone } from "lucide-react";
-import { ChildBall } from "@/components/art/Illustrations";
 import { submitContact, type ContactState } from "@/app/actions/contact";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ContactSection } from "@/content/types";
@@ -133,7 +133,9 @@ export function Contact({
           </h2>
           <p className="mt-5 text-xl text-muted">{data.lead}</p>
 
-          <ul className="mt-10 space-y-6">
+          {/* Side by side once there is room: two short lines stacked left a
+              column of air beside them and pushed the drawing far down the page. */}
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2">
             {details.map((detail) => (
               <li key={detail.label} className="flex items-start gap-3">
                 {/* The mark alone, no filled tile behind it. A terracotta
@@ -157,7 +159,20 @@ export function Contact({
             ))}
           </ul>
 
-          {art && <ChildBall className="mt-12 h-24 w-auto text-accent-ink/55 md:h-28" />}
+          {art && (
+            /* A tin can on a string, under the two ways of reaching her. The
+               section is called "דברי איתי" and a can with a line running out
+               of frame is that: someone is holding the other end. */
+            <Image
+              src="/images/art-tin-can.png"
+              alt=""
+              width={562}
+              height={753}
+              sizes="220px"
+              aria-hidden="true"
+              className="mt-10 h-32 w-auto md:h-40"
+            />
+          )}
         </Reveal>
 
         <Reveal delay={140} className="on-accent rounded-3xl bg-accent p-6 md:p-9">

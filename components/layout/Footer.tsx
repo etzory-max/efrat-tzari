@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
@@ -25,19 +24,13 @@ export function Footer({ settings }: { settings: SiteSettings }) {
               menu - every one of those links already sits in the header.
               Left ragged, not centred: centring Hebrew this long gives a
               jagged block with no edge to read down. */}
-          <div className="md:col-span-2 lg:col-span-1">
-            <p className="max-w-md text-lg leading-relaxed text-balance text-on-dark md:text-xl">
+          {/* Centred in its column now that the drawing under it is gone -
+              left ragged against nothing, the sentence hung off the edge of a
+              column twice its width. */}
+          <div className="md:col-span-2 lg:col-span-1 lg:self-center">
+            <p className="mx-auto max-w-sm text-lg leading-relaxed text-balance text-on-dark lg:mx-0 md:text-xl">
               {settings.footerLine}
             </p>
-            {/* Tinted light so the line art reads on the dark footer. */}
-            <Image
-              src="/images/art-boy-ball-light.png"
-              alt=""
-              width={689}
-              height={900}
-              sizes="160px"
-              className="mx-auto mt-8 h-24 w-auto opacity-75 md:h-28 lg:mx-0"
-            />
           </div>
 
           <div>

@@ -47,12 +47,19 @@ CUTS = [
     ("day-collapse", "day-icons-source.jpg", (2650, None), False),
     ("art-path-home", "paths-source.jpg", (1898, None), False),
     ("art-child-sprawl", "reading-source.jpg", (1833, None), False),
-    ("art-girl-blocks", "play-source.jpg", (120, 1058), True),
-    ("art-boy-ball", "play-source.jpg", (1780, None), True),
+    # 120..244 is a tree and some grass at the very edge of the sheet, drawn
+    # as a border and not as part of the girl; 1765 catches the whole ball,
+    # which the boy is kicking and which starts before he does.
+    ("art-girl-blocks", "play-source.jpg", (210, 1058), True, True),
+    ("art-boy-ball", "play-source.jpg", (1765, None), True),
+    # Only the girl, her tin can and the string trailing off: the blocks to her
+    # right belong to a different idea, and a line running out of frame says
+    # the other end is somewhere rather than nowhere.
+    ("art-tin-can", "tincan-source.jpg", (90, 680), False),
 ]
 
 
-def cut(name, sheet_file, span, light):
+def cut(name, sheet_file, span, light, trim_edge=False):
     sheet = Image.open(f"{SRC}/{sheet_file}").convert("RGB")
     rgb = np.asarray(sheet).astype(np.float32)
 
@@ -69,6 +76,17 @@ def cut(name, sheet_file, span, light):
     # ramp above reaches almost every pixel on a scanned sheet, so using it to
     # find the bounds returns the whole page.
     inked = lightness < 238
+
+    if trim_edge:
+        # Some sheets are framed with a faint vertical stroke and a tuft of
+        # grass that belong to the page rather than to the drawing. They sit
+        # too close to the figure to cut away with the span, so the left edge
+        # walks in until it meets a column with real ink in it.
+        x_start = span[0]
+        counts = (lightness[:, x_start:] < 238).sum(axis=0)
+        while x_start - span[0] < 260 and counts[x_start - span[0]] < 300:
+            x_start += 1
+        span = (x_start, span[1])
 
     x0, x1 = span or (0, None)
     band = coverage[:, x0:x1]
