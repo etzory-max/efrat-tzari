@@ -64,7 +64,11 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
             fill
             sizes="(min-width: 1280px) 1200px, 100vw"
             aria-hidden="true"
-            className="-z-20 object-cover object-center"
+            /* The two faces sit in the left third of the frame, a little above
+               centre. Dead centre put them behind the form on a wide screen
+               and cropped them out altogether on a phone, where the panel is a
+               narrow vertical slice - so each width aims at them directly. */
+            className="-z-20 object-cover object-[22%_46%] lg:object-[26%_85%]"
           />
           {/* Two layers: a flat darkener for contrast, and a warm terracotta
               wash over it so the panel still belongs to the palette. */}
@@ -92,7 +96,15 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
               </ul>
             </div>
 
-            <form ref={formRef} action={formAction} noValidate className="space-y-5 self-center">
+            <form
+              ref={formRef}
+              action={formAction}
+              noValidate
+              /* Pushed to the foot of the panel on a wide screen: it is the
+                 shorter of the two columns, and centring it left the picture
+                 covered above and below for no gain. */
+              className="space-y-5 self-center lg:self-end"
+            >
               {/* Honeypot */}
               <div aria-hidden="true" className="absolute h-px w-px overflow-hidden opacity-0">
                 <label htmlFor="guide-website">אל תמלאו שדה זה</label>
