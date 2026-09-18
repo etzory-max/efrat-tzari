@@ -1,5 +1,3 @@
-import { site } from "@/lib/site";
-
 /**
  * Vector rebuild of Efrat's mark (two overlapping rings around a sprout) so it
  * stays crisp at any size and inherits colour from CSS. The original raster
@@ -30,9 +28,13 @@ export function Logomark({ className }: { className?: string }) {
 
 /** Full lockup: mark + wordmark + tagline. Used in the header and footer. */
 export function Logo({
+  name,
+  tagline,
   variant = "light",
   className = "",
 }: {
+  name: string;
+  tagline: string;
   variant?: "light" | "dark";
   className?: string;
 }) {
@@ -47,7 +49,7 @@ export function Logo({
         <span
           className={`font-[family-name:var(--font-display)] text-lg tracking-tight sm:text-xl md:text-2xl ${nameColor}`}
         >
-          {site.name}
+          {name}
         </span>
         {/* Shown on every width - the tagline is half the brand. It shrinks
             rather than disappearing, and truncates only on the narrowest
@@ -55,7 +57,7 @@ export function Logo({
         <span
           className={`mt-1 truncate text-sm leading-tight tracking-wide sm:mt-1.5 ${tagColor}`}
         >
-          {site.tagline}
+          {tagline}
         </span>
       </span>
     </span>

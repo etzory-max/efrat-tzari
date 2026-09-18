@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { navItems } from "@/lib/site";
 
-export function Header() {
+export function Header({ name, tagline }: { name: string; tagline: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -73,6 +73,7 @@ export function Header() {
 
   return (
     <header
+      data-site-chrome
       className={`sticky top-0 z-50 border-b bg-white transition-shadow duration-300 ${
         scrolled ? "border-cream-200 shadow-[0_1px_16px_rgba(44,50,56,0.07)]" : "border-transparent"
       }`}
@@ -87,9 +88,9 @@ export function Header() {
         <Link
           href="/"
           className="tap flex items-center rounded-lg"
-          aria-label={`${"אפרת צרי"} - לעמוד הבית`}
+          aria-label={`${name} - לעמוד הבית`}
         >
-          <Logo />
+          <Logo name={name} tagline={tagline} />
         </Link>
 
         <nav aria-label="ניווט ראשי" className="hidden lg:block">
@@ -148,7 +149,7 @@ export function Header() {
           className="absolute inset-y-0 start-0 flex w-[min(22rem,88vw)] flex-col bg-white shadow-2xl"
         >
           <div className="flex items-center justify-between border-b border-cream-200 px-6 py-5">
-            <Logo />
+            <Logo name={name} tagline={tagline} />
             <button
               type="button"
               data-autofocus

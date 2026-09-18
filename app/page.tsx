@@ -1,4 +1,4 @@
-import { getContent } from "@/lib/content";
+import { getContent, getSiteSettings } from "@/lib/content";
 import { Hero } from "@/components/sections/Hero";
 import { Recognise } from "@/components/sections/Recognise";
 import { Approach } from "@/components/sections/Approach";
@@ -14,7 +14,7 @@ import { Contact } from "@/components/sections/Contact";
 import { FaqJsonLd, MediaJsonLd, ServicesJsonLd } from "@/components/seo/JsonLd";
 
 export default async function HomePage() {
-  const content = await getContent();
+  const [content, settings] = await Promise.all([getContent(), getSiteSettings()]);
 
   return (
     <>
@@ -33,7 +33,7 @@ export default async function HomePage() {
       <Faq data={content.faq} tone="deep" />
       {/* Last thing read before the form: what she is not being sold. */}
       {content.notHere && <NotHere data={content.notHere} variant="dark" />}
-      <Contact data={content.contact} />
+      <Contact data={content.contact} settings={settings} />
 
       <FaqJsonLd items={content.faq.items} />
       <ServicesJsonLd services={content.services.services} />

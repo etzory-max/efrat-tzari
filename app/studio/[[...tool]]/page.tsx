@@ -1,6 +1,7 @@
 import { NextStudio } from "next-sanity/studio";
 import config from "@/sanity.config";
 import { sanityConfigured } from "@/sanity/env";
+import "./studio.css";
 
 export const dynamic = "force-static";
 export const metadata = {

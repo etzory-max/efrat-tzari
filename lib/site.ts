@@ -29,6 +29,10 @@ export const site = {
     linkedin: "https://www.linkedin.com/in/tzoryefrat/",
   },
 
+  /** The sentence in the footer, and the note beside the copyright line. */
+  footerLine: "אני עוזרת להורים שמגדלים ילדים על הרצף לחיות חיים מאפשרים, שמחים ומלאים.",
+  footerNote: "האתר כתוב בלשון נקבה מטעמי נוחות, ופונה לשני המינים באותה מידה.",
+
   /** Contact for accessibility + privacy enquiries (required by both statements). */
   accessibilityContactName: "אפרת צרי",
   accessibilityContactEmail: "etzory@gmail.com",

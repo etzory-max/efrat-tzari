@@ -1,0 +1,79 @@
+/*
+ * The Studio is an application, not a page of the site.
+ *
+ * It is rendered inside the root layout, so the site's own header, footer,
+ * WhatsApp button and privacy bar were drawing around and on top of it — the
+ * notice bar sat over the bottom of the editor. This stylesheet is imported
+ * only by the /studio route, so Next loads it on that route alone, and it
+ * takes the chrome back out.
+ */
+
+[data-site-chrome] {
+  display: none !important;
+}
+
+#main {
+  min-height: 100dvh;
+}
+
+/*
+ * Hebrew right-to-left for the Studio.
+ *
+ * Sanity ships no RTL mode, and flipping the whole application breaks its
+ * chrome — the pane resize handles, the split-pane arrows and the toolbar
+ * overflow menus all position themselves with physical left/right. So the flip
+ * is scoped to the editing surface: the field labels, the descriptions, the
+ * inputs and the rich-text editor. That is what Efrat reads and types into;
+ * the navigation around it stays where Sanity put it.
+ *
+ * Anything that is not Hebrew prose is held back at ltr afterwards: slugs and
+ * URLs, the Vision query editor, and the search box (which reaches into the
+ * global navigator, not this document).
+ */
+
+[data-ui="PaneContent"] {
+  direction: rtl;
+}
+
+/* Sanity draws a field as label, description, then input, all inside a Stack.
+   The Stack itself is fine; only the text needs turning. */
+[data-ui="PaneContent"] label,
+[data-ui="PaneContent"] [data-ui="Text"],
+[data-ui="PaneContent"] [data-ui="Heading"] {
+  text-align: right;
+}
+
+[data-ui="PaneContent"] input,
+[data-ui="PaneContent"] textarea,
+[data-ui="PaneContent"] [data-slate-editor="true"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* The Portable Text editor's own blocks — headings, list items, quotes — take
+   their direction from the editor above, but the list bullets need the flip
+   too or they hang off the left of a right-aligned line. */
+[data-ui="PaneContent"] [data-slate-editor="true"] ul,
+[data-ui="PaneContent"] [data-slate-editor="true"] ol {
+  padding-right: 1.5rem;
+  padding-left: 0;
+}
+
+/* Identifiers and addresses are never Hebrew. A slug shown rtl puts the
+   leading slash on the wrong end and reads as a different string. */
+[data-ui="PaneContent"] input[inputmode="url"],
+[data-ui="PaneContent"] [data-testid="slug-input"] input,
+[data-ui="PaneContent"] [data-testid="string-input"][name$="Href"],
+[data-ui="PaneContent"] [data-testid="string-input"][name="youtubeId"],
+[data-ui="PaneContent"] [data-testid="string-input"][name="phoneE164"],
+[data-ui="PaneContent"] [data-testid="string-input"][name="email"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Vision is a GROQ console. It must stay ltr, code and all. */
+[data-ui="PaneContent"] .cm-editor,
+[data-ui="PaneContent"] .cm-editor * {
+  direction: ltr;
+  text-align: left;
+}

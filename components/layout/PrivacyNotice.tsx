@@ -44,6 +44,7 @@ export function PrivacyNotice() {
 
   return (
     <div
+      data-site-chrome
       role="region"
       aria-label="הודעת פרטיות"
       className="on-dark fixed inset-x-0 bottom-0 z-40 bg-dark/97 px-4 py-4 shadow-[0_-6px_30px_rgba(44,50,56,0.25)] backdrop-blur print:hidden"

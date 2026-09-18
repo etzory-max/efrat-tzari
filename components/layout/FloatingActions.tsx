@@ -1,4 +1,3 @@
-import { whatsappHref } from "@/lib/site";
 import { AccessibilityMenu } from "./AccessibilityMenu";
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -10,10 +9,13 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 /** Stacked in the corner, matching the demo's placement. */
-export function FloatingActions() {
+export function FloatingActions({ whatsappHref }: { whatsappHref: string }) {
   return (
     // Physical left, matching the demo — not `start`, which would flip in RTL.
-    <div className="fixed bottom-6 left-6 z-40 flex flex-col items-start gap-3 print:hidden">
+    <div
+      data-site-chrome
+      className="fixed bottom-6 left-6 z-40 flex flex-col items-start gap-3 print:hidden"
+    >
       <div className="relative">
         <AccessibilityMenu />
       </div>

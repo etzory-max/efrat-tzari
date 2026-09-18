@@ -3,22 +3,22 @@ import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { InstagramIcon, LinkedInIcon } from "@/components/brand/SocialIcons";
-import { site } from "@/lib/site";
+import type { SiteSettings } from "@/lib/content";
 
 const legalItems = [
   { label: "מדיניות פרטיות", href: "/privacy" },
   { label: "הצהרת נגישות", href: "/accessibility" },
 ];
 
-export function Footer() {
+export function Footer({ settings }: { settings: SiteSettings }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="on-dark bg-dark pt-20 pb-8 text-on-dark">
+    <footer data-site-chrome className="on-dark bg-dark pt-20 pb-8 text-on-dark">
       <div className="shell">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1fr_1.7fr_1fr]">
           <div>
-            <Logo variant="dark" />
+            <Logo name={settings.name} tagline={settings.tagline} variant="dark" />
           </div>
 
           {/* The middle column carries the sentence rather than repeating the
@@ -27,8 +27,7 @@ export function Footer() {
               jagged block with no edge to read down. */}
           <div className="md:col-span-2 lg:col-span-1">
             <p className="max-w-md text-lg leading-relaxed text-balance text-on-dark md:text-xl">
-              אני עוזרת להורים שמגדלים ילדים על הרצף לחיות חיים מאפשרים, שמחים
-              ומלאים.
+              {settings.footerLine}
             </p>
             {/* Tinted light so the line art reads on the dark footer. */}
             <Image
@@ -47,40 +46,40 @@ export function Footer() {
             <ul className="mt-5 space-y-4 text-on-dark-muted">
               <li className="flex items-center gap-3">
                 <Phone className="size-4 shrink-0 text-accent" aria-hidden="true" />
-                <a href={`tel:${site.phoneE164}`} className="transition-colors hover:text-accent">
-                  {site.phoneDisplay}
+                <a href={`tel:${settings.phoneE164}`} className="transition-colors hover:text-accent">
+                  {settings.phoneDisplay}
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="size-4 shrink-0 text-accent" aria-hidden="true" />
-                <a href={`mailto:${site.email}`} className="transition-colors hover:text-accent">
-                  {site.email}
+                <a href={`mailto:${settings.email}`} className="transition-colors hover:text-accent">
+                  {settings.email}
                 </a>
               </li>
             </ul>
-            {(site.social.instagram || site.social.linkedin) && (
+            {(settings.instagram || settings.linkedin) && (
               <ul className="mt-6 flex items-center gap-3">
-                {site.social.instagram && (
+                {settings.instagram && (
                   <li>
                     <a
-                      href={site.social.instagram}
+                      href={settings.instagram}
                       className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-accent hover:text-accent"
                       rel="me noopener"
                     >
                       <InstagramIcon className="size-5" />
-                      <span className="sr-only">אינסטגרם של אפרת צרי</span>
+                      <span className="sr-only">אינסטגרם של {settings.name}</span>
                     </a>
                   </li>
                 )}
-                {site.social.linkedin && (
+                {settings.linkedin && (
                   <li>
                     <a
-                      href={site.social.linkedin}
+                      href={settings.linkedin}
                       className="tap inline-flex items-center justify-center rounded-full border border-white/25 text-on-dark transition-colors hover:border-accent hover:text-accent"
                       rel="me noopener"
                     >
                       <LinkedInIcon className="size-5" />
-                      <span className="sr-only">לינקדאין של אפרת צרי</span>
+                      <span className="sr-only">לינקדאין של {settings.name}</span>
                     </a>
                   </li>
                 )}
@@ -91,13 +90,11 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col gap-4 border-t border-white/15 pt-8 text-base text-on-dark-muted md:flex-row md:items-center md:justify-between">
           <p>
-            © {year} {site.name}. כל הזכויות שמורות.
+            © {year} {settings.name}. כל הזכויות שמורות.
             {/* The site addresses the reader as "you" in the feminine
                 throughout; saying so once is what keeps that a choice of
                 voice rather than an exclusion. */}
-            <span className="mt-1 block">
-              האתר כתוב בלשון נקבה מטעמי נוחות, ופונה לשני המינים באותה מידה.
-            </span>
+            <span className="mt-1 block">{settings.footerNote}</span>
           </p>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {legalItems.map((item) => (

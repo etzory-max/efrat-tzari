@@ -17,12 +17,11 @@ export default defineConfig({
   document: {
     // Singletons are created once from the structure list; hide them from
     // the global "create new" menu so Efrat cannot end up with duplicates.
+    // Only the four real collections — services, media, articles and
+    // questions — are things there can legitimately be another of.
     newDocumentOptions: (prev) =>
-      prev.filter(
-        (item) =>
-          !["siteSettings", "hero", "about", "approach", "sectionCopy"].includes(
-            item.templateId ?? "",
-          ),
+      prev.filter((item) =>
+        ["service", "mediaItem", "article", "faqItem"].includes(item.templateId ?? ""),
       ),
   },
 });

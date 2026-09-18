@@ -22,10 +22,11 @@ const accessibleImage = (name = "image", title = "תמונה") =>
     validation: (rule) => rule.required(),
   });
 
-const richText = (name: string, title: string) =>
+const richText = (name: string, title: string, description?: string) =>
   defineField({
     name,
     title,
+    ...(description ? { description } : {}),
     type: "array",
     of: [
       defineArrayMember({
@@ -50,47 +51,220 @@ const richText = (name: string, title: string) =>
     ],
   });
 
+/**
+ * Every section on the page opens the same way — a small label, a heading and
+ * sometimes a standfirst — so the three fields are defined once and spread in.
+ */
+const heading = (eyebrow: string, { lead = false } = {}) => [
+  defineField({ name: "eyebrow", title: "תווית קטנה", type: "string", initialValue: eyebrow }),
+  defineField({ name: "title", title: "כותרת האזור", type: "text", rows: 2 }),
+  ...(lead ? [defineField({ name: "lead", title: "פסקת פתיחה", type: "text", rows: 3 })] : []),
+];
+
+/* ==================================================================== *
+ * 1. הגדרות ופרטי קשר
+ * ==================================================================== */
+
+/**
+ * Only fields the site actually renders. A CMS field that changes nothing is
+ * worse than a missing one — it invites an edit and then quietly ignores it,
+ * which is how the old logo/hours/facebook fields sat here.
+ *
+ * The same details are also written into lib/site.ts, which is what feeds the
+ * page <title>, robots.txt, the structured data Google reads and the address
+ * the contact form posts to. Those are read before there is a request to fetch
+ * with, so they cannot come from here. Changing a phone number means changing
+ * it in both places — say the word and I will do the code side.
+ */
 const siteSettings = defineType({
   name: "siteSettings",
-  title: "הגדרות אתר",
+  title: "הגדרות ופרטי קשר",
   type: "document",
-  fields: [
-    defineField({ name: "name", title: "שם", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "tagline", title: "טאגליין", type: "string" }),
-    defineField({ name: "description", title: "תיאור לגוגל (meta description)", type: "text", rows: 3 }),
-    accessibleImage("logo", "לוגו"),
-    defineField({ name: "phoneDisplay", title: "טלפון (לתצוגה)", type: "string" }),
-    defineField({ name: "phoneE164", title: "טלפון (בפורמט בינלאומי)", type: "string" }),
-    defineField({ name: "email", title: "אימייל", type: "string" }),
-    defineField({ name: "whatsappNumber", title: "מספר וואטסאפ", type: "string" }),
-    defineField({ name: "hours", title: "שעות פעילות", type: "string" }),
-    defineField({ name: "instagram", title: "אינסטגרם", type: "url" }),
-    defineField({ name: "facebook", title: "פייסבוק", type: "url" }),
+  groups: [
+    { name: "identity", title: "שם ותיאור", default: true },
+    { name: "contact", title: "פרטי קשר" },
+    { name: "footer", title: "תחתית העמוד" },
   ],
-  preview: { select: { title: "name" } },
+  fields: [
+    defineField({
+      name: "name",
+      title: "שם",
+      type: "string",
+      group: "identity",
+      description: "מופיע בלוגו בראש העמוד ובתחתית.",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "tagline",
+      title: "שורת הזיהוי שמתחת לשם",
+      type: "string",
+      group: "identity",
+    }),
+    defineField({ name: "phoneDisplay", title: "טלפון (לתצוגה)", type: "string", group: "contact" }),
+    defineField({
+      name: "phoneE164",
+      title: "טלפון (בפורמט בינלאומי)",
+      type: "string",
+      group: "contact",
+      description: "מה שקורה בלחיצה על מספר הטלפון. למשל +972526008172.",
+    }),
+    defineField({ name: "email", title: "אימייל", type: "string", group: "contact" }),
+    defineField({
+      name: "whatsappNumber",
+      title: "מספר וואטסאפ",
+      type: "string",
+      group: "contact",
+      description: "ספרות בלבד, עם קידומת המדינה ובלי אפס. למשל 972526008172.",
+    }),
+    defineField({
+      name: "whatsappMessage",
+      title: "ההודעה שמוכנה מראש בוואטסאפ",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({ name: "instagram", title: "אינסטגרם", type: "url", group: "contact" }),
+    defineField({ name: "linkedin", title: "לינקדאין", type: "url", group: "contact" }),
+    defineField({
+      name: "footerLine",
+      title: "המשפט בתחתית העמוד",
+      type: "text",
+      rows: 3,
+      group: "footer",
+    }),
+    defineField({
+      name: "footerNote",
+      title: "הערת לשון הפנייה",
+      type: "string",
+      group: "footer",
+      description: "השורה הקטנה ליד שורת זכויות היוצרים.",
+    }),
+  ],
+  preview: { prepare: () => ({ title: "הגדרות ופרטי קשר" }) },
 });
+
+/* ==================================================================== *
+ * 2. האזורים בעמוד הבית, לפי סדר הגלילה
+ * ==================================================================== */
 
 const hero = defineType({
   name: "hero",
   title: "ראש העמוד",
   type: "document",
   fields: [
-    defineField({ name: "title", title: "כותרת ראשית", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "subtitle", title: "שורת משנה", type: "text", rows: 2 }),
-    defineField({ name: "ctaLabel", title: "טקסט הכפתור", type: "string" }),
-    defineField({ name: "ctaHref", title: "יעד הכפתור", type: "string", initialValue: "/#contact" }),
+    defineField({ name: "eyebrow", title: "שורת מיצוב (מעל הכותרת)", type: "string" }),
+    defineField({ name: "title", title: "כותרת ראשית", type: "text", rows: 2, validation: (r) => r.required() }),
+    defineField({ name: "subtitle", title: "פסקת הפתיחה", type: "text", rows: 4 }),
+    defineField({ name: "ctaLabel", title: "כפתור ראשי — טקסט", type: "string" }),
+    defineField({ name: "ctaHref", title: "כפתור ראשי — יעד", type: "string", initialValue: "/#contact" }),
+    defineField({ name: "ctaSecondaryLabel", title: "כפתור משני — טקסט", type: "string" }),
+    defineField({
+      name: "ctaSecondaryHref",
+      title: "כפתור משני — יעד",
+      type: "string",
+      initialValue: "/#approach",
+    }),
     accessibleImage(),
   ],
   preview: { select: { title: "title", media: "image" } },
 });
 
-const about = defineType({
-  name: "about",
-  title: "אודות",
+const recognise = defineType({
+  name: "recognise",
+  title: "אם זה הבית שלך",
   type: "document",
   fields: [
-    defineField({ name: "eyebrow", title: "תווית", type: "string", initialValue: "אודות" }),
-    defineField({ name: "title", title: "כותרת", type: "string" }),
+    ...heading("אם זה הבית שלך", { lead: true }),
+    defineField({
+      name: "timelineLabel",
+      title: "כותרת הציר",
+      type: "string",
+      initialValue: "יום אחד בבית שלך",
+    }),
+    defineField({
+      name: "items",
+      title: "תחנות היום",
+      description: "ארבע תחנות. הסדר כאן הוא הסדר על הציר.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "time",
+              title: "שלב ביום",
+              type: "string",
+              description: 'למשל "שבע בבוקר" או "ברקע, תמיד".',
+            }),
+            defineField({ name: "title", title: "כותרת", type: "string" }),
+            defineField({ name: "body", title: "טקסט", type: "text", rows: 3 }),
+          ],
+          preview: { select: { title: "title", subtitle: "time" } },
+        }),
+      ],
+      validation: (r) => r.max(5),
+    }),
+    defineField({
+      name: "closer",
+      title: "משפט הסגירה",
+      type: "text",
+      rows: 3,
+      description: "השורה שמתחת לאיור, שעוברת מההזדהות אל ההצעה.",
+    }),
+  ],
+  preview: { prepare: () => ({ title: "אם זה הבית שלך" }) },
+});
+
+const approach = defineType({
+  name: "approach",
+  title: "איך זה עובד",
+  type: "document",
+  fields: [
+    ...heading("איך זה עובד", { lead: true }),
+    defineField({
+      name: "cards",
+      title: "שלושת השלבים",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "icon",
+              title: "איור",
+              type: "string",
+              options: {
+                list: [
+                  { title: "עין בתוך קשת — שינוי נקודת מבט", value: "shift" },
+                  { title: "בית ושעון — שגרת הבית", value: "household" },
+                  { title: "עוגן — רגע המשבר", value: "anchor" },
+                  { title: "לב", value: "heart" },
+                  { title: "כוכב", value: "star" },
+                  { title: "עלה", value: "leaf" },
+                ],
+              },
+              initialValue: "shift",
+            }),
+            defineField({ name: "title", title: "כותרת", type: "string" }),
+            defineField({ name: "body", title: "טקסט", type: "text", rows: 3 }),
+          ],
+          preview: { select: { title: "title", subtitle: "body" } },
+        }),
+      ],
+      validation: (r) => r.max(3),
+    }),
+    defineField({ name: "quote", title: "ציטוט", type: "text", rows: 3 }),
+    defineField({ name: "quoteAuthor", title: "מקור הציטוט", type: "string" }),
+  ],
+  preview: { prepare: () => ({ title: "איך זה עובד" }) },
+});
+
+const about = defineType({
+  name: "about",
+  title: "מי אני",
+  type: "document",
+  fields: [
+    defineField({ name: "eyebrow", title: "תווית קטנה", type: "string", initialValue: "מי אני" }),
+    defineField({ name: "title", title: "כותרת האזור", type: "text", rows: 2 }),
     defineField({
       name: "paragraphs",
       title: "פסקאות",
@@ -103,56 +277,21 @@ const about = defineType({
     defineField({
       name: "points",
       title: "נקודות",
-      description: "ארבע אמירות קצרות שמופיעות מתחת לפסקאות.",
+      description: "אמירות קצרות מתחת לפסקאות. אפשר להשאיר ריק — האזור פשוט לא יציג אותן.",
       type: "array",
       of: [defineArrayMember({ type: "string" })],
       validation: (r) => r.max(4),
     }),
   ],
-  preview: { select: { title: "title" } },
+  preview: { prepare: () => ({ title: "מי אני" }) },
 });
 
-const approach = defineType({
-  name: "approach",
-  title: "הורות מותאמת",
+const servicesSection = defineType({
+  name: "servicesSection",
+  title: "מה אפשר — כותרת האזור",
   type: "document",
-  fields: [
-    defineField({ name: "eyebrow", title: "תווית", type: "string" }),
-    defineField({ name: "title", title: "כותרת", type: "string" }),
-    defineField({ name: "lead", title: "פסקת פתיחה", type: "text", rows: 3 }),
-    defineField({
-      name: "cards",
-      title: "כרטיסים",
-      type: "array",
-      of: [
-        defineArrayMember({
-          type: "object",
-          fields: [
-            defineField({
-              name: "icon",
-              title: "אייקון",
-              type: "string",
-              options: {
-                list: [
-                  { title: "לב", value: "heart" },
-                  { title: "כוכב", value: "star" },
-                  { title: "עלה", value: "leaf" },
-                ],
-              },
-              initialValue: "heart",
-            }),
-            defineField({ name: "title", title: "כותרת", type: "string" }),
-            defineField({ name: "body", title: "טקסט", type: "text", rows: 3 }),
-          ],
-          preview: { select: { title: "title" } },
-        }),
-      ],
-      validation: (r) => r.max(3),
-    }),
-    defineField({ name: "quote", title: "ציטוט", type: "text", rows: 3 }),
-    defineField({ name: "quoteAuthor", title: "מקור הציטוט", type: "string" }),
-  ],
-  preview: { select: { title: "title" } },
+  fields: heading("מה אפשר", { lead: true }),
+  preview: { prepare: () => ({ title: "מה אפשר — כותרת האזור" }) },
 });
 
 const service = defineType({
@@ -165,7 +304,7 @@ const service = defineType({
       title: "מזהה עוגן",
       type: "slug",
       options: { source: "title" },
-      description: 'משמש לקישור מהתפריט (למשל service-family).',
+      description: "משמש לקישור מהתפריט (למשל service-family).",
       validation: (r) => r.required(),
     }),
     defineField({
@@ -191,55 +330,97 @@ const service = defineType({
       of: [defineArrayMember({ type: "string" })],
     }),
     defineField({
+      name: "price",
+      title: "מחיר / איך מזמינים",
+      type: "string",
+      description: 'למשל "בהזמנה אליכם, או כרטיס למפגש פתוח ב־199 ₪".',
+    }),
+    defineField({
+      name: "note",
+      title: "שורת תנאים",
+      type: "string",
+      description: "שורה קטנה מתחת למחיר. אפשר להשאיר ריק.",
+    }),
+    defineField({ name: "ctaLabel", title: "קישור פעולה — טקסט", type: "string" }),
+    defineField({ name: "ctaHref", title: "קישור פעולה — יעד", type: "string", initialValue: "/#contact" }),
+    defineField({
       name: "variant",
       title: "סגנון כרטיס",
       type: "string",
       options: {
         list: [
-          { title: "כהה (מודגש)", value: "dark" },
+          { title: "כהה (הכרטיס המרכזי)", value: "dark" },
           { title: "בהיר", value: "light" },
         ],
       },
       initialValue: "light",
     }),
     defineField({ name: "moreLabel", title: "טקסט 'קראי עוד'", type: "string", initialValue: "קראי עוד" }),
-    richText("details", "תוכן מורחב"),
-    defineField({ name: "order", title: "סדר", type: "number", initialValue: 1 }),
+    richText("details", "תוכן מורחב", "נפתח בלחיצה על 'קראי עוד'. ריק — והקישור לא יופיע."),
+    defineField({
+      name: "order",
+      title: "סדר",
+      type: "number",
+      description: "1 הוא הראשון מימין.",
+      initialValue: 1,
+    }),
   ],
   orderings: [{ title: "סדר", name: "order", by: [{ field: "order", direction: "asc" }] }],
   preview: { select: { title: "title", subtitle: "kicker" } },
 });
 
-const article = defineType({
-  name: "article",
-  title: "מאמר",
+const testimonials = defineType({
+  name: "testimonials",
+  title: "המלצות",
   type: "document",
   fields: [
-    defineField({ name: "title", title: "כותרת", type: "string", validation: (r) => r.required() }),
+    ...heading("המלצות"),
     defineField({
-      name: "slug",
-      title: "כתובת (slug)",
-      type: "slug",
-      options: { source: "title", maxLength: 96 },
-      validation: (r) => r.required(),
+      name: "items",
+      title: "ההמלצות",
+      description: "העיצוב בנוי סביב שלוש. הראשונה והשלישית מופיעות מעל הקו, השנייה מתחתיו.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "quote",
+              title: "הציטוט",
+              type: "text",
+              rows: 5,
+              validation: (r) => r.required(),
+            }),
+            defineField({
+              name: "name",
+              title: "חתימה",
+              type: "string",
+              description: 'שם או ראשי תיבות, למשל "רחלי" או "א׳".',
+              validation: (r) => r.required(),
+            }),
+            defineField({
+              name: "role",
+              title: "תיאור",
+              type: "string",
+              description: 'למשל "אמא במשפחה שליוויתי". אפשר להשאיר ריק.',
+            }),
+          ],
+          preview: { select: { title: "name", subtitle: "quote" } },
+        }),
+      ],
+      validation: (r) => r.max(3),
     }),
-    defineField({ name: "date", title: "תאריך פרסום", type: "date", validation: (r) => r.required() }),
-    defineField({
-      name: "excerpt",
-      title: "תקציר",
-      type: "text",
-      rows: 3,
-      description: "מוצג בכרטיס ובתוצאות החיפוש. עד 160 תווים.",
-      validation: (r) => r.max(180),
-    }),
-    accessibleImage(),
-    defineField({ name: "readingMinutes", title: "דקות קריאה", type: "number", initialValue: 5 }),
-    richText("body", "גוף המאמר"),
   ],
-  orderings: [{ title: "חדש לישן", name: "dateDesc", by: [{ field: "date", direction: "desc" }] }],
-  preview: { select: { title: "title", subtitle: "date", media: "image" } },
+  preview: { prepare: () => ({ title: "המלצות" }) },
 });
 
+const mediaSection = defineType({
+  name: "mediaSection",
+  title: "בתקשורת — כותרת האזור",
+  type: "document",
+  fields: heading("בתקשורת", { lead: true }),
+  preview: { prepare: () => ({ title: "בתקשורת — כותרת האזור" }) },
+});
 
 const mediaItem = defineType({
   name: "mediaItem",
@@ -262,8 +443,18 @@ const mediaItem = defineType({
       validation: (r) => r.required(),
     }),
     defineField({ name: "title", title: "כותרת", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "outlet", title: "אמצעי / תוכנית", type: "string" }),
-    defineField({ name: "date", title: "תאריך", type: "date" }),
+    defineField({
+      name: "outlet",
+      title: "אמצעי / תוכנית",
+      type: "string",
+      description: "ריק — והשורה הזו פשוט לא תוצג.",
+    }),
+    defineField({
+      name: "date",
+      title: "תאריך",
+      type: "date",
+      description: "לא מוצג בעמוד, אבל גוגל קורא אותו.",
+    }),
     defineField({
       name: "summary",
       title: "תקציר",
@@ -271,7 +462,7 @@ const mediaItem = defineType({
       rows: 3,
       description:
         "חובה. זה מה שקורא מסך מקבל, ומה שמחליף כתבה סרוקה שאי אפשר לקרוא ממנה טקסט.",
-      validation: (r) => r.required().max(220),
+      validation: (r) => r.required().max(320),
     }),
     accessibleImage("poster", "תמונת תצוגה"),
     defineField({
@@ -284,12 +475,77 @@ const mediaItem = defineType({
       name: "href",
       title: "קישור לקובץ או לעמוד",
       type: "string",
-      description: "רלוונטי לכתבה.",
+      description: "רלוונטי לכתבה. נפתח בלשונית חדשה.",
     }),
     defineField({ name: "order", title: "סדר", type: "number", initialValue: 1 }),
   ],
   orderings: [{ title: "סדר", name: "order", by: [{ field: "order", direction: "asc" }] }],
   preview: { select: { title: "title", subtitle: "outlet", media: "poster" } },
+});
+
+const articlesSection = defineType({
+  name: "articlesSection",
+  title: "מאמרים — כותרת האזור",
+  type: "document",
+  fields: heading("מאמרים"),
+  preview: { prepare: () => ({ title: "מאמרים — כותרת האזור" }) },
+});
+
+const article = defineType({
+  name: "article",
+  title: "מאמר",
+  type: "document",
+  fields: [
+    defineField({ name: "title", title: "כותרת", type: "string", validation: (r) => r.required() }),
+    defineField({
+      name: "slug",
+      title: "כתובת (slug)",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      description: "מרכיב את כתובת המאמר. שינוי שלו שובר קישורים קיימים.",
+      validation: (r) => r.required(),
+    }),
+    defineField({ name: "date", title: "תאריך פרסום", type: "date", validation: (r) => r.required() }),
+    defineField({
+      name: "excerpt",
+      title: "תקציר",
+      type: "text",
+      rows: 3,
+      description: "מוצג בכרטיס ובתוצאות החיפוש. עד 180 תווים.",
+      validation: (r) => r.max(180),
+    }),
+    accessibleImage(),
+    defineField({ name: "readingMinutes", title: "דקות קריאה", type: "number", initialValue: 5 }),
+    richText("body", "גוף המאמר"),
+  ],
+  orderings: [{ title: "חדש לישן", name: "dateDesc", by: [{ field: "date", direction: "desc" }] }],
+  preview: { select: { title: "title", subtitle: "date", media: "image" } },
+});
+
+const guide = defineType({
+  name: "guide",
+  title: "המדריך במתנה",
+  type: "document",
+  fields: [
+    ...heading("מתנה", { lead: true }),
+    defineField({
+      name: "bullets",
+      title: "מה יש במדריך",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+    }),
+    defineField({ name: "consentLabel", title: "טקסט תיבת ההסכמה", type: "string" }),
+    defineField({ name: "submitLabel", title: "טקסט הכפתור", type: "string" }),
+  ],
+  preview: { prepare: () => ({ title: "המדריך במתנה" }) },
+});
+
+const faqSection = defineType({
+  name: "faqSection",
+  title: "שאלות נפוצות — כותרת האזור",
+  type: "document",
+  fields: heading("שאלות נפוצות", { lead: true }),
+  preview: { prepare: () => ({ title: "שאלות נפוצות — כותרת האזור" }) },
 });
 
 const faqItem = defineType({
@@ -305,41 +561,120 @@ const faqItem = defineType({
   preview: { select: { title: "question" } },
 });
 
-const sectionCopy = defineType({
-  name: "sectionCopy",
-  title: "כותרות סקשנים",
+const notHere = defineType({
+  name: "notHere",
+  title: "מה שלא תמצאי כאן",
   type: "document",
   fields: [
-    defineField({ name: "servicesEyebrow", title: "שירותים — תווית", type: "string" }),
-    defineField({ name: "servicesTitle", title: "שירותים — כותרת", type: "string" }),
-    defineField({ name: "mediaEyebrow", title: "מדיה — תווית", type: "string" }),
-    defineField({ name: "mediaTitle", title: "מדיה — כותרת", type: "string" }),
-    defineField({ name: "mediaLead", title: "מדיה — פסקת פתיחה", type: "text", rows: 2 }),
-    defineField({ name: "articlesEyebrow", title: "מאמרים — תווית", type: "string" }),
-    defineField({ name: "articlesTitle", title: "מאמרים — כותרת", type: "string" }),
-    defineField({ name: "faqEyebrow", title: "שאלות — תווית", type: "string" }),
-    defineField({ name: "faqTitle", title: "שאלות — כותרת", type: "string" }),
-    defineField({ name: "faqLead", title: "שאלות — פסקת פתיחה", type: "text", rows: 2 }),
-    defineField({ name: "contactEyebrow", title: "צור קשר — תווית", type: "string" }),
-    defineField({ name: "contactTitle", title: "צור קשר — כותרת", type: "string" }),
-    defineField({ name: "contactLead", title: "צור קשר — פסקת פתיחה", type: "text", rows: 3 }),
-    defineField({ name: "consentLabel", title: "טקסט תיבת ההסכמה", type: "string" }),
+    ...heading("לפני שנמשיך"),
+    defineField({
+      name: "items",
+      title: "מה שלא מוצע כאן",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "title", title: "כותרת", type: "string" }),
+            defineField({ name: "body", title: "הסבר", type: "text", rows: 4 }),
+          ],
+          preview: { select: { title: "title", subtitle: "body" } },
+        }),
+      ],
+    }),
   ],
-  preview: { prepare: () => ({ title: "כותרות סקשנים" }) },
+  preview: { prepare: () => ({ title: "מה שלא תמצאי כאן" }) },
 });
 
+const contactSection = defineType({
+  name: "contactSection",
+  title: "דברי איתי",
+  type: "document",
+  fields: [
+    ...heading("דברי איתי", { lead: true }),
+    defineField({
+      name: "consentLabel",
+      title: "טקסט תיבת ההסכמה",
+      type: "string",
+      description: "הקישור למדיניות הפרטיות נוסף אוטומטית בסוף השורה.",
+    }),
+  ],
+  preview: { prepare: () => ({ title: "דברי איתי" }) },
+});
+
+/* ==================================================================== *
+ * 3. העמודים המשפטיים
+ * ==================================================================== */
+
 /**
- * Note: מדיניות הפרטיות והצהרת הנגישות מנוהלות בקוד ולא ב-CMS — הן מסמכים
- * משפטיים שעריכה מקרית בהם עלולה ליצור אי-התאמה לרגולציה.
+ * These are editable, at Ilan's request, but not casually: the warning below
+ * is the first thing in the form, and lib/../content/legal.ts stays behind
+ * them as a fallback, so emptying a document here cannot leave the site
+ * without a privacy policy.
  */
+const legalPage = defineType({
+  name: "legalPage",
+  title: "עמוד משפטי",
+  type: "document",
+  fields: [
+    defineField({
+      name: "notice",
+      title: "לפני שמשנים",
+      type: "string",
+      readOnly: true,
+      initialValue:
+        "העמודים האלה הם מסמכים משפטיים. שינוי שאינו תואם למה שהאתר באמת עושה עלול ליצור אי-התאמה לחוק.",
+    }),
+    defineField({
+      name: "slug",
+      title: "איזה עמוד",
+      type: "string",
+      readOnly: true,
+      options: {
+        list: [
+          { title: "מדיניות פרטיות", value: "privacy" },
+          { title: "הצהרת נגישות", value: "accessibility" },
+        ],
+      },
+      validation: (r) => r.required(),
+    }),
+    defineField({ name: "title", title: "כותרת העמוד", type: "string", validation: (r) => r.required() }),
+    defineField({
+      name: "updatedAt",
+      title: "עודכן לאחרונה",
+      type: "date",
+      description: "התאריך שמוצג בראש העמוד. יש לעדכן אותו בכל שינוי תוכן.",
+      validation: (r) => r.required(),
+    }),
+    defineField({ name: "intro", title: "פסקת פתיחה", type: "text", rows: 3 }),
+    richText("body", "גוף המסמך", "כותרת משנה = סעיף. רשימה = תבליטים."),
+    defineField({
+      name: "description",
+      title: "תיאור לגוגל (meta description)",
+      type: "text",
+      rows: 2,
+    }),
+  ],
+  preview: { select: { title: "title", subtitle: "updatedAt" } },
+});
+
 export const schemaTypes = [
   siteSettings,
   hero,
-  about,
+  recognise,
   approach,
+  about,
+  servicesSection,
   service,
-  article,
+  testimonials,
+  mediaSection,
   mediaItem,
+  articlesSection,
+  article,
+  guide,
+  faqSection,
   faqItem,
-  sectionCopy,
+  notHere,
+  contactSection,
+  legalPage,
 ];

@@ -8,6 +8,7 @@ import { SkipLink } from "@/components/layout/SkipLink";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { PrivacyNotice } from "@/components/layout/PrivacyNotice";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
+import { getSiteSettings } from "@/lib/content";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -85,7 +86,11 @@ export const viewport: Viewport = {
  */
 const a11yBootstrap = `try{var p=JSON.parse(localStorage.getItem('efrat-a11y')||'{}');var d=document.documentElement;if(p.text)d.dataset.a11yText=p.text;if(p.contrast)d.dataset.a11yContrast=p.contrast;if(p.links)d.dataset.a11yLinks=p.links;if(p.motion)d.dataset.a11yMotion=p.motion;if(window.matchMedia&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)d.dataset.reveal='on';}catch(e){}`;
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  /* One fetch for the whole shell. `cache()` means the page's own call to
+     getContent() below does not pay for this a second time. */
+  const settings = await getSiteSettings();
+
   return (
     <html
       lang="he"
@@ -96,12 +101,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-dvh bg-cream-50 antialiased">
         <script dangerouslySetInnerHTML={{ __html: a11yBootstrap }} />
         <SkipLink />
-        <Header />
+        <Header name={settings.name} tagline={settings.tagline} />
         <main id="main" tabIndex={-1}>
           {children}
         </main>
-        <Footer />
-        <FloatingActions />
+        <Footer settings={settings} />
+        <FloatingActions whatsappHref={settings.whatsappHref} />
         <PrivacyNotice />
         <OrganizationJsonLd />
       </body>

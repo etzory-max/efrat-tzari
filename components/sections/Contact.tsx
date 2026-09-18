@@ -8,7 +8,7 @@ import { ChildBall } from "@/components/art/Illustrations";
 import { submitContact, type ContactState } from "@/app/actions/contact";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ContactSection } from "@/content/types";
-import { site } from "@/lib/site";
+import type { SiteSettings } from "@/lib/content";
 
 const initialState: ContactState = { status: "idle" };
 
@@ -92,7 +92,15 @@ function Field({
   );
 }
 
-export function Contact({ data, art = false }: { data: ContactSection; art?: boolean }) {
+export function Contact({
+  data,
+  settings,
+  art = false,
+}: {
+  data: ContactSection;
+  settings: SiteSettings;
+  art?: boolean;
+}) {
   const [state, formAction] = useActionState(submitContact, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const statusRef = useRef<HTMLParagraphElement>(null);
@@ -111,8 +119,8 @@ export function Contact({ data, art = false }: { data: ContactSection; art?: boo
   }, [state]);
 
   const details = [
-    { icon: Phone, label: "טלפון", value: site.phoneDisplay, href: `tel:${site.phoneE164}` },
-    { icon: Mail, label: "אימייל", value: site.email, href: `mailto:${site.email}` },
+    { icon: Phone, label: "טלפון", value: settings.phoneDisplay, href: `tel:${settings.phoneE164}` },
+    { icon: Mail, label: "אימייל", value: settings.email, href: `mailto:${settings.email}` },
   ];
 
   return (

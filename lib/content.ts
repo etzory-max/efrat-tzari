@@ -2,6 +2,8 @@ import { cache } from "react";
 import { sanityClient, urlFor } from "@/sanity/client";
 import { sanityConfigured } from "@/sanity/env";
 import { defaultContent } from "@/content/defaults";
+import { legalPages, type LegalDoc } from "@/content/legal";
+import { site, whatsappHref } from "@/lib/site";
 import type { Article, Img, SiteContent } from "@/content/types";
 
 type SanityImage = { asset?: unknown; alt?: string } | null | undefined;
@@ -18,27 +20,47 @@ const or = <T,>(value: T | null | undefined, fallback: T): T =>
     ? fallback
     : value;
 
+/**
+ * One round trip for the whole page. The section headings now live on the
+ * section documents themselves rather than in a single shared "copy" document,
+ * so each one is fetched beside the items it introduces.
+ */
 const QUERY = /* groq */ `{
   "hero": *[_type == "hero"][0] {
-    title, subtitle, ctaLabel, ctaHref, image
+    eyebrow, title, subtitle, ctaLabel, ctaHref, ctaSecondaryLabel, ctaSecondaryHref, image
   },
-  "about": *[_type == "about"][0] {
-    eyebrow, title, paragraphs, portrait, badgeValue, badgeLabel, points
+  "recognise": *[_type == "recognise"][0] {
+    eyebrow, title, lead, timelineLabel, items[] { time, title, body }, closer
   },
   "approach": *[_type == "approach"][0] {
     eyebrow, title, lead, cards[] { icon, title, body }, quote, quoteAuthor
   },
-  "services": *[_type == "service"] | order(order asc) {
-    "id": slug.current, icon, kicker, title, body, bullets, variant, moreLabel, details
+  "about": *[_type == "about"][0] {
+    eyebrow, title, paragraphs, portrait, badgeValue, badgeLabel, points
   },
+  "servicesCopy": *[_type == "servicesSection"][0] { eyebrow, title, lead },
+  "services": *[_type == "service"] | order(order asc) {
+    "id": slug.current, icon, kicker, title, body, bullets,
+    price, note, ctaLabel, ctaHref, variant, moreLabel, details
+  },
+  "testimonials": *[_type == "testimonials"][0] {
+    eyebrow, title, items[] { quote, name, role }
+  },
+  "mediaCopy": *[_type == "mediaSection"][0] { eyebrow, title, lead },
   "media": *[_type == "mediaItem"] | order(order asc) {
     kind, title, outlet, date, summary, poster, youtubeId, href
   },
+  "articlesCopy": *[_type == "articlesSection"][0] { eyebrow, title },
   "articles": *[_type == "article"] | order(date desc) {
     "slug": slug.current, title, date, excerpt, image, readingMinutes, body
   },
+  "guide": *[_type == "guide"][0] {
+    eyebrow, title, lead, bullets, consentLabel, submitLabel
+  },
+  "faqCopy": *[_type == "faqSection"][0] { eyebrow, title, lead },
   "faq": *[_type == "faqItem"] | order(order asc) { question, answer },
-  "copy": *[_type == "sectionCopy"][0]
+  "notHere": *[_type == "notHere"][0] { eyebrow, title, items[] { title, body } },
+  "contact": *[_type == "contactSection"][0] { eyebrow, title, lead, consentLabel }
 }`;
 
 /**
@@ -72,17 +94,30 @@ export async function getArticle(slug: string): Promise<Article | undefined> {
 
 function mergeContent(data: any): SiteContent {
   const d = defaultContent;
-  const copy = data?.copy ?? {};
 
   const hero = data?.hero
     ? {
+        eyebrow: or(data.hero.eyebrow, d.hero.eyebrow),
         title: or(data.hero.title, d.hero.title),
         subtitle: or(data.hero.subtitle, d.hero.subtitle),
         ctaLabel: or(data.hero.ctaLabel, d.hero.ctaLabel),
         ctaHref: or(data.hero.ctaHref, d.hero.ctaHref),
+        ctaSecondaryLabel: or(data.hero.ctaSecondaryLabel, d.hero.ctaSecondaryLabel),
+        ctaSecondaryHref: or(data.hero.ctaSecondaryHref, d.hero.ctaSecondaryHref),
         image: toImg(data.hero.image, d.hero.image, 1920),
       }
     : d.hero;
+
+  const recognise = data?.recognise
+    ? {
+        eyebrow: or(data.recognise.eyebrow, d.recognise!.eyebrow),
+        title: or(data.recognise.title, d.recognise!.title),
+        lead: or(data.recognise.lead, d.recognise!.lead),
+        timelineLabel: or(data.recognise.timelineLabel, d.recognise!.timelineLabel),
+        items: or(data.recognise.items, d.recognise!.items),
+        closer: or(data.recognise.closer, d.recognise!.closer),
+      }
+    : d.recognise;
 
   const about = data?.about
     ? {
@@ -108,10 +143,12 @@ function mergeContent(data: any): SiteContent {
       }
     : d.approach;
 
+  const servicesCopy = data?.servicesCopy ?? {};
   const services = or(data?.services, null)
     ? {
-        eyebrow: or(copy.servicesEyebrow, d.services.eyebrow),
-        title: or(copy.servicesTitle, d.services.title),
+        eyebrow: or(servicesCopy.eyebrow, d.services.eyebrow),
+        title: or(servicesCopy.title, d.services.title),
+        lead: or(servicesCopy.lead, d.services.lead),
         services: data.services.map((service: any) => ({
           id: or(service.id, "service"),
           icon: or(service.icon, "users"),
@@ -119,6 +156,10 @@ function mergeContent(data: any): SiteContent {
           title: or(service.title, ""),
           body: or(service.body, ""),
           bullets: or(service.bullets, []),
+          price: service.price ?? undefined,
+          note: service.note ?? undefined,
+          ctaLabel: service.ctaLabel ?? undefined,
+          ctaHref: service.ctaHref ?? undefined,
           variant: or(service.variant, "light"),
           moreLabel: or(service.moreLabel, "קראי עוד"),
           details: or(service.details, []),
@@ -126,11 +167,20 @@ function mergeContent(data: any): SiteContent {
       }
     : d.services;
 
+  const testimonials = data?.testimonials
+    ? {
+        eyebrow: or(data.testimonials.eyebrow, d.testimonials!.eyebrow),
+        title: or(data.testimonials.title, d.testimonials!.title),
+        items: or(data.testimonials.items, d.testimonials!.items),
+      }
+    : d.testimonials;
+
+  const mediaCopy = data?.mediaCopy ?? {};
   const media = or(data?.media, null)
     ? {
-        eyebrow: or(copy.mediaEyebrow, d.media.eyebrow),
-        title: or(copy.mediaTitle, d.media.title),
-        lead: or(copy.mediaLead, d.media.lead),
+        eyebrow: or(mediaCopy.eyebrow, d.media.eyebrow),
+        title: or(mediaCopy.title, d.media.title),
+        lead: or(mediaCopy.lead, d.media.lead),
         items: data.media.map((item: any, index: number) => ({
           kind: or(item.kind, "video"),
           title: or(item.title, ""),
@@ -144,10 +194,11 @@ function mergeContent(data: any): SiteContent {
       }
     : d.media;
 
+  const articlesCopy = data?.articlesCopy ?? {};
   const articles = or(data?.articles, null)
     ? {
-        eyebrow: or(copy.articlesEyebrow, d.articles.eyebrow),
-        title: or(copy.articlesTitle, d.articles.title),
+        eyebrow: or(articlesCopy.eyebrow, d.articles.eyebrow),
+        title: or(articlesCopy.title, d.articles.title),
         articles: data.articles.map((article: any, index: number) => ({
           slug: article.slug,
           title: article.title,
@@ -160,35 +211,165 @@ function mergeContent(data: any): SiteContent {
       }
     : d.articles;
 
+  const guide = data?.guide
+    ? {
+        eyebrow: or(data.guide.eyebrow, d.guide.eyebrow),
+        title: or(data.guide.title, d.guide.title),
+        lead: or(data.guide.lead, d.guide.lead),
+        bullets: or(data.guide.bullets, d.guide.bullets),
+        consentLabel: or(data.guide.consentLabel, d.guide.consentLabel),
+        submitLabel: or(data.guide.submitLabel, d.guide.submitLabel),
+      }
+    : d.guide;
+
+  const faqCopy = data?.faqCopy ?? {};
   const faq = or(data?.faq, null)
     ? {
-        eyebrow: or(copy.faqEyebrow, d.faq.eyebrow),
-        title: or(copy.faqTitle, d.faq.title),
-        lead: or(copy.faqLead, d.faq.lead),
+        eyebrow: or(faqCopy.eyebrow, d.faq.eyebrow),
+        title: or(faqCopy.title, d.faq.title),
+        lead: or(faqCopy.lead, d.faq.lead),
         items: data.faq,
       }
     : d.faq;
 
+  const notHere = data?.notHere
+    ? {
+        eyebrow: or(data.notHere.eyebrow, d.notHere!.eyebrow),
+        title: or(data.notHere.title, d.notHere!.title),
+        items: or(data.notHere.items, d.notHere!.items),
+      }
+    : d.notHere;
+
+  const contactCopy = data?.contact ?? {};
   const contact = {
-    eyebrow: or(copy.contactEyebrow, d.contact.eyebrow),
-    title: or(copy.contactTitle, d.contact.title),
-    lead: or(copy.contactLead, d.contact.lead),
-    consentLabel: or(copy.consentLabel, d.contact.consentLabel),
+    eyebrow: or(contactCopy.eyebrow, d.contact.eyebrow),
+    title: or(contactCopy.title, d.contact.title),
+    lead: or(contactCopy.lead, d.contact.lead),
+    consentLabel: or(contactCopy.consentLabel, d.contact.consentLabel),
   };
 
-  // recognise and notHere are code-owned for now — no CMS schema behind them.
   return {
     hero,
-    recognise: d.recognise,
+    recognise,
     about,
     approach,
     services,
-    testimonials: d.testimonials,
+    testimonials,
     media,
     articles,
-    guide: d.guide,
+    guide,
     faq,
-    notHere: d.notHere,
+    notHere,
     contact,
   };
 }
+
+/**
+ * The details the chrome renders: the logo wordmark, the footer and the
+ * WhatsApp button.
+ *
+ * Deliberately not everything in lib/site.ts. The page title, robots.txt, the
+ * sitemap, the manifest and the JSON-LD are all produced before there is a
+ * request to fetch against, and the address the contact form posts to belongs
+ * with the secrets, not in an editable field. Those stay in code; these are
+ * the ones a visitor reads off the page.
+ */
+export type SiteSettings = {
+  name: string;
+  tagline: string;
+  phoneDisplay: string;
+  phoneE164: string;
+  email: string;
+  whatsappHref: string;
+  instagram: string;
+  linkedin: string;
+  footerLine: string;
+  footerNote: string;
+};
+
+/** Used when the CMS has nothing to say — and as the seed for the document. */
+export const defaultSettings: SiteSettings = {
+  name: site.name,
+  tagline: site.tagline,
+  phoneDisplay: site.phoneDisplay,
+  phoneE164: site.phoneE164,
+  email: site.email,
+  whatsappHref,
+  instagram: site.social.instagram,
+  linkedin: site.social.linkedin,
+  footerLine: site.footerLine,
+  footerNote: site.footerNote,
+};
+
+export const getSiteSettings = cache(async function fetchSettings(): Promise<SiteSettings> {
+  if (!sanityConfigured || !sanityClient) return defaultSettings;
+
+  try {
+    const s = await sanityClient.fetch<any>(
+      /* groq */ `*[_type == "siteSettings"][0] {
+        name, tagline, phoneDisplay, phoneE164, email,
+        whatsappNumber, whatsappMessage, instagram, linkedin, footerLine, footerNote
+      }`,
+      {},
+      { next: { revalidate: 60, tags: ["content"] } },
+    );
+    if (!s) return defaultSettings;
+
+    const number = or(s.whatsappNumber, site.whatsappNumber);
+    const message = or(s.whatsappMessage, site.whatsappMessage);
+
+    return {
+      name: or(s.name, defaultSettings.name),
+      tagline: or(s.tagline, defaultSettings.tagline),
+      phoneDisplay: or(s.phoneDisplay, defaultSettings.phoneDisplay),
+      phoneE164: or(s.phoneE164, defaultSettings.phoneE164),
+      email: or(s.email, defaultSettings.email),
+      whatsappHref: `https://wa.me/${number}?text=${encodeURIComponent(message)}`,
+      instagram: or(s.instagram, defaultSettings.instagram),
+      linkedin: or(s.linkedin, defaultSettings.linkedin),
+      footerLine: or(s.footerLine, defaultSettings.footerLine),
+      footerNote: or(s.footerNote, defaultSettings.footerNote),
+    };
+  } catch (error) {
+    console.error("[content] Sanity settings fetch failed, serving code defaults", error);
+    return defaultSettings;
+  }
+});
+
+/**
+ * The privacy policy and the accessibility statement.
+ *
+ * Fetched separately rather than folded into the page query: they are their
+ * own routes, and neither one should make the home page wait. The seed copy in
+ * content/legal.ts is the fallback, so the site can never be served without a
+ * privacy policy even if the CMS document is emptied or deleted.
+ */
+export const getLegalPage = cache(async function fetchLegalPage(
+  slug: LegalDoc["slug"],
+): Promise<LegalDoc> {
+  const fallback = legalPages[slug];
+  if (!sanityConfigured || !sanityClient) return fallback;
+
+  try {
+    const doc = await sanityClient.fetch<Partial<LegalDoc> | null>(
+      /* groq */ `*[_type == "legalPage" && slug == $slug][0] {
+        slug, title, updatedAt, intro, body, description
+      }`,
+      { slug },
+      { next: { revalidate: 60, tags: ["content"] } },
+    );
+    if (!doc) return fallback;
+
+    return {
+      slug,
+      title: or(doc.title, fallback.title),
+      description: or(doc.description, fallback.description),
+      updatedAt: or(doc.updatedAt, fallback.updatedAt),
+      intro: or(doc.intro, fallback.intro),
+      body: or(doc.body, fallback.body),
+    };
+  } catch (error) {
+    console.error("[content] Sanity legal page fetch failed, serving seed copy", error);
+    return fallback;
+  }
+});
