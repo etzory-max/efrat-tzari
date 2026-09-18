@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
+import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
 import type { FaqSection } from "@/content/types";
 
@@ -37,19 +38,15 @@ export function Faq({
               and one to the last, so the pair reads as a mirrored frame.
               Decorative. */}
           <Image
-            src="/images/art-girl-blocks.png"
+            {...drawings["art-girl-blocks"]}
             alt=""
-            width={900}
-            height={782}
             sizes="140px"
             aria-hidden="true"
             className="pointer-events-none absolute top-0 right-[calc(100%+2.5rem)] hidden h-24 w-auto xl:block"
           />
           <Image
-            src="/images/art-boy-ball.png"
+            {...drawings["art-boy-ball"]}
             alt=""
-            width={689}
-            height={900}
             sizes="140px"
             aria-hidden="true"
             className={`pointer-events-none absolute bottom-0 left-[calc(100%+2.5rem)] h-28 w-auto ${art === "pair" ? "hidden xl:block" : "hidden"}`}
@@ -85,19 +82,15 @@ export function Faq({
             className="mt-12 flex items-end justify-center gap-8 xl:hidden"
           >
             <Image
-              src="/images/art-girl-blocks.png"
+              {...drawings["art-girl-blocks"]}
               alt=""
-              width={900}
-              height={782}
               sizes="120px"
               className="h-14 w-auto"
             />
             {art === "pair" && (
               <Image
-                src="/images/art-boy-ball.png"
+                {...drawings["art-boy-ball"]}
                 alt=""
-                width={689}
-                height={900}
                 sizes="100px"
                 className="h-16 w-auto"
               />

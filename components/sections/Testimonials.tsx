@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
 import { TwoChildren } from "@/components/art/Illustrations";
 import type { Testimonial, TestimonialsSection } from "@/content/types";
@@ -85,10 +86,8 @@ export function Testimonials({
          section up, and three parents' voices deserve their own image rather
          than a second showing of somebody else's. */
       <Image
-        src="/images/art-family-hold.png"
+        {...drawings["art-family-hold"]}
         alt=""
-        width={900}
-        height={760}
         sizes="260px"
         aria-hidden="true"
         className={`w-auto ${size}`}

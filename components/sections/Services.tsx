@@ -4,6 +4,7 @@ import { ArrowLeft, Check } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import type { Service, ServicesSection } from "@/content/types";
 import { proseInCard } from "@/components/ui/PortableProse";
+import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
 
 /**
@@ -90,10 +91,8 @@ function ServiceCard({ service }: { service: Service }) {
            Decorative, and it steps aside when the long copy opens — the
            has-[details[open]] selector does it without a line of JS. */
         <Image
-          src="/images/art-path-home.png"
+          {...drawings["art-path-home"]}
           alt=""
-          width={761}
-          height={833}
           sizes="260px"
           aria-hidden="true"
           className="pointer-events-none order-last mt-4 h-28 w-auto self-end opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:-bottom-14 lg:-end-4 lg:order-none lg:mt-0 lg:h-44"

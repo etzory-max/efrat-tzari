@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Quote } from "lucide-react";
+import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ApproachSection } from "@/content/types";
 
@@ -115,10 +116,8 @@ export function Approach({
              this the widest join on the page by a long way. */
           <Reveal delay={120} className="mt-16 flex justify-center">
             <Image
-              src="/images/art-hands-home.png"
+              {...drawings["art-hands-home"]}
               alt=""
-              width={874}
-              height={900}
               sizes="300px"
               aria-hidden="true"
               className="h-28 w-auto select-none md:h-40"

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ArticlesSection } from "@/content/types";
 
@@ -51,10 +52,8 @@ export function Articles({
                 Hidden below 640px, where the heading needs the full width. */}
             {art && (
               <Image
-                src="/images/art-child-sprawl.png"
+                {...drawings["art-child-sprawl"]}
                 alt=""
-                width={786}
-                height={540}
                 sizes="140px"
                 aria-hidden="true"
                 className="hidden h-28 w-auto shrink-0 sm:block"

@@ -6,6 +6,7 @@ import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { CheckCircle2, Mail, Phone } from "lucide-react";
 import { submitContact, type ContactState } from "@/app/actions/contact";
+import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
 import type { ContactSection } from "@/content/types";
 import type { SiteSettings } from "@/lib/content";
@@ -164,13 +165,11 @@ export function Contact({
                section is called "דברי איתי" and a can with a line running out
                of frame is that: someone is holding the other end. */
             <Image
-              src="/images/art-tin-can.png"
+              {...drawings["art-tin-can"]}
               alt=""
-              width={562}
-              height={753}
               sizes="220px"
               aria-hidden="true"
-              className="mt-10 h-32 w-auto md:h-40"
+              className="mx-auto mt-10 h-32 w-auto md:h-40"
             />
           )}
         </Reveal>

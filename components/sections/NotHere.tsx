@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
 import type { NotHereSection } from "@/content/types";
 
@@ -120,10 +121,8 @@ export function NotHere({
         {art && (
           <Reveal delay={180} className="mt-12 flex justify-center">
             <Image
-              src={`/images/art-girl-blocks${t.onDark ? "-light" : ""}.png`}
+              {...drawings[t.onDark ? "art-girl-blocks-light" : "art-girl-blocks"]}
               alt=""
-              width={900}
-              height={782}
               sizes="180px"
               aria-hidden="true"
               className="h-20 w-auto opacity-75 md:h-24"

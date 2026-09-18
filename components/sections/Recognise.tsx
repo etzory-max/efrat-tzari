@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
 import type { RecogniseItem, RecogniseSection } from "@/content/types";
 
@@ -13,10 +14,10 @@ import type { RecogniseItem, RecogniseSection } from "@/content/types";
  * schema caps the list at the four these were drawn for.
  */
 const MARKS = [
-  { src: "/images/day-morning.png", width: 641, height: 522 },
-  { src: "/images/day-translate.png", width: 533, height: 397 },
-  { src: "/images/day-help.png", width: 507, height: 492 },
-  { src: "/images/day-collapse.png", width: 441, height: 464 },
+  drawings["day-morning"],
+  drawings["day-translate"],
+  drawings["day-help"],
+  drawings["day-collapse"],
 ];
 
 function Moment({
@@ -49,10 +50,8 @@ function Moment({
       <div className={last ? "" : "pb-10"}>
         {mark && (
           <Image
-            src={mark.src}
+            {...mark}
             alt=""
-            width={mark.width}
-            height={mark.height}
             sizes="120px"
             aria-hidden="true"
             className="mb-3 h-14 w-auto md:h-18"
@@ -143,10 +142,8 @@ export function Recognise({ data }: { data: RecogniseSection }) {
               Decorative, so it is hidden from screen readers - the sentence
               underneath is what carries the meaning. */}
           <Image
-            src="/images/art-mother-walk.png"
+            {...drawings["art-mother-walk"]}
             alt=""
-            width={752}
-            height={900}
             sizes="180px"
             aria-hidden="true"
             className="mx-auto h-32 w-auto md:h-40"
