@@ -96,7 +96,7 @@ function ServiceCard({ service }: { service: Service }) {
           height={834}
           sizes="260px"
           aria-hidden="true"
-          className="pointer-events-none order-last mt-4 h-24 w-auto self-end opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:-bottom-5 lg:-end-3 lg:order-none lg:mt-0 lg:h-44"
+          className="pointer-events-none order-last mt-4 h-28 w-auto self-end opacity-80 transition-[opacity,transform] duration-500 ease-[var(--ease-soft)] group-has-[details[open]]:translate-y-6 group-has-[details[open]]:opacity-0 lg:absolute lg:-bottom-14 lg:-end-4 lg:order-none lg:mt-0 lg:h-44"
         />
       )}
 
