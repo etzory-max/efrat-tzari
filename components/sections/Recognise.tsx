@@ -114,10 +114,12 @@ export function Recognise({ data }: { data: RecogniseSection }) {
           <h3 className="text-center text-2xl text-slate md:text-[1.75rem]">
             {data.timelineLabel}
           </h3>
-          {/* The same rule the pillars in "איך זה עובד" are drawn with - 6px,
-              accent-ink, fully rounded - turned on its side. A cream hairline
-              was too faint to claim the list beneath it. */}
-          <span aria-hidden="true" className="mt-5 block h-1.5 rounded-full bg-accent-ink" />
+          {/* Thin, like the thread running down the side of the moments below -
+              but in terracotta rather than cream, which is what makes it
+              visible. The cream hairline it started as disappeared into the
+              band; 6px of accent-ink read as a bar and took the eye off the
+              heading it belongs to. Weight was never the problem, colour was. */}
+          <span aria-hidden="true" className="mt-5 block h-0.5 rounded-full bg-accent-ink" />
         </Reveal>
 
         {/* Marker column and copy column, so the thread needs no absolute
