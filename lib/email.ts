@@ -29,6 +29,9 @@ const LINE = "#e2ddd3";
 const FONT = "'Rubik', 'Segoe UI', Arial, sans-serif";
 
 export type EmailBlock =
+  | { kind: "fields"; rows: [label: string, value: string, href?: string][] }
+  | { kind: "quote"; text: string }
+  | { kind: "actions"; items: { label: string; href: string }[] }
   | { kind: "p"; text: string }
   | { kind: "lead"; text: string }
   | { kind: "list"; items: string[] }
@@ -75,6 +78,39 @@ export function renderEmail({
           </table>`;
         case "art":
           return `<p style="margin:14px 0 10px;text-align:center"><img src="${block.src}" width="${block.width}" alt="${block.alt ?? ""}" style="display:inline-block;border:0;max-width:100%;height:auto"></p>`;
+        case "fields":
+          /* A work notice is read in two seconds on a phone. Label over value,
+             each value its own tap target. */
+          return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 18px;border-top:1px solid ${LINE}">${block.rows
+            .map(
+              ([label, value, href]) => `<tr>
+                <td style="padding:11px 0;border-bottom:1px solid ${LINE}">
+                  <div style="font-size:13px;line-height:1.5;color:${MUTED}">${label}</div>
+                  <div style="font-size:17px;line-height:1.5;color:${INK}">${
+                    href
+                      ? `<a href="${href}" style="color:${INK};text-decoration:none">${value}</a>`
+                      : value
+                  }</div>
+                </td>
+              </tr>`,
+            )
+            .join("")}</table>`;
+        case "quote":
+          return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 18px">
+            <tr><td bgcolor="${CREAM}" style="padding:16px 18px;border-radius:12px;font-size:16px;line-height:1.75;color:${INK}">${block.text}</td></tr>
+          </table>`;
+        case "actions":
+          return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:2px 0 16px"><tr>${block.items
+            .map(
+              (item) => `<td style="padding-left:8px">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                  <tr><td align="center" bgcolor="${ACCENT}" style="border-radius:10px">
+                    <a href="${item.href}" style="display:inline-block;padding:11px 20px;font-family:${FONT};font-size:15px;color:${INK};text-decoration:none;border-radius:10px">${item.label}</a>
+                  </td></tr>
+                </table>
+              </td>`,
+            )
+            .join("")}</tr></table>`;
       }
     })
     .join("");
@@ -154,6 +190,12 @@ export function renderEmail({
           return [`${block.label}: ${block.href}`, ""];
         case "art":
           return [];
+        case "fields":
+          return [...block.rows.map(([label, value]) => `${label}: ${value}`), ""];
+        case "quote":
+          return [block.text.replace(/<br\s*\/?>/g, "\n").replace(/<[^>]+>/g, ""), ""];
+        case "actions":
+          return [...block.items.map((item) => `${item.label}: ${item.href}`), ""];
       }
     }),
     `${site.name} · ${site.phoneDisplay} · ${site.email}`,

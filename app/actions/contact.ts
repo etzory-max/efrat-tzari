@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { z } from "zod";
+import { renderEmail } from "@/lib/email";
 import { site } from "@/lib/site";
 
 type Field = "name" | "phone" | "email" | "message" | "consent";
@@ -20,6 +21,10 @@ export type ContactState = {
 };
 
 const digits = (value: string) => value.replace(/\D/g, "");
+
+/** The message is a stranger's text going into an HTML email. */
+const escapeHtml = (value: string) =>
+  value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 const schema = z.object({
   // Wording follows the field's own label, which is now "איך קוראים לך".
@@ -124,24 +129,48 @@ export async function submitContact(
 
   try {
     const resend = new Resend(apiKey);
+    /* This one goes to Efrat, not to the reader: a work notice, not a
+       welcome. What matters is that she can read it in two seconds on a
+       phone and act without copying anything out - so the details are a
+       list of tap targets and the three things she might do next are
+       buttons. The reply-to is the sender, so hitting reply just works. */
+    /* wa.me and tel: both want the international form, no plus, no leading zero. */
+    const intl = digits(phone).replace(/^0/, "972");
+    const { html, text } = renderEmail({
+      preheader: message ? message.slice(0, 90) : `${name} · ${phone}`,
+      eyebrow: "פנייה מהאתר",
+      heading: name,
+      blocks: [
+        {
+          kind: "fields",
+          rows: [
+            ["טלפון", phone, `tel:+${intl}`],
+            ["אימייל", email, `mailto:${email}`],
+          ],
+        },
+        ...(message
+          ? ([{ kind: "quote", text: escapeHtml(message).replace(/\n/g, "<br>") }] as const)
+          : ([{ kind: "p", text: "לא נכתבה הודעה." }] as const)),
+        {
+          kind: "actions",
+          items: [
+            { label: "חיוג", href: `tel:+${intl}` },
+            { label: "וואטסאפ", href: `https://wa.me/${intl}` },
+            { label: "מענה במייל", href: `mailto:${email}` },
+          ],
+        },
+      ],
+      note: "נשלח מטופס יצירת הקשר באתר. הפונה אישרה את מדיניות הפרטיות. לחיצה על ״השב״ תענה ישירות לפונה.",
+    });
+
     const { error } = await resend.emails.send({
       from,
       to,
       replyTo: email,
-      subject: `פנייה חדשה מהאתר - ${name}`,
-      text: [
-        `שם: ${name}`,
-        `טלפון: ${phone}`,
-        `אימייל: ${email}`,
-        "",
-        "הודעה:",
-        message || "(לא נכתבה הודעה)",
-        "",
-        "-",
-        "נשלח מטופס יצירת הקשר באתר. הפונה אישר/ה את מדיניות הפרטיות.",
-      ].join("\n"),
+      subject: `פנייה חדשה מהאתר — ${name}`,
+      html,
+      text,
     });
-
     if (error) throw new Error(error.message);
   } catch (error) {
     console.error("[contact] send failed", error);
