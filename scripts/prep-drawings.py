@@ -39,7 +39,11 @@ import json
 import numpy as np
 from PIL import Image
 
-SRC = "public/images"
+OUT = "public/images"
+# The sheets are build input, not something a visitor should ever download.
+# They were sitting in public/ and going out with every deploy - 24MB of
+# originals at guessable URLs, referenced by nothing the site serves.
+SHEETS = "assets/sheets"
 MANIFEST = "components/art/drawings.ts"
 
 # Every file is written under a name carrying a hash of its own contents, and
@@ -57,9 +61,9 @@ def emit(name, image):
     image.save(buffer, format="PNG")
     data = buffer.getvalue()
     digest = hashlib.sha1(data).hexdigest()[:8]
-    for stale in pathlib.Path(SRC).glob(f"{name}.*.png"):
+    for stale in pathlib.Path(OUT).glob(f"{name}.*.png"):
         stale.unlink()
-    path = f"{SRC}/{name}.{digest}.png"
+    path = f"{OUT}/{name}.{digest}.png"
     pathlib.Path(path).write_bytes(data)
     written[name] = {"src": f"/images/{name}.{digest}.png",
                      "width": image.width, "height": image.height}
@@ -92,7 +96,7 @@ CUTS = [
 
 
 def cut(name, sheet_file, span, light, trim_edge=False):
-    sheet = Image.open(f"{SRC}/{sheet_file}").convert("RGB")
+    sheet = Image.open(f"{SHEETS}/{sheet_file}").convert("RGB")
     rgb = np.asarray(sheet).astype(np.float32)
 
     # Each pixel keeps its own colour. Only the paper is removed: anything
