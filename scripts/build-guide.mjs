@@ -1,5 +1,5 @@
 /**
- * Renders the lead-magnet guide to public/files/guide-v2.pdf.
+ * Renders the lead-magnet guide to public/files/guide.pdf.
  *
  *   node scripts/build-guide.mjs [outputName]
  *
@@ -23,7 +23,7 @@ import sharp from "sharp";
 
 const CHROME = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 const IMAGES = path.join(process.cwd(), "public", "images");
-const OUT = path.join(process.cwd(), "public", "files", process.argv[2] ?? "guide-v2.pdf");
+const OUT = path.join(process.cwd(), "public", "files", process.argv[2] ?? "guide.pdf");
 
 /* The drawings carry a content hash in their filename, so they are looked up
    by stem rather than spelled out.

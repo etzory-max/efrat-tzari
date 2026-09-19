@@ -5,6 +5,8 @@ import path from "node:path";
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { z } from "zod";
+import { renderEmail } from "@/lib/email";
+import { drawings } from "@/components/art/drawings";
 import { site, siteUrl } from "@/lib/site";
 
 export type GuideState = {
@@ -85,23 +87,50 @@ export async function requestGuide(
   try {
     const pdf = await readFile(path.join(process.cwd(), "public", "files", "guide.pdf"));
     const resend = new Resend(apiKey);
+    const { html, text } = renderEmail({
+      preheader: "המדריך מצורף כאן, ואפשר פשוט להשיב לי על המייל הזה.",
+      eyebrow: "מתנה",
+      heading: `${parsed.data.name}, המדריך מצורף`,
+      blocks: [
+        {
+          kind: "lead",
+          text: "ארבעת הצעדים של נמר״ה, לרגע שבו הילד מוצף באמצע הסופר או הקניון.",
+        },
+        {
+          kind: "p",
+          text: "אין בו תיאוריה ואין בו הקדמות — יש בו מה לעשות בשלוש השניות הראשונות, ומה לעשות ביום שאחרי.",
+        },
+        { kind: "list", items: [
+          "ארבעת הצעדים, צעד אחר צעד",
+          "טבלת שליפה מהירה: מה לא לעשות ומה כן",
+          "ארבע טכניקות גוף להרגעה תוך שניות",
+          "כרטיסיית מוכנות למילוי בשגרה, לפני שהיא נדרשת",
+        ] },
+        {
+          kind: "art",
+          src: `${siteUrl}${drawings["art-family-hold"].src}`,
+          width: 260,
+          alt: "",
+        },
+        {
+          kind: "p",
+          text: "קריאה נעימה. אם משהו בו מעורר אצלך שאלה — אפשר פשוט להשיב למייל הזה, אני קוראת הכול.",
+        },
+        { kind: "button", label: "דברי איתי", href: `${siteUrl}/#contact` },
+      ],
+      note: "קיבלת את ההודעה הזו כי ביקשת את המדריך באתר. הכתובת שלך לא נשמרה ברשימת תפוצה ולא יישלח אלייך דיוור נוסף.",
+    });
+
     const { error } = await resend.emails.send({
       from,
       to: parsed.data.email,
       replyTo: site.email,
-      subject: "המדריך שביקשת - אפרת צרי",
-      text: [
-        `${parsed.data.name} שלום,`,
-        "",
-        "המדריך מצורף להודעה הזו. קריאה נעימה, ואם משהו בו מעורר שאלה - אפשר פשוט להשיב למייל.",
-        "",
-        "אפרת",
-        siteUrl,
-        "",
-        "-",
-        "קיבלתם את ההודעה הזו כי ביקשתם את המדריך באתר. הכתובת שלכם לא נשמרה ולא תישלח אליכם דיוור נוסף.",
-      ].join("\n"),
-      attachments: [{ filename: "efrat-tzari-guide.pdf", content: pdf.toString("base64") }],
+      subject: "מדריך נמר״ה — מה עושים כשהעולם מסתכל",
+      html,
+      text,
+      attachments: [
+        { filename: "מדריך-נמרה-אפרת-צרי.pdf", content: pdf.toString("base64") },
+      ],
     });
     if (error) throw new Error(error.message);
   } catch (error) {
