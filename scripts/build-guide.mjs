@@ -1,19 +1,65 @@
 /**
- * Renders the lead-magnet guide to public/files/guide.pdf.
+ * Renders the lead-magnet guide to public/files/guide-v2.pdf.
  *
- *   node scripts/build-guide.mjs
+ *   node scripts/build-guide.mjs [outputName]
  *
- * The source is Efrat's Word document; the copy lives inline here so the PDF
- * is reproducible and stays on the site's palette. Re-run it whenever the
- * wording changes. Drives the locally installed Chrome, like the other dev
- * scripts in this folder.
+ * The copy is Efrat's, transcribed from her Word document and kept inline so
+ * the PDF is reproducible; re-run whenever the wording changes.
+ *
+ * This is the site in print. It carries the same three fonts, the same four
+ * text roles, the same terracotta rule under every heading and the same
+ * hand-drawn illustrations, so a reader who came from the page recognises the
+ * document as the same voice rather than as an attachment from somewhere else.
+ *
+ * The drawings are embedded as data URIs: the page is rendered from a string
+ * with no base URL, so a relative src would resolve to nothing.
+ *
+ * Drives the locally installed Chrome, like the other dev scripts here.
  */
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import puppeteer from "puppeteer-core";
+import sharp from "sharp";
 
 const CHROME = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
-const OUT = path.join(process.cwd(), "public", "files", "guide.pdf");
+const IMAGES = path.join(process.cwd(), "public", "images");
+const OUT = path.join(process.cwd(), "public", "files", process.argv[2] ?? "guide-v2.pdf");
+
+/* The drawings carry a content hash in their filename, so they are looked up
+   by stem rather than spelled out.
+
+   They are also shrunk on the way in. At full size the six of them made a
+   3MB PDF, and this document's whole job is to arrive in an inbox - 300px
+   is more than the largest of them is printed at. */
+const files = await readdir(IMAGES);
+const art = async (stem, width = 300) => {
+  const file = files.find((f) => f.startsWith(stem + ".") && f.endsWith(".png"));
+  if (!file) throw new Error(`no drawing for ${stem}`);
+  const data = await sharp(path.join(IMAGES, file))
+    .resize({ width, withoutEnlargement: true })
+    .png({ compressionLevel: 9, palette: true })
+    .toBuffer();
+  return `data:image/png;base64,${data.toString("base64")}`;
+};
+
+const drawing = {
+  familyHold: await art("art-family-hold", 420),
+  collapse: await art("day-collapse", 200),
+  help: await art("day-help", 200),
+  motherWalk: await art("art-mother-walk", 200),
+  morning: await art("day-morning", 200),
+  pathHome: await art("art-path-home", 300),
+};
+
+/* The site's mark, redrawn as flat SVG so it prints crisp at any size. */
+const logomark = (colour, size) => `<svg viewBox="0 0 100 100" width="${size}" height="${size}"
+  fill="none" stroke="${colour}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="55" cy="50" r="34"/><circle cx="45" cy="50" r="34"/>
+  <path d="M50 78c0-8-2-13 0-19" stroke-width="2.8"/>
+  <path d="M50 59c-6-8-6-20 0-30 6 10 6 22 0 30z"/>
+  <path d="M50 63c-8 0-15-5-17-13 8-2 15 4 17 13z"/>
+  <path d="M50 65c8 0 15-5 17-13-8-2-15 4-17 13z"/>
+</svg>`;
 
 const steps = [
   {
@@ -89,51 +135,123 @@ const questions = [
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+/** A numbered section heading with its drawing, matching the page's rhythm. */
+const section = (n, title, src) => `<h2>
+  <span class="h2-num">${n}</span>
+  <span class="h2-text">${esc(title)}</span>
+  ${src ? `<img class="h2-art" src="${src}" alt="">` : ""}
+</h2>`;
+
 const html = `<!doctype html>
 <html lang="he" dir="rtl"><head><meta charset="utf-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Varela+Round&display=swap">
 <style>
-  @page { size: A4; margin: 16mm 15mm 18mm; }
+  /* The tokens are the site's, copied rather than imported so the document
+     stays reproducible on its own. See app/globals.css. */
+  :root {
+    --cream-50:#f5f2ed; --cream-100:#ede9e2; --cream-200:#e2ddd3;
+    --slate:#465b6d; --dark:#2c3238;
+    --ink:#2c333a; --muted:#55606b;
+    --accent:#d69a7e; --accent-ink:#9c4c2e; --accent-light:#f2d0bc;
+  }
+  @page { size: A4; margin: 15mm 14mm 16mm; }
   * { box-sizing: border-box; }
-  body { margin:0; font-family:"Heebo",sans-serif; font-size:10.5pt; line-height:1.75; color:#2c333a; }
-  h1,h2,h3 { margin:0; font-weight:500; line-height:1.3; }
+
+  /* Four roles, exactly as on the page: slate headings, muted body, ink for
+     the one sentence that has to stop you, accent-ink for labels. */
+  body { margin:0; font-family:"Rubik",sans-serif; font-size:10.5pt; line-height:1.75;
+         color:var(--muted); }
+  h1,h2,h3,h4 { margin:0; font-family:"Varela Round",sans-serif; font-weight:400;
+                line-height:1.25; letter-spacing:-0.005em; }
   p { margin:0 0 8pt; }
-  /* No negative margins to bleed past @page — in print they clip the text
-     against the sheet edge instead of extending the block. */
-  .cover { background:#465b6d; color:#fff; border-radius:8pt; padding:20pt 22pt; margin-bottom:14pt; }
-  .cover .kicker { font-size:9.5pt; letter-spacing:.14em; color:#f2d0bc; margin-bottom:10pt; }
-  .cover h1 { font-size:24pt; margin-bottom:8pt; }
-  .cover .sub { font-size:12pt; color:#ffffff; opacity:.9; margin:0; }
-  .cover .model { margin-top:14pt; padding-top:10pt; border-top:1px solid rgba(255,255,255,.3); font-size:10pt; color:#f2d0bc; }
-  h2 { font-size:14pt; color:#465b6d; margin:18pt 0 7pt; padding-bottom:5pt; border-bottom:2px solid #d69a7e; break-after:avoid; }
-  h3 { font-size:11.5pt; color:#9c4c2e; margin:0 0 3pt; }
-  .intro { background:#f5f2ed; border-radius:6pt; padding:11pt 13pt; margin-bottom:6pt; }
-  .rule { background:#d69a7e; color:#2c333a; border-radius:6pt; padding:9pt 13pt; font-size:11pt; margin:9pt 0; }
-  ul { margin:0 0 8pt; padding-inline-start:15pt; }
+  strong { font-weight:500; color:var(--ink); }
+
+  /* ---------- cover ---------- */
+  .cover { background:var(--slate); color:#fff; border-radius:12pt; padding:22pt 24pt 20pt;
+           margin-bottom:16pt; position:relative; overflow:hidden; }
+  .cover-top { display:flex; align-items:center; gap:9pt; margin-bottom:16pt; }
+  .cover-top .name { font-family:"Varela Round",sans-serif; font-size:12pt; color:#fff; }
+  .cover-top .tag { font-size:8.5pt; color:var(--accent-light); margin-top:1pt; }
+  /* The eyebrow, rule and all — the quietest, most repeated mark on the site. */
+  .eyebrow { display:flex; align-items:center; gap:7pt; font-family:"Varela Round",sans-serif;
+             font-size:9pt; letter-spacing:.16em; color:var(--accent-light); margin-bottom:9pt; }
+  .eyebrow::before { content:""; width:20pt; height:2px; background:var(--accent); flex:none; }
+  .cover h1 { font-size:26pt; color:#fff; margin-bottom:9pt; max-width:78%; }
+  .cover .sub { font-size:12pt; color:#fff; opacity:.92; margin:0; max-width:78%; }
+  .cover .model { margin-top:16pt; padding-top:11pt; border-top:1px solid rgba(255,255,255,.28);
+                  font-size:9.5pt; color:var(--accent-light); max-width:78%; }
+  .cover-art { position:absolute; inset-inline-end:16pt; bottom:14pt; width:96pt; opacity:.9; }
+
+  /* ---------- section headings ---------- */
+  h2 { display:flex; align-items:center; gap:9pt; font-size:15pt; color:var(--slate);
+       margin:20pt 0 9pt; padding-bottom:6pt; border-bottom:2px solid var(--accent);
+       break-after:avoid; }
+  .h2-num { font-size:19pt; color:var(--accent-ink); line-height:1; }
+  .h2-text { flex:1; }
+  .h2-art { height:40pt; width:auto; }
+  h3 { font-size:11.5pt; color:var(--slate); margin:0 0 2pt; }
+
+  .intro { background:var(--cream-50); border-radius:10pt; padding:13pt 15pt; margin-bottom:8pt; }
+  .intro h3 { color:var(--accent-ink); font-size:11pt; margin-bottom:6pt; }
+
+  /* The one sentence in ink, the way the page spends it. */
+  .rule { background:var(--accent); color:var(--ink); border-radius:8pt; padding:10pt 14pt;
+          font-size:11pt; margin:10pt 0; }
+
+  ul { margin:0 0 8pt; padding-inline-start:14pt; }
   li { margin-bottom:4pt; }
-  .step { break-inside:avoid; display:grid; grid-template-columns:34pt 1fr; gap:11pt;
-          border-top:1px solid #e2ddd3; padding:10pt 0; }
-  .glyph { width:30pt; height:30pt; border-radius:50%; background:#d69a7e; color:#2c333a;
-           font-size:15pt; font-weight:700; display:flex; align-items:center; justify-content:center; }
-  .tag { color:#55606b; font-size:10pt; margin:0 0 5pt; }
-  .lead { font-weight:500; margin:0 0 3pt; }
-  .tech { break-inside:avoid; border-top:1px solid #e2ddd3; padding:8pt 0; }
+  li::marker { color:var(--accent); }
+
+  /* ---------- the four steps ---------- */
+  .step { break-inside:avoid; display:grid; grid-template-columns:32pt 1fr; gap:12pt;
+          border-top:1px solid var(--cream-200); padding:11pt 0; }
+  .glyph { width:30pt; height:30pt; border-radius:50%; background:var(--accent); color:var(--ink);
+           font-family:"Varela Round",sans-serif; font-size:15pt;
+           display:flex; align-items:center; justify-content:center; }
+  .tag { color:var(--accent-ink); font-size:9.5pt; letter-spacing:.06em; margin:0 0 5pt; }
+  .lead { color:var(--ink); margin:0 0 3pt; }
+
+  .tech { break-inside:avoid; border-top:1px solid var(--cream-200); padding:9pt 0; }
+
   table { width:100%; border-collapse:collapse; font-size:9.5pt; break-inside:avoid; }
-  th,td { text-align:start; vertical-align:top; padding:7pt 8pt; border-bottom:1px solid #e2ddd3; }
-  th { background:#f5f2ed; color:#465b6d; font-weight:500; }
+  th,td { text-align:start; vertical-align:top; padding:8pt 9pt; border-bottom:1px solid var(--cream-200); }
+  th { background:var(--cream-50); color:var(--slate); font-weight:400;
+       font-family:"Varela Round",sans-serif; }
   .no { color:#6e1018; } .yes { color:#2f5d43; }
-  .q { break-inside:avoid; margin-bottom:12pt; }
-  .q p { margin:0 0 12pt; font-weight:500; }
-  .line { border-bottom:1px solid #c9c2b6; height:14pt; margin-bottom:7pt; }
-  footer { margin-top:18pt; border-top:1px solid #e2ddd3; padding-top:8pt;
-           font-size:9pt; color:#55606b; display:flex; justify-content:space-between; }
+
+  .q { break-inside:avoid; margin-bottom:13pt; }
+  .q p { margin:0 0 11pt; color:var(--ink); }
+  .line { border-bottom:1px solid var(--cream-200); height:15pt; margin-bottom:8pt; }
+
+  /* ---------- closing ---------- */
+  .closing { break-inside:avoid; margin-top:22pt; background:var(--cream-50); border-radius:10pt;
+             padding:16pt 18pt; display:grid; grid-template-columns:1fr 84pt;
+             gap:14pt; align-items:center; }
+  .closing h3 { font-size:13pt; color:var(--slate); margin-bottom:5pt; }
+  .closing p { margin:0; }
+  .closing a { color:var(--accent-ink); text-decoration:none; }
+  .closing img { width:84pt; }
+
+  footer { margin-top:16pt; border-top:1px solid var(--cream-200); padding-top:9pt;
+           font-size:8.5pt; color:var(--muted); display:flex; align-items:center;
+           justify-content:space-between; gap:10pt; }
+  footer .mark { display:flex; align-items:center; gap:6pt; }
 </style></head><body>
 
 <div class="cover">
-  <p class="kicker">מדריך פרקטי ומהיר להורים</p>
+  <div class="cover-top">
+    ${logomark("var(--accent-light)", 30)}
+    <div>
+      <div class="name">אפרת צרי</div>
+      <div class="tag">הדרכת הורים לילדים על הרצף</div>
+    </div>
+  </div>
+  <p class="eyebrow">מדריך פרקטי ומהיר להורים</p>
   <h1>מה עושים כשהעולם מסתכל?</h1>
   <p class="sub">כלים פרקטיים להתמודדות עם התפרצות אוטיסטית במרחב הציבורי</p>
   <p class="model">שיטת נמר״ה המשולבת — מעבר מיידי מלחץ לתפעול, הרגעת מערכת העצבים והחזרת השליטה</p>
+  <img class="cover-art" src="${drawing.familyHold}" alt="">
 </div>
 
 <div class="intro">
@@ -143,11 +261,11 @@ const html = `<!doctype html>
   <p style="margin:0">המדריך הזה נכתב כדי לתת לכם ״שלט רחוק״ בזמן אמת. בלי תיאוריות ארוכות ובלי המצאות — רק צעדים פרקטיים, מהירים וחדים, שיגרמו לכם לפעול כמו העוגן שהילד שלכם צריך, ולצאת מכל משבר בביטחון וברוגע.</p>
 </div>
 
-<h2>1 · מה קורה בגוף בזמן התפרצות</h2>
+${section(1, "מה קורה בגוף בזמן התפרצות", drawing.collapse)}
 <p>בזמן התפרצות (Meltdown) המוח של הילד מציף את הגוף בהורמוני סטרס — קורטיזול ואדרנלין — ונכנס למצב הישרדות של Fight or Flight. חלק המוח האחראי על הקשבה, חשיבה לוגית והבנה, האונה המצחית, כבוי לחלוטין.</p>
 <div class="rule"><strong>כלל ברזל יישומי:</strong> אפס הסברים בזמן אירוע. עוברים מ״זמן חינוך״ ל״זמן תפעול״.</div>
 
-<h2>2 · ארבעת הצעדים של מודל נמר״ה</h2>
+${section(2, "ארבעת הצעדים של מודל נמר״ה", drawing.familyHold)}
 ${steps.map((s) => `<div class="step">
   <div class="glyph">${esc(s.letter)}</div>
   <div>
@@ -158,23 +276,35 @@ ${steps.map((s) => `<div class="step">
   </div>
 </div>`).join("")}
 
-<h2>3 · שליפת חירום: ארבע טכניקות להרגעה מהירה</h2>
+${section(3, "שליפת חירום: ארבע טכניקות להרגעה מהירה", drawing.help)}
 ${techniques.map(([t, d]) => `<div class="tech"><h3>${esc(t)}</h3><p style="margin:0">${esc(d)}</p></div>`).join("")}
 
-<h2>4 · טבלת שליפה מהירה</h2>
+${section(4, "טבלת שליפה מהירה", null)}
 <table>
   <thead><tr><th style="width:24%">הסיטואציה</th><th style="width:38%" class="no">מה לא לעשות</th><th style="width:38%" class="yes">מה כן לעשות</th></tr></thead>
   <tbody>${table.map(([a, b, c]) => `<tr><td><strong>${esc(a)}</strong></td><td>${esc(b)}</td><td>${esc(c)}</td></tr>`).join("")}</tbody>
 </table>
 
-<h2>5 · היום שאחרי</h2>
+${section(5, "היום שאחרי", drawing.motherWalk)}
 ${afterwards.map(([t, d]) => `<div class="tech"><h3>${esc(t)}</h3><p style="margin:0">${esc(d)}</p></div>`).join("")}
 
-<h2>6 · כרטיסיית המוכנות האישית שלכם</h2>
+${section(6, "כרטיסיית המוכנות האישית שלכם", drawing.morning)}
 <p>למילוי בשגרה, כשהכול רגוע — כדי שיהיה מוכן לרגע שבו לא יהיה זמן לחשוב.</p>
 ${questions.map((q, i) => `<div class="q"><p>${i + 1}. ${esc(q)}</p><div class="line"></div><div class="line"></div></div>`).join("")}
 
-<footer><span>מדריך נמר״ה להתמודדות עם התפרצות במרחב הציבורי</span><span>אפרת צרי</span></footer>
+<div class="closing">
+  <div>
+    <h3>ואם את רוצה לדבר על מה שקורה אצלכם בבית</h3>
+    <p>הצעד הראשון הוא לא התחייבות. הוא שיחה.<br>
+    <a href="https://efrat-tzari-one.vercel.app/#contact">efrat-tzari.co.il</a> · 052-6008172 · etzory@gmail.com</p>
+  </div>
+  <img src="${drawing.pathHome}" alt="">
+</div>
+
+<footer>
+  <span class="mark">${logomark("var(--accent-ink)", 15)} מדריך נמר״ה · אפרת צרי</span>
+  <span>הדרכת הורים לילדים על הרצף</span>
+</footer>
 </body></html>`;
 
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: "new" });
