@@ -138,6 +138,8 @@
   /* A short rule leads into every section label — the accent's quietest,
      most repeated appearance. currentColor keeps it correct on any surface. */
   .eyebrow {
+    /* inline-flex so the rule sits on the text's own line; `mb` on a span
+       needs the block context, hence the explicit display where one is set. */
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;

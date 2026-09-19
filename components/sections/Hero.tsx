@@ -37,12 +37,17 @@ export function Hero({ data }: { data: HeroContent }) {
           immediate
           className="relative z-10 -mt-12 max-w-2xl rounded-3xl bg-white p-7 shadow-[0_-12px_50px_rgba(44,50,56,0.13)] sm:p-9 md:-mt-40 md:p-12"
         >
-          {data.eyebrow && <p className="eyebrow mb-4">{data.eyebrow}</p>}
-          <h1
-            id="hero-title"
-            className="text-[1.9rem] leading-[1.15] text-slate sm:text-4xl md:text-5xl lg:text-6xl"
-          >
-            {data.title}
+          {/* The positioning line is inside the h1, not a paragraph above it.
+              Nothing moves on screen - it is the same two lines in the same
+              two styles - but the page's one top-level heading now says what
+              this is as well as what it promises. On its own, "לחיות חיים
+              מאפשרים, שמחים ומלאים" names no subject, and the h1 is the
+              strongest thing a search engine or an assistant reads. */}
+          <h1 id="hero-title" className="text-slate">
+            {data.eyebrow && <span className="eyebrow mb-4">{data.eyebrow}</span>}
+            <span className="block text-[1.9rem] leading-[1.15] sm:text-4xl md:text-5xl lg:text-6xl">
+              {data.title}
+            </span>
           </h1>
           <p className="mt-5 text-lg text-muted md:text-xl">{data.subtitle}</p>
           {/* Wrapped rather than inline-spaced: on a phone the second action
