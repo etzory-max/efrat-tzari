@@ -16,6 +16,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { createClient } from "@sanity/client";
 import { defaultContent } from "../content/defaults.ts";
+import { guideEmail } from "../content/emails.ts";
 import { legalPages } from "../content/legal.ts";
 import { site } from "../lib/site.ts";
 import type { Img } from "../content/types.ts";
@@ -273,6 +274,8 @@ async function run() {
     lead: kept(old.contactLead, c.contact.lead),
     consentLabel: kept(old.consentLabel, c.contact.consentLabel),
   });
+
+  docs.push({ _id: "guideEmail", _type: "guideEmail", ...guideEmail });
 
   for (const page of Object.values(legalPages)) {
     docs.push({

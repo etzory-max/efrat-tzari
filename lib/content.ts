@@ -2,6 +2,7 @@ import { cache } from "react";
 import { sanityClient, urlFor } from "@/sanity/client";
 import { sanityConfigured } from "@/sanity/env";
 import { defaultContent } from "@/content/defaults";
+import { guideEmail, type GuideEmailCopy } from "@/content/emails";
 import { legalPages, type LegalDoc } from "@/content/legal";
 import { site, whatsappHref } from "@/lib/site";
 import type { Article, Img, SiteContent } from "@/content/types";
@@ -339,6 +340,41 @@ export const getSiteSettings = cache(async function fetchSettings(): Promise<Sit
   } catch (error) {
     console.error("[content] Sanity settings fetch failed, serving code defaults", error);
     return defaultSettings;
+  }
+});
+
+/**
+ * The wording of the guide email. Efrat edits it in the Studio, so the server
+ * action reads it rather than holding the sentences itself; content/emails.ts
+ * is the fallback if Sanity is unreachable, and an email that fails to send
+ * because a CMS was down would be the worst possible moment for it.
+ */
+export const getGuideEmail = cache(async function fetchGuideEmail(): Promise<GuideEmailCopy> {
+  if (!sanityConfigured || !sanityClient) return guideEmail;
+  try {
+    const doc = await sanityClient.fetch<Partial<GuideEmailCopy> | null>(
+      /* groq */ `*[_type == "guideEmail"][0] {
+        subject, preheader, eyebrow, heading, lead, body, bullets, closing, ctaLabel, note
+      }`,
+      {},
+      { next: { revalidate: 60, tags: ["content"] } },
+    );
+    if (!doc) return guideEmail;
+    return {
+      subject: or(doc.subject, guideEmail.subject),
+      preheader: or(doc.preheader, guideEmail.preheader),
+      eyebrow: or(doc.eyebrow, guideEmail.eyebrow),
+      heading: or(doc.heading, guideEmail.heading),
+      lead: or(doc.lead, guideEmail.lead),
+      body: or(doc.body, guideEmail.body),
+      bullets: or(doc.bullets, guideEmail.bullets),
+      closing: or(doc.closing, guideEmail.closing),
+      ctaLabel: or(doc.ctaLabel, guideEmail.ctaLabel),
+      note: or(doc.note, guideEmail.note),
+    };
+  } catch (error) {
+    console.error("[content] guide email fetch failed, serving seed copy", error);
+    return guideEmail;
   }
 });
 

@@ -106,6 +106,9 @@ export const structure: StructureResolver = (S) =>
       single(S, "contactSection", "12. דברי איתי"),
 
       S.divider(),
+      single(S, "guideEmail", "המייל של המדריך"),
+
+      S.divider(),
       S.listItem()
         .id("legal")
         .title("עמודים משפטיים")

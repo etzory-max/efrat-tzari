@@ -622,7 +622,71 @@ const contactSection = defineType({
 });
 
 /* ==================================================================== *
- * 3. העמודים המשפטיים
+ * 3. המייל שנשלח עם המדריך
+ * ==================================================================== */
+
+/**
+ * The first thing a new reader gets from Efrat, so the wording is hers to
+ * change. The PDF itself is a file in the repository and is not edited here.
+ */
+const guideEmail = defineType({
+  name: "guideEmail",
+  title: "המייל של המדריך",
+  type: "document",
+  groups: [
+    { name: "inbox", title: "מה רואים בתיבה", default: true },
+    { name: "body", title: "גוף ההודעה" },
+  ],
+  fields: [
+    defineField({
+      name: "subject",
+      title: "נושא ההודעה",
+      type: "string",
+      group: "inbox",
+      validation: (r) => r.required().max(90),
+    }),
+    defineField({
+      name: "preheader",
+      title: "השורה שמופיעה ליד הנושא",
+      type: "string",
+      group: "inbox",
+      description: "מה שנראה בתיבה עוד לפני שפותחים. משפט אחד קצר.",
+      validation: (r) => r.max(120),
+    }),
+    defineField({ name: "eyebrow", title: "תווית קטנה", type: "string", group: "body" }),
+    defineField({
+      name: "heading",
+      title: "כותרת ההודעה",
+      type: "string",
+      group: "body",
+      description: "אפשר לכתוב {שם} ובמקומו ייכנס השם שהיא מילאה בטופס.",
+      validation: (r) => r.required(),
+    }),
+    defineField({ name: "lead", title: "משפט פתיחה", type: "text", rows: 2, group: "body" }),
+    defineField({ name: "body", title: "פסקה", type: "text", rows: 3, group: "body" }),
+    defineField({
+      name: "bullets",
+      title: "מה יש במדריך",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+      group: "body",
+    }),
+    defineField({ name: "closing", title: "משפט סיום", type: "text", rows: 3, group: "body" }),
+    defineField({ name: "ctaLabel", title: "טקסט הכפתור", type: "string", group: "body" }),
+    defineField({
+      name: "note",
+      title: "ההערה הקטנה בתחתית",
+      type: "text",
+      rows: 3,
+      group: "body",
+      description: "למה ההודעה הגיעה ומה לא נשמר. נדרש לפי חוק הגנת הפרטיות — לא למחוק.",
+    }),
+  ],
+  preview: { prepare: () => ({ title: "המייל של המדריך" }) },
+});
+
+/* ==================================================================== *
+ * 4. העמודים המשפטיים
  * ==================================================================== */
 
 /**
@@ -695,5 +759,6 @@ export const schemaTypes = [
   faqItem,
   notHere,
   contactSection,
+  guideEmail,
   legalPage,
 ];

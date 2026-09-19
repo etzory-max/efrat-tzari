@@ -5,6 +5,7 @@ import path from "node:path";
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { z } from "zod";
+import { getGuideEmail } from "@/lib/content";
 import { renderEmail } from "@/lib/email";
 import { drawings } from "@/components/art/drawings";
 import { site, siteUrl } from "@/lib/site";
@@ -87,45 +88,32 @@ export async function requestGuide(
   try {
     const pdf = await readFile(path.join(process.cwd(), "public", "files", "guide.pdf"));
     const resend = new Resend(apiKey);
+    const copy = await getGuideEmail();
     const { html, text } = renderEmail({
-      preheader: "המדריך מצורף כאן, ואפשר פשוט להשיב לי על המייל הזה.",
-      eyebrow: "מתנה",
-      heading: `${parsed.data.name}, המדריך מצורף`,
+      preheader: copy.preheader,
+      eyebrow: copy.eyebrow,
+      heading: copy.heading.replace("{שם}", parsed.data.name),
       blocks: [
-        {
-          kind: "lead",
-          text: "ארבעת הצעדים של נמר״ה, לרגע שבו הילד מוצף באמצע הסופר או הקניון.",
-        },
-        {
-          kind: "p",
-          text: "אין בו תיאוריה ואין בו הקדמות — יש בו מה לעשות בשלוש השניות הראשונות, ומה לעשות ביום שאחרי.",
-        },
-        { kind: "list", items: [
-          "ארבעת הצעדים, צעד אחר צעד",
-          "טבלת שליפה מהירה: מה לא לעשות ומה כן",
-          "ארבע טכניקות גוף להרגעה תוך שניות",
-          "כרטיסיית מוכנות למילוי בשגרה, לפני שהיא נדרשת",
-        ] },
+        { kind: "lead", text: copy.lead },
+        { kind: "p", text: copy.body },
+        { kind: "list", items: copy.bullets },
         {
           kind: "art",
           src: `${siteUrl}${drawings["art-family-hold"].src}`,
           width: 260,
           alt: "",
         },
-        {
-          kind: "p",
-          text: "קריאה נעימה. אם משהו בו מעורר אצלך שאלה — אפשר פשוט להשיב למייל הזה, אני קוראת הכול.",
-        },
-        { kind: "button", label: "דברי איתי", href: `${siteUrl}/#contact` },
+        { kind: "p", text: copy.closing },
+        { kind: "button", label: copy.ctaLabel, href: `${siteUrl}/#contact` },
       ],
-      note: "קיבלת את ההודעה הזו כי ביקשת את המדריך באתר. הכתובת שלך לא נשמרה ברשימת תפוצה ולא יישלח אלייך דיוור נוסף.",
+      note: copy.note,
     });
 
     const { error } = await resend.emails.send({
       from,
       to: parsed.data.email,
       replyTo: site.email,
-      subject: "מדריך נמר״ה — מה עושים כשהעולם מסתכל",
+      subject: copy.subject,
       html,
       text,
       attachments: [
