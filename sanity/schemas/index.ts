@@ -1,5 +1,4 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { bookSchemaTypes } from "./book";
 
 /**
  * Alt text is required on every image. Accessibility is enforced at the point
@@ -762,5 +761,4 @@ export const schemaTypes = [
   contactSection,
   guideEmail,
   legalPage,
-  ...bookSchemaTypes,
 ];

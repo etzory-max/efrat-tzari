@@ -8,11 +8,11 @@ import type { PortableTextComponents } from "@portabletext/react";
 function makeProse(
   surface: "light" | "dark",
   /** Where this prose sits in the page outline, so headings never skip a level. */
-  startLevel: 2 | 3 | 4 = 2,
+  startLevel: 2 | 4 = 2,
 ): PortableTextComponents {
   const heading = surface === "dark" ? "text-white" : "text-slate";
-  const Major = `h${startLevel}` as "h2" | "h3" | "h4";
-  const Minor = `h${startLevel + 1}` as "h3" | "h4" | "h5";
+  const Major = `h${startLevel}` as "h2" | "h4";
+  const Minor = `h${startLevel + 1}` as "h3" | "h5";
 
   return {
     block: {
@@ -60,5 +60,3 @@ export const proseComponents = makeProse("light");
 /** Service cards: the card title is already an h3, so prose headings start at h4. */
 export const proseInCard = makeProse("light", 4);
 export const proseInCardOnDark = makeProse("dark", 4);
-/** The book's first chapter: it sits under the section's h2, so it starts at h3. */
-export const proseInChapter = makeProse("light", 3);

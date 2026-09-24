@@ -52,13 +52,13 @@ export function About({ data, tone = "light" }: { data: AboutSection; tone?: "li
             {data.paragraphs.map((paragraph, index) =>
               index === data.highlight ? (
                 <p
-                  key={index}
+                  key={paragraph.slice(0, 24)}
                   className="border-s-2 border-accent-ink ps-5 text-xl leading-relaxed text-ink md:text-2xl"
                 >
                   {paragraph}
                 </p>
               ) : (
-                <p key={index}>{paragraph}</p>
+                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ),
             )}
           </div>

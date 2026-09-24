@@ -106,32 +106,6 @@ export const structure: StructureResolver = (S) =>
       single(S, "contactSection", "12. דברי איתי"),
 
       S.divider(),
-      /* The book page is a second page, not a second site, so it is a folder
-         here rather than a second Studio - numbered the same way, in its own
-         scroll order. */
-      S.listItem()
-        .id("book")
-        .title("עמוד הספר")
-        .child(
-          S.list()
-            .id("book-inner")
-            .title("עמוד הספר")
-            .items([
-              single(S, "bookHero", "1. ראש העמוד"),
-              single(S, "bookStory", "2. הסיפור"),
-              single(S, "bookAbout", "3. על הספר"),
-              single(S, "bookChapter", "4. הפרק הראשון"),
-              single(S, "bookPurchase", "5. לרכישה"),
-              single(S, "bookTestimonials", "6. המלצות"),
-              single(S, "bookOfferings", "7. מה אני עושה"),
-              single(S, "bookContact", "8. דברי איתי"),
-              single(S, "bookDedication", "9. הקדשה"),
-              S.divider(),
-              single(S, "bookMeta", "כותרת ותיאור לגוגל"),
-            ]),
-        ),
-
-      S.divider(),
       single(S, "guideEmail", "המייל של המדריך"),
 
       S.divider(),

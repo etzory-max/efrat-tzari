@@ -109,9 +109,6 @@ export function md(source: string): PortableTextBlock[] {
     .map((line) => {
       if (line.startsWith("## ")) return block(line.slice(3), { style: "h2" });
       if (line.startsWith("- ")) return block(line.slice(2), { listItem: "bullet", level: 1 });
-      // A pulled-out line - the renderer already styles blockquote, and a
-      // chapter of a book is the first seed content long enough to want one.
-      if (line.startsWith("> ")) return block(line.slice(2), { style: "blockquote" });
       return block(line);
     });
 }
