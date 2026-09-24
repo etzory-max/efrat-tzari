@@ -2,12 +2,21 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
-import { navItems } from "@/lib/site";
+import { drawings } from "@/components/art/drawings";
+import { bookNavItems, navItems } from "@/lib/site";
 
 export function Header({ name, tagline }: { name: string; tagline: string }) {
+  /* The book page is its own page, not a section of the home page, so the bar
+     above it has to point at the book's sections. Same header, same logo,
+     different menu - deciding here keeps it out of every route's layout. */
+  const onBookPage = usePathname()?.startsWith("/gentle-cracks") ?? false;
+  const items = onBookPage ? bookNavItems : navItems;
+  const contactHref = onBookPage ? "#contact" : "/#contact";
+
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -95,7 +104,7 @@ export function Header({ name, tagline }: { name: string; tagline: string }) {
 
         <nav aria-label="ניווט ראשי" className="hidden lg:block">
           <ul className="flex items-center gap-4 xl:gap-6">
-            {navItems.map((item) => (
+            {items.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
@@ -110,7 +119,7 @@ export function Header({ name, tagline }: { name: string; tagline: string }) {
 
         <div className="flex items-center gap-2">
           <Link
-            href="/#contact"
+            href={contactHref}
             className="btn btn-primary hidden px-5 py-3 text-base sm:inline-flex"
           >
             דברי איתי
@@ -163,7 +172,7 @@ export function Header({ name, tagline }: { name: string; tagline: string }) {
 
           <nav aria-label="ניווט ראשי (מובייל)" className="flex-1 overflow-y-auto px-6 py-4">
             <ul className="flex flex-col">
-              {navItems.map((item) => (
+              {items.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
@@ -178,17 +187,20 @@ export function Header({ name, tagline }: { name: string; tagline: string }) {
           </nav>
 
           <div className="border-t border-cream-200 p-6">
+            {/* Was /images/art-kids-table.png, which no longer exists - the
+                drawer has been showing a broken image. The drawings carry
+                their own dimensions now, so this cannot drift again. */}
             <Image
-              src="/images/art-kids-table.png"
+              src={drawings["art-family-hold"].src}
               alt=""
-              width={900}
-              height={735}
+              width={drawings["art-family-hold"].width}
+              height={drawings["art-family-hold"].height}
               sizes="180px"
               aria-hidden="true"
               className="mx-auto mb-5 h-24 w-auto opacity-70"
             />
             <Link
-              href="/#contact"
+              href={contactHref}
               onClick={close}
               className="btn btn-primary w-full px-5 py-4 text-base"
             >
