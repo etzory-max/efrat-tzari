@@ -5,10 +5,10 @@ import path from "node:path";
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { z } from "zod";
-import { getGuideEmail } from "@/lib/content";
+import { getGuideEmail, getSiteSettings } from "@/lib/content";
 import { renderEmail } from "@/lib/email";
 import { drawings } from "@/components/art/drawings";
-import { site, siteUrl } from "@/lib/site";
+import { siteUrl } from "@/lib/site";
 
 export type GuideState = {
   status: "idle" | "success" | "error";
@@ -74,13 +74,14 @@ export async function requestGuide(
     };
   }
 
+  const settings = await getSiteSettings();
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM_EMAIL;
   if (!apiKey || !from) {
     console.error("[guide] RESEND_API_KEY / CONTACT_FROM_EMAIL are not configured");
     return {
       status: "error",
-      message: `שליחת המדריך אינה זמינה כרגע. אפשר לכתוב ל-${site.email} ואשלח אותו ידנית.`,
+      message: `שליחת המדריך אינה זמינה כרגע. אפשר לכתוב ל-${settings.email} ואשלח אותו ידנית.`,
       values: raw,
     };
   }
@@ -107,12 +108,13 @@ export async function requestGuide(
         { kind: "button", label: copy.ctaLabel, href: `${siteUrl}/#contact` },
       ],
       note: copy.note,
+      settings,
     });
 
     const { error } = await resend.emails.send({
       from,
       to: parsed.data.email,
-      replyTo: site.email,
+      replyTo: settings.email,
       subject: copy.subject,
       html,
       text,
@@ -125,7 +127,7 @@ export async function requestGuide(
     console.error("[guide] send failed", error);
     return {
       status: "error",
-      message: `השליחה נכשלה. אפשר לנסות שוב או לכתוב ל-${site.email}.`,
+      message: `השליחה נכשלה. אפשר לנסות שוב או לכתוב ל-${settings.email}.`,
       values: raw,
     };
   }

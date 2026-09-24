@@ -1,4 +1,5 @@
-import { site, siteUrl } from "@/lib/site";
+import type { SiteSettings } from "@/lib/content";
+import { siteUrl } from "@/lib/site";
 
 /**
  * The site, in an inbox.
@@ -45,6 +46,7 @@ export function renderEmail({
   heading,
   blocks,
   note,
+  settings,
 }: {
   /** The line shown beside the subject in the inbox list. */
   preheader: string;
@@ -53,6 +55,13 @@ export function renderEmail({
   blocks: EmailBlock[];
   /** The small print under the rule - why this arrived, and what is not kept. */
   note: string;
+  /**
+   * The name, phone and address in the footer, read from the Studio like the
+   * page reads them. They used to be the constants in lib/site.ts, so editing
+   * the phone number in Sanity changed the site and left every outgoing
+   * message quoting the old one.
+   */
+  settings: SiteSettings;
 }) {
   const body = blocks
     .map((block) => {
@@ -139,8 +148,8 @@ export function renderEmail({
             </table>
           </td>
           <td valign="middle" style="padding-right:12px">
-            <div style="font-size:17px;color:#ffffff;line-height:1.3">${site.name}</div>
-            <div style="font-size:12px;color:${ACCENT};line-height:1.5">${site.tagline}</div>
+            <div style="font-size:17px;color:#ffffff;line-height:1.3">${settings.name}</div>
+            <div style="font-size:12px;color:${ACCENT};line-height:1.5">${settings.tagline}</div>
           </td>
         </tr>
       </table>
@@ -160,9 +169,9 @@ export function renderEmail({
     <tr><td style="padding:6px 30px 26px" dir="rtl">
       <div style="border-top:1px solid ${LINE};padding-top:16px">
         <p style="margin:0 0 6px;font-size:15px;line-height:1.7;color:${MUTED}">
-          <a href="tel:${site.phoneE164}" style="color:${ACCENT_INK};text-decoration:none">${site.phoneDisplay}</a>
+          <a href="tel:${settings.phoneE164}" style="color:${ACCENT_INK};text-decoration:none">${settings.phoneDisplay}</a>
           &nbsp;·&nbsp;
-          <a href="mailto:${site.email}" style="color:${ACCENT_INK};text-decoration:none">${site.email}</a>
+          <a href="mailto:${settings.email}" style="color:${ACCENT_INK};text-decoration:none">${settings.email}</a>
           &nbsp;·&nbsp;
           <a href="${siteUrl}" style="color:${ACCENT_INK};text-decoration:none">${siteUrl.replace(/^https?:\/\//, "")}</a>
         </p>
@@ -198,7 +207,7 @@ export function renderEmail({
           return [...block.items.map((item) => `${item.label}: ${item.href}`), ""];
       }
     }),
-    `${site.name} · ${site.phoneDisplay} · ${site.email}`,
+    `${settings.name} · ${settings.phoneDisplay} · ${settings.email}`,
     siteUrl,
     "",
     "—",

@@ -42,24 +42,37 @@ export const site = {
 const withScheme = (host?: string) =>
   host ? (host.startsWith("http") ? host : `https://${host}`) : "";
 
+/** The live domain. Everything canonical - sitemap, JSON-LD, email links. */
+const PRODUCTION = "https://tzory.com";
+
 /**
+ * The domain is known and permanent, so production states it rather than
+ * reading it from an env var that has to be set correctly in a dashboard. It
+ * was that indirection that had the guide email telling readers the site
+ * lives at efrat-tzari-one.vercel.app. NEXT_PUBLIC_SITE_URL still overrides,
+ * for the day the domain changes; preview deploys address themselves.
+ *
  * `||` rather than `??` on purpose: an env var that exists but is empty must
  * fall through, otherwise `new URL("")` throws and the whole build dies.
- * Vercel's own host vars act as the safety net on preview deploys.
  */
 export const siteUrl = (
   withScheme(process.env.NEXT_PUBLIC_SITE_URL) ||
-  withScheme(process.env.VERCEL_PROJECT_PRODUCTION_URL) ||
-  withScheme(process.env.VERCEL_URL) ||
-  "https://efrat-tzari.co.il"
+  (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production"
+    ? withScheme(process.env.VERCEL_URL)
+    : "") ||
+  PRODUCTION
 ).replace(/\/$/, "");
 
 /**
- * Search engines are kept out until the real content is in place — a staging
- * site carrying a placeholder phone number must never get indexed.
- * Set NEXT_PUBLIC_ALLOW_INDEXING=true on the production domain at launch.
+ * Crawlers are welcome on the real domain and nowhere else. Preview deploys
+ * and the local server stay closed, so a half-finished draft can never be the
+ * copy Google holds. NEXT_PUBLIC_ALLOW_INDEXING=false closes production too,
+ * should it ever need to go quiet again.
  */
-export const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+export const allowIndexing =
+  process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true" ||
+  (process.env.VERCEL_ENV === "production" &&
+    process.env.NEXT_PUBLIC_ALLOW_INDEXING !== "false");
 
 export const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(
   site.whatsappMessage,

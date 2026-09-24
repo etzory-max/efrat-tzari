@@ -3,8 +3,8 @@
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { z } from "zod";
+import { getSiteSettings } from "@/lib/content";
 import { renderEmail } from "@/lib/email";
-import { site } from "@/lib/site";
 
 type Field = "name" | "phone" | "email" | "message" | "consent";
 
@@ -114,15 +114,16 @@ export async function submitContact(
   }
 
   const { name, phone, email, message } = parsed.data;
+  const settings = await getSiteSettings();
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL ?? site.email;
+  const to = process.env.CONTACT_TO_EMAIL ?? settings.email;
   const from = process.env.CONTACT_FROM_EMAIL;
 
   if (!apiKey || !from) {
     console.error("[contact] RESEND_API_KEY / CONTACT_FROM_EMAIL are not configured");
     return {
       status: "error",
-      message: `שליחת הטופס אינה זמינה כרגע. אפשר להתקשר ל-${site.phoneDisplay} או לכתוב ל-${site.email}.`,
+      message: `שליחת הטופס אינה זמינה כרגע. אפשר להתקשר ל-${settings.phoneDisplay} או לכתוב ל-${settings.email}.`,
       values: raw,
     };
   }
@@ -161,6 +162,7 @@ export async function submitContact(
         },
       ],
       note: "נשלח מטופס יצירת הקשר באתר. הפונה אישרה את מדיניות הפרטיות. לחיצה על ״השב״ תענה ישירות לפונה.",
+      settings,
     });
 
     const { error } = await resend.emails.send({
@@ -176,7 +178,7 @@ export async function submitContact(
     console.error("[contact] send failed", error);
     return {
       status: "error",
-      message: `השליחה נכשלה. אפשר לנסות שוב, להתקשר ל-${site.phoneDisplay} או לכתוב ל-${site.email}.`,
+      message: `השליחה נכשלה. אפשר לנסות שוב, להתקשר ל-${settings.phoneDisplay} או לכתוב ל-${settings.email}.`,
       values: raw,
     };
   }
