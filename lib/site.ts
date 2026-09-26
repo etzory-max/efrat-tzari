@@ -85,6 +85,18 @@ export type NavItem = { label: string; href: string };
  * /privacy, /accessibility or an article page, where the target section
  * simply is not in the document.
  */
+/**
+ * The book page's own menu. It is a standalone page - nothing in the menu
+ * above points at it - so its anchors are page-relative rather than "/#...".
+ */
+export const bookNavItems: NavItem[] = [
+  { label: "הסיפור", href: "#about" },
+  { label: "על הספר", href: "#book" },
+  { label: "הפרק הראשון", href: "#chapter" },
+  { label: "לרכישה", href: "#buy" },
+  { label: "מה אני עושה", href: "#offerings" },
+];
+
 export const navItems: NavItem[] = [
   { label: "אם זה הבית שלך", href: "/#recognise" },
   { label: "איך זה עובד", href: "/#approach" },
