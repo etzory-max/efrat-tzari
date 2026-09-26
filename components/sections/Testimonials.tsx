@@ -60,12 +60,15 @@ export function Testimonials({
   surface = "plain",
   sectionId = "testimonials",
   art = "table",
+  drawingName = "art-family-hold",
 }: {
   data: TestimonialsSection;
   tone?: "light" | "deep";
   surface?: TestimonialsSurface;
   sectionId?: string;
   art?: "table" | "pair";
+  /** Which drawing sits with the quotes. The book page sends its own. */
+  drawingName?: keyof typeof drawings;
 }) {
   const [first, second, third] = data.items;
   const headingId = `${sectionId}-title`;
@@ -86,7 +89,7 @@ export function Testimonials({
          section up, and three parents' voices deserve their own image rather
          than a second showing of somebody else's. */
       <Image
-        {...drawings["art-family-hold"]}
+        {...drawings[drawingName]}
         alt=""
         sizes="260px"
         aria-hidden="true"

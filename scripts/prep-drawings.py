@@ -92,6 +92,12 @@ CUTS = [
     # lands just before them rather than through the first one. A line running
     # out of frame says the other end is somewhere rather than nowhere.
     ("art-tin-can", "tincan-source.jpg", (90, 648), False),
+    # The book page's three. They are drawn in a finer, lighter line than the
+    # first set - one continuous contour instead of pencil shading - so they
+    # come off their sheets whole, with nothing to split.
+    ("art-writing-night", "writing-night-source.jpg", None, False),
+    ("art-book-hands", "book-hands-source.jpg", None, False),
+    ("art-two-women", "two-women-source.jpg", None, False),
 ]
 
 

@@ -53,7 +53,7 @@ export default async function BookPage() {
       <BookAbout data={book.about} />
       <BookChapter data={book.chapter} />
       <BookPurchase data={book.purchase} />
-      <Testimonials data={book.testimonials} surface="wash" />
+      <Testimonials data={book.testimonials} surface="wash" drawingName="art-book-hands" />
       <BookOfferings data={book.offerings} />
       {/* The same press items as the home page - one list, maintained once. */}
       <Media data={content.media} tone="light" />

@@ -11,7 +11,7 @@ import type { BookDedication as BookDedicationContent } from "@/content/book";
  * would stop being one.
  */
 export function BookDedication({ data }: { data: BookDedicationContent }) {
-  const art = drawings["art-family-hold"];
+  const art = drawings["art-two-women"];
 
   return (
     <section aria-labelledby="dedication-label" className="bg-cream-100 py-16 md:py-20">
@@ -21,9 +21,9 @@ export function BookDedication({ data }: { data: BookDedicationContent }) {
           alt=""
           width={art.width}
           height={art.height}
-          sizes="112px"
+          sizes="176px"
           aria-hidden="true"
-          className="mx-auto mb-6 h-auto w-28"
+          className="mx-auto mb-6 h-auto w-40"
         />
         <p id="dedication-label" className="eyebrow justify-center">
           {data.label}

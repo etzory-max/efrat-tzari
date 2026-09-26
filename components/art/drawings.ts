@@ -6,6 +6,11 @@
  * dimensions travel with the path for the same reason: they cannot drift.
  */
 export const drawings = {
+  "art-book-hands": {
+    "src": "/images/art-book-hands.6747a133.png",
+    "width": 900,
+    "height": 796
+  },
   "art-boy-ball": {
     "src": "/images/art-boy-ball.c9f55f35.png",
     "width": 704,
@@ -55,6 +60,16 @@ export const drawings = {
     "src": "/images/art-tin-can.73fbf7c9.png",
     "width": 530,
     "height": 753
+  },
+  "art-two-women": {
+    "src": "/images/art-two-women.28306744.png",
+    "width": 900,
+    "height": 844
+  },
+  "art-writing-night": {
+    "src": "/images/art-writing-night.0f395902.png",
+    "width": 900,
+    "height": 815
   },
   "day-collapse": {
     "src": "/images/day-collapse.a1f04afa.png",

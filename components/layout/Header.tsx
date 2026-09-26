@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
+import { BookWordmark } from "@/components/brand/BookWordmark";
 import { drawings } from "@/components/art/drawings";
 import { bookNavItems, navItems } from "@/lib/site";
 
@@ -97,12 +98,15 @@ export function Header({ name, tagline }: { name: string; tagline: string }) {
           ["--logo-size" as string]: scrolled ? "2.75rem" : "3.5rem",
         }}
       >
+        {/* On the book page the name leads back to the top of the book page.
+            Sending a reader to the practice's home page mid-chapter drops
+            them somewhere they did not ask to be. */}
         <Link
-          href="/"
+          href={onBookPage ? "/gentle-cracks" : "/"}
           className="tap flex items-center rounded-lg"
-          aria-label={`${name} - לעמוד הבית`}
+          aria-label={onBookPage ? "אפרת צרי - לראש עמוד הספר" : `${name} - לעמוד הבית`}
         >
-          <Logo name={name} tagline={tagline} />
+          {onBookPage ? <BookWordmark /> : <Logo name={name} tagline={tagline} />}
         </Link>
 
         <nav aria-label="ניווט ראשי" className="hidden lg:block">
@@ -121,12 +125,14 @@ export function Header({ name, tagline }: { name: string; tagline: string }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            href={contactHref}
-            className="btn btn-primary hidden px-5 py-3 text-base sm:inline-flex"
-          >
-            {contactLabel}
-          </Link>
+          {!onBookPage && (
+            <Link
+              href={contactHref}
+              className="btn btn-primary hidden px-5 py-3 text-base sm:inline-flex"
+            >
+              {contactLabel}
+            </Link>
+          )}
 
           <button
             ref={triggerRef}

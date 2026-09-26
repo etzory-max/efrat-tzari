@@ -16,7 +16,7 @@ import type { BookHero as BookHeroContent } from "@/content/book";
  * drawing lands under it, so the reading leads into the picture.
  */
 export function BookHero({ data }: { data: BookHeroContent }) {
-  const art = drawings["art-mother-walk"];
+  const art = drawings["art-writing-night"];
 
   return (
     <section
