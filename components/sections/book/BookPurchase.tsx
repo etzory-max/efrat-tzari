@@ -50,7 +50,9 @@ export function BookPurchase({ data }: { data: BookPurchaseContent }) {
             {data.buyLabel}
             <span className="sr-only"> (נפתח בחלון חדש)</span>
           </a>
-          {data.note && <p className="mt-4 text-sm text-on-dark-muted">{data.note}</p>}
+          {/* Full cream, not the muted one: at 14px on slate the muted tone
+              came to 3.65:1, under the 4.5:1 that small text has to clear. */}
+          {data.note && <p className="mt-4 text-sm text-on-dark">{data.note}</p>}
         </Reveal>
       </div>
     </section>

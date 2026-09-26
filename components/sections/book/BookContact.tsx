@@ -39,7 +39,9 @@ export function BookContact({
           <h2 id="book-contact-title" className="mt-3 text-3xl text-ink md:text-4xl">
             {data.title}
           </h2>
-          <p className="mt-4 max-w-2xl text-lg text-ink/80">{data.lead}</p>
+          {/* Ink at full strength: at 80% over terracotta it fell to 3.74:1,
+              and ink on this accent is 5.4:1 only when it is not thinned. */}
+          <p className="mt-4 max-w-2xl text-lg text-ink">{data.lead}</p>
         </Reveal>
 
         {/* Three targets in a row on a wide screen, stacked on a phone - each

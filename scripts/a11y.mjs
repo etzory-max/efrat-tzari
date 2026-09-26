@@ -11,7 +11,8 @@ const base = process.argv[2] ?? "http://localhost:3000";
 
 const pages = [
   "/",
-  "/articles/kshe-haahim-margishim-shenishkehu",
+  "/gentle-cracks",
+  "/articles/shivyon-eino-hoganut",
   "/privacy",
   "/accessibility",
 ];
