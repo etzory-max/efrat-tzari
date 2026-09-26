@@ -48,6 +48,9 @@
   /* Type */
   --font-sans: var(--font-rubik), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-varela), var(--font-rubik), ui-sans-serif, sans-serif;
+  /* The book page's chapter, and nothing else: Frank Ruhl is the face Hebrew
+     books are set in, and the story has to read like it came out of one. */
+  --font-book: var(--font-frank), Georgia, "Times New Roman", serif;
 
   /* Motion */
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);

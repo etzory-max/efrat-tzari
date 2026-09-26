@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { rubik, varelaRound } from "@/lib/fonts";
+import { frankRuhl, rubik, varelaRound } from "@/lib/fonts";
 import { allowIndexing, site, siteUrl } from "@/lib/site";
 import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { PrivacyNotice } from "@/components/layout/PrivacyNotice";
@@ -95,7 +95,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html
       lang="he"
       dir="rtl"
-      className={`${rubik.variable} ${varelaRound.variable}`}
+      className={`${rubik.variable} ${varelaRound.variable} ${frankRuhl.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-dvh bg-cream-50 antialiased">
@@ -105,7 +105,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <main id="main" tabIndex={-1}>
           {children}
         </main>
-        <Footer settings={settings} />
+        <SiteFooter settings={settings} />
         <FloatingActions whatsappHref={settings.whatsappHref} />
         <PrivacyNotice />
         <OrganizationJsonLd />

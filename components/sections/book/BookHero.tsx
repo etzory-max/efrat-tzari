@@ -31,10 +31,14 @@ export function BookHero({ data }: { data: BookHeroContent }) {
               {data.title}
             </span>
           </h1>
-          {/* The breaks are hers: three lines, one thought each. */}
-          <p className="mt-5 max-w-xl text-lg whitespace-pre-line text-muted md:text-xl">
-            {data.subtitle}
-          </p>
+          {/* Three sentences, each its own paragraph with air around it. Set
+              as one block with line breaks they read as a stanza that has to
+              be taken in at once; apart, each lands before the next arrives. */}
+          <div className="mt-6 max-w-xl space-y-4 text-lg text-muted md:text-xl">
+            {data.subtitle.split("\n").map((line) => (
+              <p key={line}>{line}</p>
+            ))}
+          </div>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link href={data.ctaHref} className="btn btn-primary px-8 py-4 text-base">
               {data.ctaLabel}
