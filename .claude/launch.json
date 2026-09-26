@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--", "--port", "3100"],
       "port": 3100
+    },
+    {
+      "name": "efrat-book",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "dev", "../efrat-book", "--port", "3200"],
+      "port": 3200
     }
   ]
 }

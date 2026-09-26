@@ -15,7 +15,7 @@ export const site = {
 
   phoneDisplay: "052-6008172",
   phoneE164: "+972526008172",
-  email: "etzory@gmail.com",
+  email: "efrat@tzory.com",
   whatsappNumber: "972526008172",
   whatsappMessage: "היי אפרת, הגעתי מהאתר ואשמח לשמוע פרטים על ליווי",
   hours: "ראשון–חמישי, 9:00–19:00",
@@ -35,7 +35,7 @@ export const site = {
 
   /** Contact for accessibility + privacy enquiries (required by both statements). */
   accessibilityContactName: "אפרת צרי",
-  accessibilityContactEmail: "etzory@gmail.com",
+  accessibilityContactEmail: "efrat@tzory.com",
   accessibilityStatementDate: "2026-08-10",
 } as const;
 
