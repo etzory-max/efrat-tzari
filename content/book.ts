@@ -151,15 +151,12 @@ export const defaultBookPage: BookPageContent = {
       "הסיפורים נכתבו בין הדברים — בלילות, בהמתנות, אחרי ימים שבהם הכול התפרק ובכל זאת קמנו בבוקר. מהם נולד הספר הזה.",
     ],
     highlight: 3,
-    portrait: { src: "/images/efrat-portrait.jpg", alt: "אפרת צרי" },
+    portrait: { src: "/images/efrat-book-portrait.cc613461.jpg", alt: "אפרת צרי" },
     badgeValue: "2025",
     badgeLabel: "יצא לאור",
-    points: [
-      "אם יחידנית לתאומות בנות 13",
-      "שתיהן על הרצף, כל אחת בעולם אחר",
-      "מנהלת שיווק בהייטק לשעבר",
-      "מדריכת הורים מוסמכת",
-    ],
+    /* No list of credentials beside the story: the book page is not a CV,
+       and the four lines repeated what the paragraphs already say. */
+    points: [],
   },
 
   about: {
