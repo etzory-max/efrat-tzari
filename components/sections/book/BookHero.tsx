@@ -31,7 +31,10 @@ export function BookHero({ data }: { data: BookHeroContent }) {
               {data.title}
             </span>
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-muted md:text-xl">{data.subtitle}</p>
+          {/* The breaks are hers: three lines, one thought each. */}
+          <p className="mt-5 max-w-xl text-lg whitespace-pre-line text-muted md:text-xl">
+            {data.subtitle}
+          </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link href={data.ctaHref} className="btn btn-primary px-8 py-4 text-base">
               {data.ctaLabel}

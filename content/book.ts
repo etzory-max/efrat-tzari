@@ -119,9 +119,16 @@ export const defaultBookPage: BookPageContent = {
 
   hero: {
     eyebrow: "הספר",
-    title: "לורם איפסום דולור סיט אמט",
-    subtitle:
-      "קונסקטורר אדיפיסינג אלית. סת אלמנקום ניסי נון ניבאה, דס איאקוליס וולופטה דיאם. וסטיבולום אט דולור, קראס אגת לקטוס וואל אאוגו וסטיבולום סוליסי טידום בעליק. לורם איפסום דולור סיט אמט קונסקטורר אדיפיסינג אלית.",
+    title: "שברים עדינים",
+    /* Sentence per line, and the line breaks are the content: each one is a
+       thing that happened, and reading them as a paragraph would blur them
+       back together. Rendered with whitespace-pre-line, like the home page's
+       two other leads. */
+    subtitle: [
+      "יש דברים שנשברים בשקט.",
+      "לא בבת אחת, ולא ברעש.",
+      "כתבתי עליהם סיפורים — על מה שאבד, מה שנמצא, ומה שביניהם.",
+    ].join("\n"),
     ctaLabel: "על הספר",
     ctaHref: "#book",
     ctaSecondaryLabel: "לקריאת הפרק הראשון",
