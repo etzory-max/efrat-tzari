@@ -16,6 +16,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { createClient } from "@sanity/client";
 import { defaultContent } from "../content/defaults.ts";
+import { defaultBookPage } from "../content/book.ts";
 import { guideEmail } from "../content/emails.ts";
 import { legalPages } from "../content/legal.ts";
 import { site } from "../lib/site.ts";
@@ -289,6 +290,112 @@ async function run() {
       description: page.description,
     });
   }
+
+  /* עמוד הספר. Its own documents, so the Studio's "עמוד הספר" folder opens
+     onto the text that is actually on the page instead of ten empty forms -
+     which is what Efrat found there. */
+  const b = defaultBookPage;
+
+  docs.push({
+    _id: "bookMeta",
+    _type: "bookMeta",
+    title: b.meta.title,
+    description: b.meta.description,
+  });
+
+  docs.push({
+    _id: "bookHero",
+    _type: "bookHero",
+    eyebrow: b.hero.eyebrow,
+    title: b.hero.title,
+    subtitle: b.hero.subtitle,
+    ctaLabel: b.hero.ctaLabel,
+    ctaHref: b.hero.ctaHref,
+    ctaSecondaryLabel: b.hero.ctaSecondaryLabel,
+    ctaSecondaryHref: b.hero.ctaSecondaryHref,
+  });
+
+  docs.push({
+    _id: "bookStory",
+    _type: "bookStory",
+    eyebrow: b.story.eyebrow,
+    title: b.story.title,
+    paragraphs: b.story.paragraphs,
+    highlight: b.story.highlight === undefined ? undefined : b.story.highlight + 1,
+    portrait: await uploadImage(b.story.portrait),
+    badgeValue: b.story.badgeValue,
+    badgeLabel: b.story.badgeLabel,
+    points: b.story.points,
+  });
+
+  docs.push({
+    _id: "bookAbout",
+    _type: "bookAbout",
+    eyebrow: b.about.eyebrow,
+    title: b.about.title,
+    lead: b.about.lead,
+    paragraphs: b.about.paragraphs,
+    bullets: b.about.bullets,
+    cover: await uploadImage(b.about.cover),
+  });
+
+  docs.push({
+    _id: "bookChapter",
+    _type: "bookChapter",
+    eyebrow: b.chapter.eyebrow,
+    title: b.chapter.title,
+    lead: b.chapter.lead,
+    body: b.chapter.body,
+    closer: b.chapter.closer,
+    ctaLabel: b.chapter.ctaLabel,
+    ctaHref: b.chapter.ctaHref,
+  });
+
+  docs.push({
+    _id: "bookPurchase",
+    _type: "bookPurchase",
+    eyebrow: b.purchase.eyebrow,
+    title: b.purchase.title,
+    lead: b.purchase.lead,
+    price: b.purchase.price,
+    formats: b.purchase.formats,
+    buyLabel: b.purchase.buyLabel,
+    buyHref: b.purchase.buyHref,
+    note: b.purchase.note,
+  });
+
+  docs.push({
+    _id: "bookTestimonials",
+    _type: "bookTestimonials",
+    eyebrow: b.testimonials.eyebrow,
+    title: b.testimonials.title,
+    items: b.testimonials.items.map((item, index) => ({ _key: `quote${index}`, ...item })),
+  });
+
+  docs.push({
+    _id: "bookOfferings",
+    _type: "bookOfferings",
+    eyebrow: b.offerings.eyebrow,
+    title: b.offerings.title,
+    lead: b.offerings.lead,
+    items: b.offerings.items.map((item, index) => ({ _key: `offer${index}`, ...item })),
+  });
+
+  docs.push({
+    _id: "bookContact",
+    _type: "bookContact",
+    eyebrow: b.contact.eyebrow,
+    title: b.contact.title,
+    lead: b.contact.lead,
+    consentLabel: b.contact.consentLabel,
+  });
+
+  docs.push({
+    _id: "bookDedication",
+    _type: "bookDedication",
+    label: b.dedication.label,
+    body: b.dedication.body,
+  });
 
   console.log(
     replace
