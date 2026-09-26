@@ -28,10 +28,6 @@ export async function generateMetadata(): Promise<Metadata> {
     title: meta.title,
     description: meta.description,
     alternates: { canonical: "/gentle-cracks" },
-    /* Placeholder copy: reachable by anyone with the link, invisible to
-       search. Remove this, and add the page back to app/sitemap.ts, once the
-       real text is in the Studio. */
-    robots: { index: false, follow: true },
     openGraph: {
       type: "book",
       title: meta.title,
