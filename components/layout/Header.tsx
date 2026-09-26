@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
+import { drawings } from "@/components/art/drawings";
 import { navItems } from "@/lib/site";
 
 export function Header({ name, tagline }: { name: string; tagline: string }) {
@@ -178,11 +179,14 @@ export function Header({ name, tagline }: { name: string; tagline: string }) {
           </nav>
 
           <div className="border-t border-cream-200 p-6">
+            {/* Was /images/art-kids-table.png, which no longer exists - the
+                drawer has been showing a broken image. The drawings carry
+                their own dimensions now, so this cannot drift again. */}
             <Image
-              src="/images/art-kids-table.png"
+              src={drawings["art-family-hold"].src}
               alt=""
-              width={900}
-              height={735}
+              width={drawings["art-family-hold"].width}
+              height={drawings["art-family-hold"].height}
               sizes="180px"
               aria-hidden="true"
               className="mx-auto mb-5 h-24 w-auto opacity-70"
