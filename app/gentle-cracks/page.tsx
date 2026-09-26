@@ -10,7 +10,7 @@ import { BookDedication } from "@/components/sections/book/BookDedication";
 import { About } from "@/components/sections/About";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Media } from "@/components/sections/Media";
-import { Contact } from "@/components/sections/Contact";
+import { BookContact } from "@/components/sections/book/BookContact";
 import { BookJsonLd } from "@/components/seo/JsonLd";
 
 /**
@@ -61,7 +61,7 @@ export default async function BookPage() {
       <BookOfferings data={book.offerings} />
       {/* The same press items as the home page - one list, maintained once. */}
       <Media data={content.media} tone="light" />
-      <Contact data={book.contact} settings={settings} art />
+      <BookContact data={book.contact} settings={settings} />
       <BookDedication data={book.dedication} />
 
       <BookJsonLd

@@ -16,6 +16,9 @@ export function Header({ name, tagline }: { name: string; tagline: string }) {
   const onBookPage = usePathname()?.startsWith("/gentle-cracks") ?? false;
   const items = onBookPage ? bookNavItems : navItems;
   const contactHref = onBookPage ? "#contact" : "/#contact";
+  /* The site addresses a mother, in the feminine. The book is for anyone,
+     so on that page the same button speaks to everybody. */
+  const contactLabel = onBookPage ? "דברו איתי" : "דברי איתי";
 
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -122,7 +125,7 @@ export function Header({ name, tagline }: { name: string; tagline: string }) {
             href={contactHref}
             className="btn btn-primary hidden px-5 py-3 text-base sm:inline-flex"
           >
-            דברי איתי
+            {contactLabel}
           </Link>
 
           <button
