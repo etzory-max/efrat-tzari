@@ -30,16 +30,18 @@ const LOREM_2 =
 const LOREM_3 =
   "וסטיבולום אט דולור, קראס אגת לקטוס וואל אאוגו. דס איאקוליס וולופטה דיאם, סת אלמנקום ניסי נון ניבאה לורם איפסום דולור סיט אמט קונסקטורר אדיפיסינג.";
 
-/** The opening: the book, and the one sentence that makes someone want it. */
+/**
+ * The opening: a few sentences in her voice, and the way on to the book.
+ * No cover here - it belongs to "על הספר", where it is the subject.
+ */
 export type BookHero = {
   eyebrow: string;
   title: string;
   subtitle: string;
-  buyLabel: string;
-  buyHref: string;
-  readLabel: string;
-  readHref: string;
-  cover: Img;
+  ctaLabel: string;
+  ctaHref: string;
+  ctaSecondaryLabel: string;
+  ctaSecondaryHref: string;
 };
 
 /** The book itself, at the size it deserves. */
@@ -119,12 +121,11 @@ export const defaultBookPage: BookPageContent = {
     eyebrow: "הספר",
     title: "לורם איפסום דולור סיט אמט",
     subtitle:
-      "קונסקטורר אדיפיסינג אלית. סת אלמנקום ניסי נון ניבאה, דס איאקוליס וולופטה דיאם. וסטיבולום אט דולור.",
-    buyLabel: "לרכישת הספר",
-    buyHref: "#buy",
-    readLabel: "לקריאת הפרק הראשון",
-    readHref: "#chapter",
-    cover,
+      "קונסקטורר אדיפיסינג אלית. סת אלמנקום ניסי נון ניבאה, דס איאקוליס וולופטה דיאם. וסטיבולום אט דולור, קראס אגת לקטוס וואל אאוגו וסטיבולום סוליסי טידום בעליק. לורם איפסום דולור סיט אמט קונסקטורר אדיפיסינג אלית.",
+    ctaLabel: "על הספר",
+    ctaHref: "#book",
+    ctaSecondaryLabel: "לקריאת הפרק הראשון",
+    ctaSecondaryHref: "#chapter",
   },
 
   /* The personal story, in the shape the About section already knows: a

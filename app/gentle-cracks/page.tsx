@@ -22,7 +22,7 @@ import { BookJsonLd } from "@/components/seo/JsonLd";
  * different story with them - the personal one, ending at the book.
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const { meta, hero } = await getBookPage();
+  const { meta, about } = await getBookPage();
 
   return {
     title: meta.title,
@@ -37,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: meta.title,
       description: meta.description,
       url: "/gentle-cracks",
-      images: [{ url: hero.cover.src, alt: hero.cover.alt }],
+      images: [{ url: about.cover.src, alt: about.cover.alt }],
     },
   };
 }
@@ -66,10 +66,10 @@ export default async function BookPage() {
 
       <BookJsonLd
         book={{
-          title: book.hero.title,
+          title: book.about.title,
           subtitle: book.hero.subtitle,
           blurb: book.about.lead,
-          cover: book.hero.cover,
+          cover: book.about.cover,
           buyLabel: book.purchase.buyLabel,
           buyHref: book.purchase.buyHref,
         }}

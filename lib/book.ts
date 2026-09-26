@@ -28,7 +28,7 @@ const or = <T,>(value: T | null | undefined, fallback: T): T =>
 const QUERY = /* groq */ `{
   "meta": *[_type == "bookMeta"][0] { title, description },
   "hero": *[_type == "bookHero"][0] {
-    eyebrow, title, subtitle, buyLabel, buyHref, readLabel, readHref, cover
+    eyebrow, title, subtitle, ctaLabel, ctaHref, ctaSecondaryLabel, ctaSecondaryHref
   },
   "story": *[_type == "bookStory"][0] {
     eyebrow, title, paragraphs, highlight, portrait, badgeValue, badgeLabel, points
@@ -79,11 +79,10 @@ function merge(data: any): BookPageContent {
       eyebrow: or(data?.hero?.eyebrow, d.hero.eyebrow),
       title: or(data?.hero?.title, d.hero.title),
       subtitle: or(data?.hero?.subtitle, d.hero.subtitle),
-      buyLabel: or(data?.hero?.buyLabel, d.hero.buyLabel),
-      buyHref: or(data?.hero?.buyHref, d.hero.buyHref),
-      readLabel: or(data?.hero?.readLabel, d.hero.readLabel),
-      readHref: or(data?.hero?.readHref, d.hero.readHref),
-      cover: toImg(data?.hero?.cover, d.hero.cover, 900),
+      ctaLabel: or(data?.hero?.ctaLabel, d.hero.ctaLabel),
+      ctaHref: or(data?.hero?.ctaHref, d.hero.ctaHref),
+      ctaSecondaryLabel: or(data?.hero?.ctaSecondaryLabel, d.hero.ctaSecondaryLabel),
+      ctaSecondaryHref: or(data?.hero?.ctaSecondaryHref, d.hero.ctaSecondaryHref),
     },
 
     story: {
