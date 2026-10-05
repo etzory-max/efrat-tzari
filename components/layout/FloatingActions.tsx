@@ -1,4 +1,7 @@
+"use client";
+
 import { AccessibilityMenu } from "./AccessibilityMenu";
+import { track } from "@/lib/analytics";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -23,6 +26,7 @@ export function FloatingActions({ whatsappHref }: { whatsappHref: string }) {
         href={whatsappHref}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => track("whatsapp_click", { place: "floating" })}
         className="tap inline-flex size-12 items-center justify-center rounded-full bg-[#1f8a4c] text-white shadow-lg transition-colors hover:bg-[#176c3b]"
       >
         <WhatsAppIcon className="size-6" />

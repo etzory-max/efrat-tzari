@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
-
-const KEY = "efrat-privacy-notice";
+import { CONSENT_EVENT, readConsent, writeConsent } from "@/lib/analytics";
 
 /**
- * Deliberately a notice, not a consent gate.
+ * A consent gate, now that there is something to consent to.
  *
- * The site sets no cookies and runs no analytics or advertising pixels, so
- * there is nothing to ask permission for — a banner with "accept" and
- * "reject" would be claiming to gate something that does not exist. What is
- * worth saying, next to a form that collects a name and a phone number, is
- * plainly what happens to it. If analytics are ever added, this has to become
- * a real consent gate with a working refusal.
+ * It used to be a notice: the site set no cookies and ran no analytics, so a
+ * banner with "accept" and "reject" would have been theatre. Google Analytics
+ * changed that, and the comment that stood here said what to do when it did -
+ * make the refusal real. It is: "לא, תודה" stores a no, no script is ever
+ * loaded, and nothing is sent to Google.
+ *
+ * Both answers are buttons of equal weight. A refusal hidden behind a link
+ * while acceptance gets the coloured button is consent collected under
+ * pressure, and worth nothing.
  */
 export function PrivacyNotice() {
   const [shown, setShown] = useState(false);
@@ -22,25 +23,18 @@ export function PrivacyNotice() {
   useEffect(() => {
     // Only after mount, so the server and client markup agree.
     const timer = setTimeout(() => {
-      try {
-        if (localStorage.getItem(KEY) !== "seen") setShown(true);
-      } catch {
-        setShown(true);
-      }
+      if (readConsent() === null) setShown(true);
     }, 900);
     return () => clearTimeout(timer);
   }, []);
 
-  if (!shown) return null;
+  useEffect(() => {
+    const close = () => setShown(false);
+    window.addEventListener(CONSENT_EVENT, close);
+    return () => window.removeEventListener(CONSENT_EVENT, close);
+  }, []);
 
-  const dismiss = () => {
-    setShown(false);
-    try {
-      localStorage.setItem(KEY, "seen");
-    } catch {
-      /* storage blocked — it will simply show again next time */
-    }
-  };
+  if (!shown) return null;
 
   return (
     <div
@@ -51,20 +45,29 @@ export function PrivacyNotice() {
     >
       <div className="shell flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm leading-relaxed text-on-dark">
-          באתר הזה אין עוגיות מעקב, אנליטיקה או פיקסלים פרסומיים. פרטים שתשאירו בטופס נשלחים
-          אליי במייל בלבד ואינם נשמרים.{" "}
+          אני רוצה לדעת אילו עמודים מועילים, ולשם כך משתמשת בכלי מדידה של גוגל. הוא שומר מזהה
+          בדפדפן שלך. בלי אישורך הוא לא נטען בכלל, והאתר עובד בדיוק אותו דבר.{" "}
           <Link href="/privacy" className="text-accent-light underline underline-offset-4">
             מדיניות הפרטיות
           </Link>
         </p>
-        <button
-          type="button"
-          onClick={dismiss}
-          className="btn btn-primary shrink-0 gap-2 px-5 py-2.5 text-sm"
-        >
-          הבנתי
-          <X className="size-4" aria-hidden="true" />
-        </button>
+        {/* Two buttons, same size, same prominence. */}
+        <div className="flex shrink-0 items-center gap-2">
+          <button
+            type="button"
+            onClick={() => writeConsent("granted")}
+            className="btn btn-primary px-5 py-2.5 text-sm"
+          >
+            מאשרת
+          </button>
+          <button
+            type="button"
+            onClick={() => writeConsent("denied")}
+            className="btn border border-white/40 px-5 py-2.5 text-sm text-on-dark transition-colors hover:border-white hover:bg-white/10"
+          >
+            לא, תודה
+          </button>
+        </div>
       </div>
     </div>
   );

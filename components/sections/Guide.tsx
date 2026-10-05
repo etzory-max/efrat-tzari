@@ -7,6 +7,7 @@ import { useFormStatus } from "react-dom";
 import { Check, CheckCircle2 } from "lucide-react";
 import { requestGuide, type GuideState } from "@/app/actions/guide";
 import { Reveal } from "@/components/ui/Reveal";
+import { track } from "@/lib/analytics";
 import type { GuideSection } from "@/content/types";
 
 const initialState: GuideState = { status: "idle" };
@@ -33,7 +34,10 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
   useEffect(() => {
     if (state.status === "idle") return;
     statusRef.current?.focus();
-    if (state.status === "success") formRef.current?.reset();
+    if (state.status === "success") {
+      formRef.current?.reset();
+      track("guide_download");
+    }
   }, [state]);
 
   const field = (error?: string) =>

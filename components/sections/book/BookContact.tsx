@@ -1,7 +1,10 @@
+"use client";
+
 import { Mail, MessageCircle, Phone } from "lucide-react";
 import type { ContactSection } from "@/content/types";
 import type { SiteSettings } from "@/lib/content";
 import { Reveal } from "@/components/ui/Reveal";
+import { track } from "@/lib/analytics";
 
 /**
  * A strip, not a form.
@@ -22,9 +25,9 @@ export function BookContact({
   settings: SiteSettings;
 }) {
   const actions = [
-    { label: settings.phoneDisplay, href: `tel:${settings.phoneE164}`, Icon: Phone, note: "חיוג" },
-    { label: "וואטסאפ", href: settings.whatsappHref, Icon: MessageCircle, note: "הודעה" },
-    { label: settings.email, href: `mailto:${settings.email}`, Icon: Mail, note: "מייל" },
+    { label: settings.phoneDisplay, href: `tel:${settings.phoneE164}`, Icon: Phone, note: "חיוג", event: "phone_click" },
+    { label: "וואטסאפ", href: settings.whatsappHref, Icon: MessageCircle, note: "הודעה", event: "whatsapp_click" },
+    { label: settings.email, href: `mailto:${settings.email}`, Icon: Mail, note: "מייל", event: "email_click" },
   ];
 
   return (
@@ -49,10 +52,11 @@ export function BookContact({
             collecting anything. */}
         <Reveal delay={120}>
           <ul className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-            {actions.map(({ label, href, Icon, note }) => (
+            {actions.map(({ label, href, Icon, note, event }) => (
               <li key={href}>
                 <a
                   href={href}
+                  onClick={() => track(event, { place: "book" })}
                   className="flex items-center gap-3 rounded-2xl bg-white/85 px-5 py-4 text-ink transition-colors hover:bg-white"
                 >
                   <Icon className="size-5 shrink-0 text-accent-ink" aria-hidden="true" />

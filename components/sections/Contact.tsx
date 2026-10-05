@@ -8,6 +8,7 @@ import { CheckCircle2, Mail, Phone } from "lucide-react";
 import { submitContact, type ContactState } from "@/app/actions/contact";
 import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
+import { track } from "@/lib/analytics";
 import type { ContactSection } from "@/content/types";
 import type { SiteSettings } from "@/lib/content";
 
@@ -116,7 +117,10 @@ export function Contact({
     if (state.status === "idle") return;
     // Move the user (and the screen reader) to the outcome message.
     statusRef.current?.focus();
-    if (state.status === "success") formRef.current?.reset();
+    if (state.status === "success") {
+      formRef.current?.reset();
+      track("contact_submit");
+    }
   }, [state]);
 
   const details = [

@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { PrivacyNotice } from "@/components/layout/PrivacyNotice";
+import { Analytics } from "@/components/layout/Analytics";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { getSiteSettings } from "@/lib/content";
 
@@ -108,6 +109,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <SiteFooter settings={settings} />
         <FloatingActions whatsappHref={settings.whatsappHref} />
         <PrivacyNotice />
+        <Analytics />
         <OrganizationJsonLd />
       </body>
     </html>

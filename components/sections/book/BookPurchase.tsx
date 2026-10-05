@@ -1,5 +1,8 @@
+"use client";
+
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
+import { track } from "@/lib/analytics";
 import type { BookPurchase as BookPurchaseContent } from "@/content/book";
 
 /**
@@ -45,6 +48,7 @@ export function BookPurchase({ data }: { data: BookPurchaseContent }) {
             href={data.buyHref}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => track("book_purchase_click")}
             className="btn btn-primary mt-6 w-full px-8 py-4 text-base"
           >
             {data.buyLabel}
