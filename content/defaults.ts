@@ -379,7 +379,7 @@ export const defaultContent: SiteContent = {
     ],
     /* Never pre-ticked: consent to be written to has to be given, not
        inherited from a box someone forgot to clear. */
-    newsletterLabel: "אשמח לקבל מדי פעם מייל עם כלים וטיפים. אפשר להסיר את עצמי בכל רגע.",
+    newsletterLabel: "אני מאשר הצטרפות לניוזלטר לקבלת טיפים ודברים נוספים",
     consentLabel: "אני מאשרת שישלחו אליי את המדריך למייל",
     submitLabel: "שלחי לי את המדריך",
   },
