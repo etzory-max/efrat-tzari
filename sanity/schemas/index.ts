@@ -555,6 +555,12 @@ const guide = defineType({
       of: [defineArrayMember({ type: "string" })],
     }),
     defineField({ name: "consentLabel", title: "טקסט תיבת ההסכמה", type: "string" }),
+    defineField({
+      name: "newsletterLabel",
+      title: "טקסט תיבת ההרשמה לדיוור",
+      type: "string",
+      description: "התיבה לעולם לא מסומנת מראש — הסכמה לדיוור צריכה להינתן, לא להיגרר.",
+    }),
     defineField({ name: "submitLabel", title: "טקסט הכפתור", type: "string" }),
   ],
   preview: { prepare: () => ({ title: "המדריך במתנה" }) },
@@ -630,6 +636,8 @@ const contactSection = defineType({
  * The first thing a new reader gets from Efrat, so the wording is hers to
  * change. The PDF itself is a file in the repository and is not edited here.
  */
+/* The guide email's two closing lines - one for a reader who only wanted the
+   guide, one for a reader who also asked to hear from Efrat again. */
 const guideEmail = defineType({
   name: "guideEmail",
   title: "המייל של המדריך",
@@ -681,6 +689,15 @@ const guideEmail = defineType({
       rows: 3,
       group: "body",
       description: "למה ההודעה הגיעה ומה לא נשמר. נדרש לפי חוק הגנת הפרטיות — לא למחוק.",
+    }),
+    defineField({
+      name: "noteSubscribed",
+      title: "ההערה הקטנה — למי שסימנה גם דיוור",
+      type: "text",
+      rows: 3,
+      group: "body",
+      description:
+        "מחליפה את ההערה שמעל כשהקוראת סימנה שתרצה לקבל עדכונים. חייבת לכלול איך מסירים את הכתובת.",
     }),
   ],
   preview: { prepare: () => ({ title: "המייל של המדריך" }) },

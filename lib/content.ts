@@ -225,6 +225,7 @@ function mergeContent(data: any): SiteContent {
         lead: or(data.guide.lead, d.guide.lead),
         bullets: or(data.guide.bullets, d.guide.bullets),
         consentLabel: or(data.guide.consentLabel, d.guide.consentLabel),
+        newsletterLabel: or(data.guide.newsletterLabel, d.guide.newsletterLabel),
         submitLabel: or(data.guide.submitLabel, d.guide.submitLabel),
       }
     : d.guide;
@@ -354,7 +355,8 @@ export const getGuideEmail = cache(async function fetchGuideEmail(): Promise<Gui
   try {
     const doc = await sanityClient.fetch<Partial<GuideEmailCopy> | null>(
       /* groq */ `*[_type == "guideEmail"][0] {
-        subject, preheader, eyebrow, heading, lead, body, bullets, closing, ctaLabel, note
+        subject, preheader, eyebrow, heading, lead, body, bullets, closing, ctaLabel, note,
+        noteSubscribed
       }`,
       {},
       { next: { revalidate: 60, tags: ["content"] } },
@@ -371,6 +373,7 @@ export const getGuideEmail = cache(async function fetchGuideEmail(): Promise<Gui
       closing: or(doc.closing, guideEmail.closing),
       ctaLabel: or(doc.ctaLabel, guideEmail.ctaLabel),
       note: or(doc.note, guideEmail.note),
+      noteSubscribed: or(doc.noteSubscribed, guideEmail.noteSubscribed),
     };
   } catch (error) {
     console.error("[content] guide email fetch failed, serving seed copy", error);

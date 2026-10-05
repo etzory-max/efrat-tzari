@@ -377,6 +377,9 @@ export const defaultContent: SiteContent = {
       "ארבע טכניקות גוף להרגעה תוך שניות",
       "כרטיסיית מוכנות למילוי בשגרה, לפני שהיא נדרשת",
     ],
+    /* Never pre-ticked: consent to be written to has to be given, not
+       inherited from a box someone forgot to clear. */
+    newsletterLabel: "אשמח לקבל מדי פעם מייל עם כלים וטיפים. אפשר להסיר את עצמי בכל רגע.",
     consentLabel: "אני מאשרת שישלחו אליי את המדריך למייל",
     submitLabel: "שלחי לי את המדריך",
   },

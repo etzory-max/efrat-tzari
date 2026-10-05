@@ -162,6 +162,23 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
                 )}
               </div>
 
+              {/* The opt-in. Separate from the consent box below it and never
+                  ticked by default: one is permission to send the guide she
+                  asked for, the other is permission to write to her again,
+                  and they are not the same permission. */}
+              <div className="flex items-start gap-3">
+                <input
+                  id="guide-newsletter"
+                  name="newsletter"
+                  type="checkbox"
+                  value="on"
+                  className="mt-1 size-5 shrink-0 accent-[#465b6d]"
+                />
+                <label htmlFor="guide-newsletter" className="text-base leading-relaxed text-white">
+                  {data.newsletterLabel}
+                </label>
+              </div>
+
               <div>
                 <div className="flex items-start gap-3">
                   <input

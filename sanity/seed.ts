@@ -236,6 +236,7 @@ async function run() {
     lead: c.guide.lead,
     bullets: c.guide.bullets,
     consentLabel: c.guide.consentLabel,
+    newsletterLabel: c.guide.newsletterLabel,
     submitLabel: c.guide.submitLabel,
   });
 

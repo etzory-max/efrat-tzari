@@ -53,6 +53,9 @@ export async function requestGuide(
     name: String(formData.get("name") ?? ""),
     email: String(formData.get("email") ?? ""),
   };
+  /* Ticked, or it did not happen: an unticked box sends nothing at all, which
+     is exactly the shape consent should have. */
+  const subscribed = formData.get("newsletter") === "on";
 
   const parsed = schema.safeParse({ ...raw, consent: formData.get("consent") ?? "" });
   if (!parsed.success) {
@@ -107,7 +110,9 @@ export async function requestGuide(
         { kind: "p", text: copy.closing },
         { kind: "button", label: copy.ctaLabel, href: `${siteUrl}/#contact` },
       ],
-      note: copy.note,
+      /* A reader who asked to hear more cannot be told her address was not
+         kept, so the closing line changes with the box she ticked. */
+      note: subscribed ? copy.noteSubscribed : copy.note,
       settings,
     });
 
@@ -123,6 +128,39 @@ export async function requestGuide(
       ],
     });
     if (error) throw new Error(error.message);
+
+    /* There is no mailing-list service behind this yet, so the opt-in becomes
+       a note to Efrat with the two details she needs to act on it. Sent after
+       the guide and in its own try: a failure here must not tell a reader her
+       guide did not arrive, because it did. */
+    if (subscribed) {
+      try {
+        const notice = renderEmail({
+          preheader: `${parsed.data.name} · ${parsed.data.email}`,
+          eyebrow: "הרשמה לדיוור",
+          heading: parsed.data.name,
+          blocks: [
+            { kind: "p", text: "סימנה בטופס המדריך שהיא רוצה לקבל ממך עדכונים." },
+            {
+              kind: "fields",
+              rows: [["אימייל", parsed.data.email, `mailto:${parsed.data.email}`]],
+            },
+          ],
+          note: "ההסכמה ניתנה באתר, בתיבה נפרדת מזו של המדריך ובלי סימון מראש. יש לשמור את הרישום הזה כל עוד הכתובת ברשימה.",
+          settings,
+        });
+        await resend.emails.send({
+          from,
+          to: process.env.CONTACT_TO_EMAIL ?? settings.email,
+          replyTo: parsed.data.email,
+          subject: `הרשמה לדיוור — ${parsed.data.name}`,
+          html: notice.html,
+          text: notice.text,
+        });
+      } catch (noticeError) {
+        console.error("[guide] subscriber notice failed", noticeError);
+      }
+    }
   } catch (error) {
     console.error("[guide] send failed", error);
     return {

@@ -21,6 +21,12 @@ export type GuideEmailCopy = {
   ctaLabel: string;
   /** The small print: why this arrived, and what is not kept. */
   note: string;
+  /**
+   * The same small print for a reader who ticked the newsletter box. The
+   * other one promises her address was not kept, which stops being true the
+   * moment she asks to be written to again.
+   */
+  noteSubscribed: string;
 };
 
 export const guideEmail: GuideEmailCopy = {
@@ -40,4 +46,6 @@ export const guideEmail: GuideEmailCopy = {
     "קריאה נעימה. אם משהו בו מעלה אצלך שאלה — אפשר פשוט להשיב למייל הזה, אני קוראת הכול.",
   ctaLabel: "דברי איתי",
   note: "קיבלת את ההודעה הזו כי ביקשת את המדריך באתר. הכתובת שלך לא נשמרה ברשימת תפוצה ולא יישלח אלייך דיוור נוסף.",
+  noteSubscribed:
+    "קיבלת את ההודעה הזו כי ביקשת את המדריך באתר, וסימנת שתרצי לקבל גם עדכונים. אפשר להסיר את הכתובת בכל רגע — פשוט להשיב למייל הזה ולכתוב ״להסיר״.",
 };

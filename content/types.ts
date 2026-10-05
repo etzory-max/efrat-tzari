@@ -72,6 +72,8 @@ export type GuideSection = {
   lead: string;
   bullets: string[];
   consentLabel: string;
+  /** The opt-in beside it. Never ticked for her: consent has to be given. */
+  newsletterLabel: string;
   submitLabel: string;
 };
 
