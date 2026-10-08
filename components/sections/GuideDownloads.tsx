@@ -14,12 +14,10 @@ import type { Resource } from "@/content/types";
  * no form in the way, which is also what makes them worth something in
  * search: a file behind a door is a door, not a page.
  *
- * With one guide on the shelf the section is that guide: its name is the
- * heading, the drawn anchor sits over it, and the card under it carries only
- * what the guide is and the button that opens it - saying the name twice, as
- * heading and card title, said it once too often. From the second guide on,
- * the heading becomes the generic one and each card carries its own name.
- * The anchor goes with that switch: it belongs to this guide, not to a shelf.
+ * The card is a band with two sides: the guide's name and its line on one, a
+ * real button on the other. With a single guide a drawn anchor sits beside
+ * the name; it belongs to this guide, so it goes when the shelf becomes a
+ * grid of several.
  */
 export function GuideDownloads({ items }: { items: Resource[] }) {
   if (items.length === 0) return null;
@@ -36,9 +34,8 @@ export function GuideDownloads({ items }: { items: Resource[] }) {
     >
       <div className="shell">
         <Reveal className={alone ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-          {alone && <AnchorMark className="mx-auto mb-3 size-14 text-accent md:size-16" />}
           <h2 id="downloads-title" className="text-2xl text-slate md:text-3xl">
-            {alone ? items[0].title : "מדריכים נוספים להורדה"}
+            מדריכים נוספים להורדה
           </h2>
           <p className="mt-2 text-lg text-muted">
             בלי להשאיר פרטים ובלי הרשמה. לוחצים, והמדריך נפתח.
@@ -62,11 +59,11 @@ export function GuideDownloads({ items }: { items: Resource[] }) {
                     alone ? "sm:flex-row sm:items-center sm:gap-8" : ""
                   }`}
                 >
+                  {alone && <AnchorMark className="size-12 shrink-0 text-accent sm:size-14" />}
+
                   <span className="flex-1">
-                    {!alone && (
-                      <span className="mb-2 block text-xl text-slate md:text-2xl">{item.title}</span>
-                    )}
-                    <span className="block text-lg leading-relaxed text-muted">
+                    <span className="block text-xl text-slate md:text-2xl">{item.title}</span>
+                    <span className="mt-2 block leading-relaxed text-muted">
                       {item.description}
                     </span>
                   </span>
