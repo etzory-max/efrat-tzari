@@ -582,12 +582,6 @@ const resource = defineType({
     }),
     defineField({ name: "description", title: "תיאור קצר", type: "text", rows: 3 }),
     defineField({
-      name: "meta",
-      title: "היקף",
-      type: "string",
-      description: 'מה שכתוב על הכפתור לצד הכותרת. למשל "6 עמודים".',
-    }),
-    defineField({
       name: "file",
       title: "הקובץ",
       type: "file",

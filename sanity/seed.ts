@@ -247,7 +247,6 @@ async function run() {
       title: item.title,
       slug: { _type: "slug", current: item.slug },
       description: item.description,
-      meta: item.meta,
       order: index + 1,
     });
   });

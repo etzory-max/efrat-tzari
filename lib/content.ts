@@ -59,7 +59,7 @@ const QUERY = /* groq */ `{
     eyebrow, title, lead, bullets, consentLabel, submitLabel
   },
   "resources": *[_type == "resource"] | order(order asc) {
-    "slug": slug.current, title, description, meta
+    "slug": slug.current, title, description
   },
   "faqCopy": *[_type == "faqSection"][0] { eyebrow, title, lead },
   "faq": *[_type == "faqItem"] | order(order asc) { question, answer },
@@ -243,7 +243,6 @@ function mergeContent(data: any): SiteContent {
       slug: item.slug,
       title: or(item.title, ""),
       description: or(item.description, ""),
-      meta: item.meta ?? undefined,
     }));
 
   const faq = or(data?.faq, null)

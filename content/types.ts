@@ -192,8 +192,6 @@ export type Resource = {
   slug: string;
   title: string;
   description: string;
-  /** What she is about to open: "6 עמודים", "דף אחד". */
-  meta?: string;
 };
 
 export type ArticlesSection = {
