@@ -8,25 +8,26 @@ import type { Resource } from "@/content/types";
 /**
  * The shelf under the guide: things a reader can simply take.
  *
- * The guide above this one is sent by email, because someone who types an
- * address is someone Efrat can help. These are not that - they open on the
- * click, with no form in the way, which is also what makes them worth
- * something in search: a file behind a door is a door, not a page.
+ * The guide above is sent by email, because someone who types an address is
+ * someone Efrat can help. These are not that - they open on the click, with
+ * no form in the way, which is also what makes them worth something in
+ * search: a file behind a door is a door, not a page.
  *
- * With one guide the whole section centres and the card is a wide, shallow
- * band; a lone tall card ranged to one edge read as something unfinished.
- * From two onwards it becomes an ordinary grid and the text goes back to the
- * margin, which is where a list belongs.
+ * The card is a band with two sides: the title and its line on one, a real
+ * button on the other. The download icon lives inside that button rather
+ * than floating beside the text, where it had nothing to belong to.
  */
 export function GuideDownloads({ items }: { items: Resource[] }) {
   if (items.length === 0) return null;
   const alone = items.length === 1;
 
   return (
+    /* Pulled up into the guide section's own bottom padding: two paddings
+       meeting left a band of empty cream taller than the card. */
     <section
       id="downloads"
       aria-labelledby="downloads-title"
-      className="bg-cream-50 pt-8 pb-12 md:pt-10 md:pb-16"
+      className="-mt-8 bg-cream-50 pb-12 md:-mt-16 md:pb-16"
     >
       <div className="shell">
         <Reveal className={alone ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
@@ -40,37 +41,36 @@ export function GuideDownloads({ items }: { items: Resource[] }) {
 
         <ul
           className={
-            alone
-              ? "mx-auto mt-6 max-w-3xl"
-              : "mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            alone ? "mx-auto mt-7 max-w-3xl" : "mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
           }
         >
           {items.map((item, index) => (
-            <li key={item.slug}>
+            <li key={item.slug} className="h-full">
               <Reveal delay={index * 90} className="h-full">
                 <a
                   href={`/guides/${item.slug}`}
                   target="_blank"
                   rel="noopener"
                   onClick={() => track("resource_download", { guide: item.slug })}
-                  /* A row once there is width for one. On a phone three
-                     things side by side left the description in a column
-                     four words wide, so it stacks. */
-                  className={`group flex h-full gap-4 rounded-2xl border border-cream-200 bg-white px-6 py-5 transition-colors hover:border-slate ${
-                    alone ? "flex-col sm:flex-row sm:items-center sm:gap-5" : "flex-col"
+                  className={`group flex h-full flex-col gap-5 rounded-2xl border border-cream-200 bg-white p-6 text-start transition-colors hover:border-slate md:p-7 ${
+                    alone ? "sm:flex-row sm:items-center sm:gap-8" : ""
                   }`}
                 >
-                  <Download
-                    className="size-6 shrink-0 text-accent-ink sm:mt-0.5"
-                    aria-hidden="true"
-                  />
-                  <span className={alone ? "flex-1 text-start" : ""}>
-                    <span className="block text-xl text-slate">{item.title}</span>
-                    <span className="mt-1 block leading-relaxed text-muted">
+                  <span className="flex-1">
+                    <span className="block text-xl text-slate md:text-2xl">{item.title}</span>
+                    <span className="mt-2 block leading-relaxed text-muted">
                       {item.description}
                     </span>
                   </span>
-                  <span className="shrink-0 text-base text-accent-ink group-hover:underline">
+
+                  {/* A button, not a word floating at the edge: it is the
+                      only thing on the card anyone is meant to press. */}
+                  <span
+                    className={`btn btn-primary shrink-0 gap-2 px-6 py-3 text-base ${
+                      alone ? "" : "mt-auto w-full"
+                    }`}
+                  >
+                    <Download className="size-5" aria-hidden="true" />
                     להורדה
                     <span className="sr-only"> של {item.title} (נפתח בלשונית חדשה)</span>
                   </span>
