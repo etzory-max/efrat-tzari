@@ -566,6 +566,39 @@ const guide = defineType({
   preview: { prepare: () => ({ title: "המדריך במתנה" }) },
 });
 
+const resource = defineType({
+  name: "resource",
+  title: "מדריך להורדה",
+  type: "document",
+  fields: [
+    defineField({ name: "title", title: "כותרת", type: "string", validation: (r) => r.required() }),
+    defineField({
+      name: "slug",
+      title: "כתובת (slug)",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      description: "מרכיב את הכתובת שממנה המדריך נפתח: tzory.com/guides/…",
+      validation: (r) => r.required(),
+    }),
+    defineField({ name: "description", title: "תיאור קצר", type: "text", rows: 3 }),
+    defineField({
+      name: "meta",
+      title: "היקף",
+      type: "string",
+      description: 'מה שכתוב על הכפתור לצד הכותרת. למשל "6 עמודים".',
+    }),
+    defineField({
+      name: "file",
+      title: "הקובץ",
+      type: "file",
+      description: "להחליף גרסה: להעלות קובץ חדש כאן. הכתובת באתר לא משתנה.",
+    }),
+    defineField({ name: "order", title: "סדר", type: "number", initialValue: 1 }),
+  ],
+  orderings: [{ title: "לפי סדר", name: "order", by: [{ field: "order", direction: "asc" }] }],
+  preview: { select: { title: "title", subtitle: "meta" } },
+});
+
 const faqSection = defineType({
   name: "faqSection",
   title: "שאלות נפוצות — כותרת האזור",
@@ -773,6 +806,7 @@ export const schemaTypes = [
   articlesSection,
   article,
   guide,
+  resource,
   faqSection,
   faqItem,
   notHere,

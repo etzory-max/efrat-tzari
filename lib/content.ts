@@ -58,6 +58,9 @@ const QUERY = /* groq */ `{
   "guide": *[_type == "guide"][0] {
     eyebrow, title, lead, bullets, consentLabel, submitLabel
   },
+  "resources": *[_type == "resource"] | order(order asc) {
+    "slug": slug.current, title, description, meta
+  },
   "faqCopy": *[_type == "faqSection"][0] { eyebrow, title, lead },
   "faq": *[_type == "faqItem"] | order(order asc) { question, answer },
   "notHere": *[_type == "notHere"][0] { eyebrow, title, items[] { title, body } },
@@ -231,6 +234,18 @@ function mergeContent(data: any): SiteContent {
     : d.guide;
 
   const faqCopy = data?.faqCopy ?? {};
+  /* Only guides with a slug: without one there is no address to open, and a
+     half-filled document in the Studio should not put a dead button on the
+     page. */
+  const resources = (data?.resources ?? [])
+    .filter((item: any) => item?.slug)
+    .map((item: any) => ({
+      slug: item.slug,
+      title: or(item.title, ""),
+      description: or(item.description, ""),
+      meta: item.meta ?? undefined,
+    }));
+
   const faq = or(data?.faq, null)
     ? {
         eyebrow: or(faqCopy.eyebrow, d.faq.eyebrow),
@@ -266,6 +281,7 @@ function mergeContent(data: any): SiteContent {
     media,
     articles,
     guide,
+    resources: resources.length > 0 ? resources : d.resources,
     faq,
     notHere,
     contact,

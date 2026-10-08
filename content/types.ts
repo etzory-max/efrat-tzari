@@ -181,6 +181,21 @@ export type Article = {
   body: PortableTextBlock[];
 };
 
+/**
+ * A guide a reader can simply take: one click, no form, no address.
+ *
+ * `href` is always a path on this site. The bytes may sit in the Studio so
+ * Efrat can replace a guide herself, but the address a reader copies, shares
+ * or links to is ours and does not change when the file does.
+ */
+export type Resource = {
+  slug: string;
+  title: string;
+  description: string;
+  /** What she is about to open: "6 עמודים", "דף אחד". */
+  meta?: string;
+};
+
 export type ArticlesSection = {
   eyebrow: string;
   title: string;
@@ -219,6 +234,8 @@ export type SiteContent = {
   media: MediaSection;
   articles: ArticlesSection;
   guide: GuideSection;
+  /** Shown under the guide section. Empty is fine - the strip hides itself. */
+  resources: Resource[];
   faq: FaqSection;
   /** Optional while the draft carries it and the live page does not. */
   notHere?: NotHereSection;

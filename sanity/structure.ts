@@ -94,7 +94,13 @@ export const structure: StructureResolver = (S) =>
         itemType: "article",
         itemsTitle: "המאמרים",
       }),
-      single(S, "guide", "9. המדריך במתנה"),
+      withItems(S, {
+        id: "guide",
+        title: "9. המדריך במתנה",
+        copyType: "guide",
+        itemType: "resource",
+        itemsTitle: "מדריכים להורדה",
+      }),
       withItems(S, {
         id: "faq",
         title: "10. שאלות נפוצות",

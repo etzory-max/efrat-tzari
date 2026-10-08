@@ -8,6 +8,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Media } from "@/components/sections/Media";
 import { Articles } from "@/components/sections/Articles";
 import { Guide } from "@/components/sections/Guide";
+import { GuideDownloads } from "@/components/sections/GuideDownloads";
 import { Faq } from "@/components/sections/Faq";
 import { NotHere } from "@/components/sections/NotHere";
 import { Contact } from "@/components/sections/Contact";
@@ -30,6 +31,8 @@ export default async function HomePage() {
       <Media data={content.media} tone="light" />
       <Articles data={content.articles} />
       <Guide data={content.guide} tone="light" />
+      {/* Free to take, right under the one that asks for an address. */}
+      <GuideDownloads items={content.resources} />
       <Faq data={content.faq} tone="deep" />
       {/* Last thing read before the form: what she is not being sold. */}
       {content.notHere && <NotHere data={content.notHere} variant="dark" />}

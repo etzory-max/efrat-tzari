@@ -407,6 +407,18 @@ export const defaultContent: SiteContent = {
     ],
   },
 
+  /* The shelf under the guide. One to begin with; the section grows a grid
+     the moment there is a second. */
+  resources: [
+    {
+      slug: "shitat-haoganim",
+      title: "שיטת העוגנים",
+      description:
+        "איך בונים יום שיש בו שלוש נקודות קבועות, ולמה דווקא הן מחזיקות את כל השאר. מדריך מעשי, בלי תיאוריה.",
+      meta: "6 עמודים",
+    },
+  ],
+
   faq: {
     eyebrow: "שאלות נפוצות",
     title: "יש לך שאלות?",

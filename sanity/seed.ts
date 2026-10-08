@@ -240,6 +240,18 @@ async function run() {
     submitLabel: c.guide.submitLabel,
   });
 
+  c.resources.forEach((item, index) => {
+    docs.push({
+      _id: `resource-${item.slug}`,
+      _type: "resource",
+      title: item.title,
+      slug: { _type: "slug", current: item.slug },
+      description: item.description,
+      meta: item.meta,
+      order: index + 1,
+    });
+  });
+
   docs.push({
     _id: "faqSection",
     _type: "faqSection",
