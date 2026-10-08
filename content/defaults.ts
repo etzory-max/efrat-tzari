@@ -412,7 +412,7 @@ export const defaultContent: SiteContent = {
   resources: [
     {
       slug: "shitat-haoganim",
-      title: "שיטת העוגנים",
+      title: "מדריך שיטת העוגנים",
       description:
         "איך בונים יום שיש בו שלוש נקודות קבועות, ולמה דווקא הן מחזיקות את כל השאר. מדריך מעשי, בלי תיאוריה.",
     },

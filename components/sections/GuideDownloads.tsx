@@ -22,12 +22,13 @@ export function GuideDownloads({ items }: { items: Resource[] }) {
   const alone = items.length === 1;
 
   return (
-    /* Pulled up into the guide section's own bottom padding: two paddings
-       meeting left a band of empty cream taller than the card. */
+    /* Pulled up by about a third of the guide section's own bottom padding -
+       enough to close the band of empty cream the two paddings made between
+       them, not so much that the shelf sits on the section above it. */
     <section
       id="downloads"
       aria-labelledby="downloads-title"
-      className="-mt-8 bg-cream-50 pb-12 md:-mt-16 md:pb-16"
+      className="-mt-5 bg-cream-50 pb-12 md:-mt-7 md:pb-16"
     >
       <div className="shell">
         <Reveal className={alone ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
