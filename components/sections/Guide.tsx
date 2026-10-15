@@ -136,7 +136,7 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
                   className={`${field(state.fieldErrors?.name)}`}
                 />
                 {state.fieldErrors?.name && (
-                  <p id="guide-name-error" className="mt-2 text-sm font-medium text-[#6e1018]">
+                  <p id="guide-name-error" className="mt-2 text-sm font-medium text-[#ffd6cf]">
                     {state.fieldErrors.name}
                   </p>
                 )}
@@ -160,7 +160,7 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
                   className={`${field(state.fieldErrors?.email)}`}
                 />
                 {state.fieldErrors?.email && (
-                  <p id="guide-email-error" className="mt-2 text-sm font-medium text-[#6e1018]">
+                  <p id="guide-email-error" className="mt-2 text-sm font-medium text-[#ffd6cf]">
                     {state.fieldErrors.email}
                   </p>
                 )}
@@ -204,7 +204,7 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
                   </label>
                 </div>
                 {state.fieldErrors?.consent && (
-                  <p id="guide-consent-error" className="mt-2 text-sm font-medium text-[#6e1018]">
+                  <p id="guide-consent-error" className="mt-2 text-sm font-medium text-[#ffd6cf]">
                     {state.fieldErrors.consent}
                   </p>
                 )}
@@ -217,29 +217,33 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
                 tabIndex={-1}
                 role="status"
                 aria-live="polite"
-                className={`text-sm ${
+                /* White, both ways: the panel is dark, and the greens and reds
+                    the light contact form uses all but vanish on it. The icon
+                    and the wording carry which one it is. */
+                className={`${
                   state.status === "success"
-                    ? "flex items-center gap-2 font-medium text-[#0b3d1e]"
+                    ? "flex items-center gap-2 text-lg font-medium text-white"
                     : state.status === "error"
-                      ? "font-medium text-[#6e1018]"
+                      ? "text-base font-medium text-white"
                       : "sr-only"
                 }`}
               >
                 {state.status === "success" && (
-                  <CheckCircle2 className="size-5 shrink-0" aria-hidden="true" />
+                  <CheckCircle2 className="size-6 shrink-0" aria-hidden="true" />
                 )}
                 {state.message}
               </p>
 
               {/* When the email could not go out, the guide itself - she asked
                   for it, and it is not hers to lose because a mail provider
-                  said no. */}
+                  said no. The request already counted as guide_download
+                  above, so the click is its own event, not a second one. */}
               {state.downloadHref && (
                 <a
                   href={state.downloadHref}
                   target="_blank"
                   rel="noopener"
-                  onClick={() => track("guide_download", { via: "fallback" })}
+                  onClick={() => track("guide_fallback_open")}
                   className="btn btn-primary w-full gap-2 px-6 py-4 text-base sm:w-auto"
                 >
                   להורדת המדריך

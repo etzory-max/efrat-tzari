@@ -17,7 +17,10 @@ export type GuideState = {
   /**
    * Set when the email could not go out. The reader still gets the guide -
    * she asked for it and it is a public file - so a failure at the mail
-   * provider costs Efrat the address, not the reader the guide.
+   * provider costs Efrat the address, not the reader the guide. It comes with
+   * status "success": from the reader's side nothing went wrong, she asked
+   * for a guide and has it, so she is not shown an error she can do nothing
+   * about.
    */
   downloadHref?: string;
   fieldErrors?: Partial<Record<"name" | "email" | "consent", string>>;
@@ -29,6 +32,9 @@ const schema = z.object({
   email: z.string().trim().email("נא למלא כתובת אימייל תקינה").max(120),
   consent: z.literal("on", { message: "יש לאשר את שליחת המדריך למייל" }),
 });
+
+/** What the reader sees when the guide is handed over here instead of by mail. */
+const READY_MESSAGE = "המדריך מוכן. אפשר להוריד אותו כאן, עכשיו.";
 
 /** Same best-effort throttle as the contact form. */
 const WINDOW_MS = 10 * 60 * 1000;
@@ -88,12 +94,7 @@ export async function requestGuide(
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error("[guide] RESEND_API_KEY is not configured");
-    return {
-      status: "error",
-      message: "שליחת המדריך במייל אינה זמינה כרגע — אבל אפשר להוריד אותו כאן, עכשיו.",
-      downloadHref: "/files/guide.pdf",
-      values: raw,
-    };
+    return { status: "success", message: READY_MESSAGE, downloadHref: "/files/guide.pdf" };
   }
 
   try {
@@ -203,12 +204,7 @@ export async function requestGuide(
       }
     }
 
-    return {
-      status: "error",
-      message: "לא הצלחנו לשלוח את המדריך למייל — אבל אפשר להוריד אותו כאן, עכשיו.",
-      downloadHref: "/files/guide.pdf",
-      values: raw,
-    };
+    return { status: "success", message: READY_MESSAGE, downloadHref: "/files/guide.pdf" };
   }
 
   // Nothing is stored: no list, no database. The address was used once.
