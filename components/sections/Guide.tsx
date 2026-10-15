@@ -230,6 +230,22 @@ export function Guide({ data, tone = "light" }: { data: GuideSection; tone?: "li
                 )}
                 {state.message}
               </p>
+
+              {/* When the email could not go out, the guide itself - she asked
+                  for it, and it is not hers to lose because a mail provider
+                  said no. */}
+              {state.downloadHref && (
+                <a
+                  href={state.downloadHref}
+                  target="_blank"
+                  rel="noopener"
+                  onClick={() => track("guide_download", { via: "fallback" })}
+                  className="btn btn-primary w-full gap-2 px-6 py-4 text-base sm:w-auto"
+                >
+                  להורדת המדריך
+                  <span className="sr-only"> (נפתח בלשונית חדשה)</span>
+                </a>
+              )}
             </form>
           </div>
         </Reveal>

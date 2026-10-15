@@ -13,6 +13,12 @@ import { siteUrl } from "@/lib/site";
 export type GuideState = {
   status: "idle" | "success" | "error";
   message?: string;
+  /**
+   * Set when the email could not go out. The reader still gets the guide -
+   * she asked for it and it is a public file - so a failure at the mail
+   * provider costs Efrat the address, not the reader the guide.
+   */
+  downloadHref?: string;
   fieldErrors?: Partial<Record<"name" | "email" | "consent", string>>;
   values?: { name?: string; email?: string };
 };
@@ -84,7 +90,8 @@ export async function requestGuide(
     console.error("[guide] RESEND_API_KEY / CONTACT_FROM_EMAIL are not configured");
     return {
       status: "error",
-      message: `שליחת המדריך אינה זמינה כרגע. אפשר לכתוב ל-${settings.email} ואשלח אותו ידנית.`,
+      message: "שליחת המדריך במייל אינה זמינה כרגע — אבל אפשר להוריד אותו כאן, עכשיו.",
+      downloadHref: "/files/guide.pdf",
       values: raw,
     };
   }
@@ -163,9 +170,46 @@ export async function requestGuide(
     }
   } catch (error) {
     console.error("[guide] send failed", error);
+
+    /* Tell Efrat who asked, so she can send it by hand. This can succeed
+       where the reader's copy failed: a sender not yet verified at Resend may
+       still write to the account's own address, which is hers. Its own try,
+       because nothing about it may change what the reader is told. */
+    if (apiKey && from) {
+      try {
+        const notice = renderEmail({
+          preheader: `${parsed.data.name} · ${parsed.data.email}`,
+          eyebrow: "המדריך לא נשלח",
+          heading: parsed.data.name,
+          blocks: [
+            {
+              kind: "p",
+              text: "ביקשה את המדריך באתר, והמייל אליה לא יצא. היא קיבלה קישור להורדה ישירה בעמוד, אבל כדאי לשלוח לה אותו גם במייל.",
+            },
+            { kind: "fields", rows: [["אימייל", parsed.data.email, `mailto:${parsed.data.email}`]] },
+          ],
+          note: subscribed
+            ? "היא סימנה גם הרשמה לדיוור."
+            : "היא לא סימנה הרשמה לדיוור — לשלוח את המדריך בלבד.",
+          settings,
+        });
+        await new Resend(apiKey).emails.send({
+          from,
+          to: process.env.CONTACT_TO_EMAIL ?? settings.email,
+          replyTo: parsed.data.email,
+          subject: `המדריך לא נשלח — ${parsed.data.name}`,
+          html: notice.html,
+          text: notice.text,
+        });
+      } catch (noticeError) {
+        console.error("[guide] failure notice also failed", noticeError);
+      }
+    }
+
     return {
       status: "error",
-      message: `השליחה נכשלה. אפשר לנסות שוב או לכתוב ל-${settings.email}.`,
+      message: "לא הצלחנו לשלוח את המדריך למייל — אבל אפשר להוריד אותו כאן, עכשיו.",
+      downloadHref: "/files/guide.pdf",
       values: raw,
     };
   }
