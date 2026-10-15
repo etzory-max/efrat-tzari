@@ -7,6 +7,7 @@ import { Resend } from "resend";
 import { z } from "zod";
 import { getGuideEmail, getSiteSettings } from "@/lib/content";
 import { renderEmail } from "@/lib/email";
+import { sendMail } from "@/lib/mail";
 import { drawings } from "@/components/art/drawings";
 import { siteUrl } from "@/lib/site";
 
@@ -85,9 +86,8 @@ export async function requestGuide(
 
   const settings = await getSiteSettings();
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM_EMAIL;
-  if (!apiKey || !from) {
-    console.error("[guide] RESEND_API_KEY / CONTACT_FROM_EMAIL are not configured");
+  if (!apiKey) {
+    console.error("[guide] RESEND_API_KEY is not configured");
     return {
       status: "error",
       message: "שליחת המדריך במייל אינה זמינה כרגע — אבל אפשר להוריד אותו כאן, עכשיו.",
@@ -123,8 +123,7 @@ export async function requestGuide(
       settings,
     });
 
-    const { error } = await resend.emails.send({
-      from,
+    const { error } = await sendMail(resend, {
       to: parsed.data.email,
       replyTo: settings.email,
       subject: copy.subject,
@@ -156,8 +155,7 @@ export async function requestGuide(
           note: "ההסכמה ניתנה באתר, בתיבה נפרדת מזו של המדריך ובלי סימון מראש. יש לשמור את הרישום הזה כל עוד הכתובת ברשימה.",
           settings,
         });
-        await resend.emails.send({
-          from,
+        await sendMail(resend, {
           to: process.env.CONTACT_TO_EMAIL ?? settings.email,
           replyTo: parsed.data.email,
           subject: `הרשמה לדיוור — ${parsed.data.name}`,
@@ -175,7 +173,7 @@ export async function requestGuide(
        where the reader's copy failed: a sender not yet verified at Resend may
        still write to the account's own address, which is hers. Its own try,
        because nothing about it may change what the reader is told. */
-    if (apiKey && from) {
+    if (apiKey) {
       try {
         const notice = renderEmail({
           preheader: `${parsed.data.name} · ${parsed.data.email}`,
@@ -193,8 +191,7 @@ export async function requestGuide(
             : "היא לא סימנה הרשמה לדיוור — לשלוח את המדריך בלבד.",
           settings,
         });
-        await new Resend(apiKey).emails.send({
-          from,
+        await sendMail(new Resend(apiKey), {
           to: process.env.CONTACT_TO_EMAIL ?? settings.email,
           replyTo: parsed.data.email,
           subject: `המדריך לא נשלח — ${parsed.data.name}`,

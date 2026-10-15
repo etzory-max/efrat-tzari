@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { SITE_SENDER } from "@/lib/mail";
 
 /**
  * What Resend thinks of this site, without opening Vercel.
@@ -21,7 +22,9 @@ export async function GET(request: Request) {
   }
 
   const key = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM_EMAIL ?? null;
+  // The sender the site actually tries first - see lib/mail.ts.
+  const override = process.env.CONTACT_FROM_EMAIL;
+  const from = override && !override.includes("resend.dev") ? override : SITE_SENDER;
   const fromDomain = from?.match(/@([^>\s]+)>?$/)?.[1]?.toLowerCase() ?? null;
 
   if (!key) return NextResponse.json({ keyPresent: false, from });
