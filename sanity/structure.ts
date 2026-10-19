@@ -26,7 +26,16 @@ const withItems = (
     copyType,
     itemType,
     itemsTitle,
-  }: { id: string; title: string; copyType: string; itemType: string; itemsTitle: string },
+    extra = [],
+  }: {
+    id: string;
+    title: string;
+    copyType: string;
+    itemType: string;
+    itemsTitle: string;
+    /** Documents that belong to the section but are neither: the lecture lightbox. */
+    extra?: { type: string; title: string }[];
+  },
 ) =>
   S.listItem()
     .id(id)
@@ -45,6 +54,7 @@ const withItems = (
             .id(`${id}-items`)
             .title(itemsTitle)
             .child(S.documentTypeList(itemType).title(itemsTitle)),
+          ...extra.map((doc) => single(S, doc.type, doc.title)),
         ]),
     );
 
@@ -78,6 +88,7 @@ export const structure: StructureResolver = (S) =>
         copyType: "servicesSection",
         itemType: "service",
         itemsTitle: "השירותים",
+        extra: [{ type: "lecture", title: "חלון ההרצאה" }],
       }),
       single(S, "testimonials", "6. המלצות"),
       withItems(S, {

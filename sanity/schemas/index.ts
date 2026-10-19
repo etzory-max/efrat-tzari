@@ -378,6 +378,12 @@ const service = defineType({
     defineField({ name: "moreLabel", title: "טקסט 'קראי עוד'", type: "string", initialValue: "קראי עוד" }),
     richText("details", "תוכן מורחב", "נפתח בלחיצה על 'קראי עוד'. ריק — והקישור לא יופיע."),
     defineField({
+      name: "opensLecture",
+      title: "קישור לחלון ההרצאה",
+      type: "boolean",
+      description: "מוסיף לכרטיס קישור שפותח את חלון ההרצאה. את התוכן שלו עורכים ב'חלון ההרצאה' שבתיקייה הזו.",
+    }),
+    defineField({
       name: "order",
       title: "סדר",
       type: "number",
@@ -730,6 +736,149 @@ const guideEmail = defineType({
   preview: { prepare: () => ({ title: "המייל של המדריך" }) },
 });
 
+/**
+ * The lecture lightbox, opened from the lecture card. Lists of plain lines
+ * rather than rich text: every block here has one fixed shape on the page,
+ * and a free editor would only invite a heading where none belongs.
+ */
+const titled = (name: string, title: string, itemTitle: string) =>
+  defineField({
+    name,
+    title,
+    type: "array",
+    group: "body",
+    of: [
+      defineArrayMember({
+        type: "object",
+        fields: [
+          defineField({ name: "title", title: itemTitle, type: "string", validation: (r) => r.required() }),
+          defineField({ name: "body", title: "פירוט", type: "text", rows: 3 }),
+        ],
+        preview: { select: { title: "title" } },
+      }),
+    ],
+  });
+
+const lines = (name: string, title: string, description?: string) =>
+  defineField({
+    name,
+    title,
+    ...(description ? { description } : {}),
+    type: "array",
+    group: "body",
+    of: [defineArrayMember({ type: "text", rows: 2 })],
+  });
+
+const lecture = defineType({
+  name: "lecture",
+  title: "חלון ההרצאה",
+  type: "document",
+  groups: [
+    { name: "top", title: "פתיחה וכפתורים", default: true },
+    { name: "body", title: "התוכן" },
+  ],
+  fields: [
+    defineField({
+      name: "openLabel",
+      title: "הקישור בכרטיס",
+      type: "string",
+      group: "top",
+      description: "הטקסט בכרטיס 'הרצאה' שפותח את החלון.",
+    }),
+    defineField({ name: "eyebrow", title: "תווית קטנה", type: "string", group: "top" }),
+    defineField({ name: "title", title: "כותרת", type: "string", group: "top" }),
+    defineField({ name: "subtitle", title: "כותרת משנה", type: "text", rows: 2, group: "top" }),
+    defineField({ name: "audience", title: "למי זה", type: "text", rows: 2, group: "top" }),
+    defineField({
+      name: "facts",
+      title: "פס הפרטים",
+      type: "array",
+      group: "top",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "label", title: "כותרת", type: "string" }),
+            defineField({ name: "value", title: "ערך", type: "string" }),
+          ],
+          preview: { select: { title: "label", subtitle: "value" } },
+        }),
+      ],
+    }),
+    defineField({
+      name: "photo",
+      title: "תמונה של אפרת",
+      type: "image",
+      group: "top",
+      options: { hotspot: true },
+      description: "ריק — מוצגת התמונה מהבמה שכבר באתר.",
+      fields: [
+        defineField({
+          name: "alt",
+          title: "טקסט חלופי (alt)",
+          type: "string",
+          validation: (rule) => rule.required().min(4).max(140),
+        }),
+      ],
+    }),
+    defineField({ name: "ctaLabel", title: "הכפתור", type: "string", group: "top" }),
+    defineField({
+      name: "ctaNote",
+      title: "השורה ליד הכפתור",
+      type: "string",
+      group: "top",
+    }),
+    defineField({
+      name: "ctaHref",
+      title: "לאן הכפתור מוביל",
+      type: "string",
+      group: "top",
+      initialValue: "/#contact",
+    }),
+
+    defineField({ name: "clipEyebrow", title: "קטע הפודקאסט — תווית", type: "string", group: "body" }),
+    defineField({ name: "clipTitle", title: "קטע הפודקאסט — כותרת", type: "string", group: "body" }),
+    defineField({ name: "clipNote", title: "קטע הפודקאסט — תיאור", type: "text", rows: 2, group: "body" }),
+    defineField({
+      name: "clipYoutubeId",
+      title: "קטע הפודקאסט — מזהה יוטיוב",
+      type: "string",
+      group: "body",
+      description: "החלק שאחרי v= בכתובת הסרטון.",
+    }),
+    defineField({
+      name: "clipStart",
+      title: "קטע הפודקאסט — מתחיל בשנייה",
+      type: "number",
+      group: "body",
+      description: "27:52 = 1672 (דקות כפול 60, ועוד השניות).",
+    }),
+    defineField({ name: "clipEnd", title: "קטע הפודקאסט — נגמר בשנייה", type: "number", group: "body" }),
+    defineField({ name: "storyTitle", title: "הסיפור — כותרת", type: "string", group: "body" }),
+    lines("story", "הסיפור — פסקאות"),
+    defineField({
+      name: "storyLine",
+      title: "הסיפור — המשפט שבסוף",
+      type: "string",
+      group: "body",
+      description: "מוצג מודגש, כמו ציטוט.",
+    }),
+    defineField({ name: "recogniseTitle", title: "'אם זה את' — כותרת", type: "string", group: "body" }),
+    lines("recogniseLines", "'אם זה את' — השורות"),
+    defineField({ name: "recogniseCloser", title: "'אם זה את' — משפט סיום", type: "text", rows: 2, group: "body" }),
+    defineField({ name: "takeawaysTitle", title: "מה לוקחים — כותרת", type: "string", group: "body" }),
+    defineField({ name: "takeawaysLead", title: "מה לוקחים — משפט פתיחה", type: "string", group: "body" }),
+    titled("takeaways", "מה לוקחים — הדברים", "הכותרת"),
+    defineField({ name: "roomTitle", title: "מה קורה בחדר — כותרת", type: "string", group: "body" }),
+    defineField({ name: "roomLead", title: "מה קורה בחדר — משפט פתיחה", type: "string", group: "body" }),
+    titled("room", "מה קורה בחדר — החלקים", "שם החלק"),
+    defineField({ name: "roomCloser", title: "מה קורה בחדר — משפט סיום", type: "text", rows: 2, group: "body" }),
+    defineField({ name: "notTitle", title: "מה הערב הזה לא — כותרת", type: "string", group: "body" }),
+    lines("notLines", "מה הערב הזה לא — השורות"),
+  ],
+  preview: { prepare: () => ({ title: "חלון ההרצאה" }) },
+});
+
 /* ==================================================================== *
  * 4. העמודים המשפטיים
  * ==================================================================== */
@@ -794,6 +943,7 @@ export const schemaTypes = [
   about,
   servicesSection,
   service,
+  lecture,
   testimonials,
   mediaSection,
   mediaItem,

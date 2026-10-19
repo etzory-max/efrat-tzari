@@ -1,4 +1,4 @@
-import { getContent, getSiteSettings } from "@/lib/content";
+import { getContent, getLecture, getSiteSettings } from "@/lib/content";
 import { Hero } from "@/components/sections/Hero";
 import { Recognise } from "@/components/sections/Recognise";
 import { Approach } from "@/components/sections/Approach";
@@ -15,7 +15,11 @@ import { Contact } from "@/components/sections/Contact";
 import { FaqJsonLd, MediaJsonLd, ServicesJsonLd } from "@/components/seo/JsonLd";
 
 export default async function HomePage() {
-  const [content, settings] = await Promise.all([getContent(), getSiteSettings()]);
+  const [content, settings, lecture] = await Promise.all([
+    getContent(),
+    getSiteSettings(),
+    getLecture(),
+  ]);
 
   return (
     <>
@@ -25,7 +29,7 @@ export default async function HomePage() {
           before she is told who is offering it. */}
       <Approach data={content.approach} numbered tone="light" />
       <About data={content.about} tone="deep" />
-      <Services data={content.services} />
+      <Services data={content.services} lecture={lecture} />
       {/* Right after the price: proof at the moment she is deciding. */}
       {content.testimonials && <Testimonials data={content.testimonials} surface="wash" />}
       <Media data={content.media} tone="light" />

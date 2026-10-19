@@ -4,6 +4,7 @@ import { sanityConfigured } from "@/sanity/env";
 import { defaultContent } from "@/content/defaults";
 import { guideEmail, type GuideEmailCopy } from "@/content/emails";
 import { legalPages, type LegalDoc } from "@/content/legal";
+import { lecture, type LectureCopy } from "@/content/lecture";
 import { site, whatsappHref } from "@/lib/site";
 import type { Article, Img, SiteContent } from "@/content/types";
 
@@ -42,7 +43,7 @@ const QUERY = /* groq */ `{
   "servicesCopy": *[_type == "servicesSection"][0] { eyebrow, title, lead, ctaTitle, ctaLabel, ctaHref },
   "services": *[_type == "service"] | order(order asc) {
     "id": slug.current, icon, kicker, title, body, bullets,
-    price, note, ctaLabel, ctaHref, variant, moreLabel, details
+    price, note, ctaLabel, ctaHref, variant, moreLabel, details, opensLecture
   },
   "testimonials": *[_type == "testimonials"][0] {
     eyebrow, title, items[] { quote, name, role }
@@ -173,6 +174,9 @@ function mergeContent(data: any): SiteContent {
           variant: or(service.variant, "light"),
           moreLabel: or(service.moreLabel, "קראי עוד"),
           details: or(service.details, []),
+          /* Unset on documents made before the switch existed, and there the
+             lecture is the one with the microphone. */
+          opensLecture: service.opensLecture ?? service.icon === "mic",
         })),
       }
     : d.services;
@@ -393,6 +397,41 @@ export const getGuideEmail = cache(async function fetchGuideEmail(): Promise<Gui
   } catch (error) {
     console.error("[content] guide email fetch failed, serving seed copy", error);
     return guideEmail;
+  }
+});
+
+/**
+ * The lecture lightbox. Its own fetch, like the guide email, so the long copy
+ * stays out of the page query's merge; content/lecture.ts fills anything left
+ * empty in the Studio.
+ */
+export const getLecture = cache(async function fetchLecture(): Promise<LectureCopy> {
+  if (!sanityConfigured || !sanityClient) return lecture;
+  try {
+    const doc = await sanityClient.fetch<Partial<LectureCopy> | null>(
+      /* groq */ `*[_type == "lecture"][0] {
+        openLabel, eyebrow, title, subtitle, audience,
+        storyTitle, story, storyLine,
+        recogniseTitle, recogniseLines, recogniseCloser,
+        takeawaysTitle, takeawaysLead, takeaways[] { title, body },
+        roomTitle, roomLead, room[] { title, body }, roomCloser,
+        notTitle, notLines, facts[] { label, value }, photo,
+        clipEyebrow, clipTitle, clipNote, clipYoutubeId, clipStart, clipEnd,
+        ctaLabel, ctaNote, ctaHref
+      }`,
+      {},
+      { next: { revalidate: 60, tags: ["content"] } },
+    );
+    if (!doc) return lecture;
+    const merged = { ...lecture };
+    for (const key of Object.keys(lecture) as (keyof LectureCopy)[]) {
+      (merged as Record<string, unknown>)[key] = or(doc[key] as never, lecture[key] as never);
+    }
+    merged.photo = toImg(doc.photo as SanityImage, lecture.photo, 900);
+    return merged;
+  } catch (error) {
+    console.error("[content] lecture fetch failed, serving seed copy", error);
+    return lecture;
   }
 });
 

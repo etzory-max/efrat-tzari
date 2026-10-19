@@ -73,6 +73,16 @@ async function audit(page, label) {
   await page.close();
 }
 
+// The lecture lightbox, at both widths: opened through its own link.
+for (const width of widths) {
+  const page = await browser.newPage();
+  await page.setViewport({ width, height: width === 375 ? 812 : 1000 });
+  await page.goto(base + "/#lecture", { waitUntil: "networkidle2", timeout: 60000 });
+  await new Promise((r) => setTimeout(r, 800));
+  await audit(page, `/ @ ${width}px — חלון ההרצאה פתוח`);
+  await page.close();
+}
+
 for (const width of widths) {
   for (const route of pages) {
     const page = await browser.newPage();

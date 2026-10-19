@@ -153,6 +153,7 @@ export const defaultContent: SiteContent = {
         price: "בהזמנה אליכם, או כרטיס למפגש פתוח ב־199 ₪",
         ctaLabel: "לפרטים ולהרשמה",
         ctaHref: "/#contact",
+        opensLecture: true,
       },
     ],
   },

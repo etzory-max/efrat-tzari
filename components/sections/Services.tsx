@@ -6,6 +6,8 @@ import type { Service, ServicesSection } from "@/content/types";
 import { proseInCard } from "@/components/ui/PortableProse";
 import { drawings } from "@/components/art/drawings";
 import { Reveal } from "@/components/ui/Reveal";
+import { LectureDialog } from "@/components/sections/LectureDialog";
+import type { LectureCopy } from "@/content/lecture";
 
 /**
  * Same arrangement as before — the wide service on one side, the two shorter
@@ -51,7 +53,7 @@ const filled =
   "bg-[radial-gradient(150%_120%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_38%,rgba(214,154,126,0.7)_56%,rgba(214,154,126,0.32)_70%,rgba(214,154,126,0.08)_82%,rgba(214,154,126,0)_92%)] " +
   "lg:bg-[radial-gradient(148%_126%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_42%,rgba(214,154,126,0.74)_58%,rgba(214,154,126,0.36)_72%,rgba(214,154,126,0.1)_84%,rgba(214,154,126,0)_94%)]";
 
-function ServiceCard({ service }: { service: Service }) {
+function ServiceCard({ service, lecture }: { service: Service; lecture?: LectureCopy }) {
   const primary = service.variant === "dark";
 
   /* Everything on the terracotta is ink: slate is 2.9:1 on it and the muted
@@ -119,6 +121,11 @@ function ServiceCard({ service }: { service: Service }) {
           opposite edge — and with a short lead card that push opened a hole
           between the sentence and its own call to action. */}
       <div className="pt-7">
+        {lecture && service.opensLecture && (
+          <div className="mb-5">
+            <LectureDialog data={lecture} onAccent={primary} />
+          </div>
+        )}
         {service.price && <p className={`text-base ${tone.title}`}>{service.price}</p>}
         {service.note && <p className="mt-1.5 text-base text-muted">{service.note}</p>}
         {service.ctaLabel && service.ctaHref && (
@@ -152,7 +159,7 @@ function ServiceCard({ service }: { service: Service }) {
   );
 }
 
-export function Services({ data }: { data: ServicesSection }) {
+export function Services({ data, lecture }: { data: ServicesSection; lecture?: LectureCopy }) {
   const [primary, ...secondary] = data.services;
 
   return (
@@ -174,7 +181,7 @@ export function Services({ data }: { data: ServicesSection }) {
           />
 
           <Reveal className="lg:order-1">
-            <ServiceCard service={primary} />
+            <ServiceCard service={primary} lecture={lecture} />
           </Reveal>
 
           {/* With a single offer on this side there is nothing to stretch
@@ -190,7 +197,7 @@ export function Services({ data }: { data: ServicesSection }) {
                 {index > 0 && (
                   <span aria-hidden="true" className="mb-12 block h-px w-3/5 bg-accent/60" />
                 )}
-                <ServiceCard service={service} />
+                <ServiceCard service={service} lecture={lecture} />
               </Reveal>
             ))}
           </div>

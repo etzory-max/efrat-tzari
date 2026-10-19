@@ -18,6 +18,7 @@ import { createClient } from "@sanity/client";
 import { defaultContent } from "../content/defaults.ts";
 import { defaultBookPage } from "../content/book.ts";
 import { guideEmail } from "../content/emails.ts";
+import { lecture } from "../content/lecture.ts";
 import { legalPages } from "../content/legal.ts";
 import { site } from "../lib/site.ts";
 import type { Img } from "../content/types.ts";
@@ -169,6 +170,7 @@ async function run() {
       variant: service.variant,
       moreLabel: service.moreLabel,
       details: service.details,
+      opensLecture: service.opensLecture,
       order: index + 1,
     });
   });
@@ -289,6 +291,18 @@ async function run() {
   });
 
   docs.push({ _id: "guideEmail", _type: "guideEmail", ...guideEmail });
+
+  docs.push({
+    _id: "lecture",
+    _type: "lecture",
+    ...lecture,
+    // The photo is a file in the repository and the site's fallback; an
+    // upload in the Studio replaces it.
+    photo: undefined,
+    takeaways: lecture.takeaways.map((item, index) => ({ _key: `take${index}`, ...item })),
+    room: lecture.room.map((item, index) => ({ _key: `room${index}`, ...item })),
+    facts: lecture.facts.map((item, index) => ({ _key: `fact${index}`, ...item })),
+  });
 
   for (const page of Object.values(legalPages)) {
     docs.push({

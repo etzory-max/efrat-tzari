@@ -157,6 +157,8 @@ export type Service = {
   note?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** Shows the link that opens the lecture lightbox (content/lecture.ts). */
+  opensLecture?: boolean;
 };
 
 export type ServicesSection = {
