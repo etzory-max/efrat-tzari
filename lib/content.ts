@@ -415,7 +415,8 @@ export const getLecture = cache(async function fetchLecture(): Promise<LectureCo
         recogniseTitle, recogniseLines, recogniseCloser,
         takeawaysTitle, takeawaysLead, takeaways[] { title, body },
         roomTitle, roomLead, room[] { title, body }, roomCloser,
-        notTitle, notLines, facts[] { label, value }, photo,
+        bioEyebrow, bioTitle, bioLead, bio, gainsTitle, gainsLines,
+        facts[] { label, value }, photo,
         clipEyebrow, clipTitle, clipNote, clipYoutubeId, clipStart, clipEnd,
         ctaLabel, ctaNote, ctaHref
       }`,

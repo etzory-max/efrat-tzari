@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft, Headphones, Play, X } from "lucide-react";
+import { ArrowLeft, Check, Headphones, Play, X } from "lucide-react";
 import { drawings } from "@/components/art/drawings";
 import { track } from "@/lib/analytics";
 import type { LectureCopy } from "@/content/lecture";
@@ -298,16 +298,29 @@ export function LectureDialog({ data, onAccent = false }: { data: LectureCopy; o
                 <p className="mt-8 font-display text-xl text-ink">{data.roomCloser}</p>
               </section>
 
-              {/* The one dark block: what she is not being sold reads as a
-                  promise, so it is set apart rather than listed with the rest. */}
-              <section aria-labelledby="lecture-not" className="on-dark rounded-3xl bg-dark px-6 py-8 md:px-9 md:py-10">
-                <h3 id="lecture-not" className="text-xl text-on-dark md:text-2xl">
-                  {data.notTitle}
+              <section aria-labelledby="lecture-bio">
+                <p className="eyebrow">{data.bioEyebrow}</p>
+                <h3 id="lecture-bio" className="mt-3 text-2xl text-slate md:text-[1.7rem]">
+                  {data.bioTitle}
+                </h3>
+                <p className="mt-5 text-lg leading-relaxed text-ink">{data.bioLead}</p>
+                <div className="mt-4 space-y-4 leading-relaxed text-muted">
+                  {data.bio.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </section>
+
+              {/* The one dark block: the promise of the evening, set apart
+                  rather than listed with the rest. */}
+              <section aria-labelledby="lecture-gains" className="on-dark rounded-3xl bg-dark px-6 py-8 md:px-9 md:py-10">
+                <h3 id="lecture-gains" className="text-xl text-on-dark md:text-2xl">
+                  {data.gainsTitle}
                 </h3>
                 <ul className="mt-6 space-y-4">
-                  {data.notLines.map((line) => (
+                  {data.gainsLines.map((line) => (
                     <li key={line} className="flex items-start gap-3.5 text-on-dark-muted">
-                      <X className="mt-1 size-4 shrink-0 text-accent-light" aria-hidden="true" />
+                      <Check className="mt-1 size-4 shrink-0 text-accent-light" aria-hidden="true" />
                       {line}
                     </li>
                   ))}

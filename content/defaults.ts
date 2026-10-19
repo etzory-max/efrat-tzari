@@ -150,7 +150,7 @@ export const defaultContent: SiteContent = {
         variant: "light",
         moreLabel: "קראי עוד",
         details: [],
-        price: "בהזמנה אליכם, או כרטיס למפגש פתוח ב־199 ₪",
+        price: "בהזמנה אליכם, או כרטיס למפגש פתוח ב־129 ₪",
         ctaLabel: "לפרטים ולהרשמה",
         ctaHref: "/#contact",
         opensLecture: true,
