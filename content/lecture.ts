@@ -149,7 +149,8 @@ export const lecture: LectureCopy = {
   ],
 
   photo: {
-    src: "/images/efrat-lecture.b97b6f61.jpg",
+    // The slide behind her is blurred; her arm and hand in front of it are not.
+    src: "/images/efrat-lecture.59e561d1.jpg",
     alt: "אפרת צרי מרצה על במה, עם מיקרופון ומסך מצגת מאחוריה",
   },
 
