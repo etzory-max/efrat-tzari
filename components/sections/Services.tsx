@@ -53,7 +53,15 @@ const filled =
   "bg-[radial-gradient(150%_120%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_38%,rgba(214,154,126,0.7)_56%,rgba(214,154,126,0.32)_70%,rgba(214,154,126,0.08)_82%,rgba(214,154,126,0)_92%)] " +
   "lg:bg-[radial-gradient(148%_126%_at_92%_-8%,rgba(214,154,126,1)_0%,rgba(214,154,126,1)_42%,rgba(214,154,126,0.74)_58%,rgba(214,154,126,0.36)_72%,rgba(214,154,126,0.1)_84%,rgba(214,154,126,0)_94%)]";
 
-function ServiceCard({ service, lecture }: { service: Service; lecture?: LectureCopy }) {
+function ServiceCard({
+  service,
+  lecture,
+  openLecture = false,
+}: {
+  service: Service;
+  lecture?: LectureCopy;
+  openLecture?: boolean;
+}) {
   const primary = service.variant === "dark";
 
   /* Everything on the terracotta is ink: slate is 2.9:1 on it and the muted
@@ -123,7 +131,7 @@ function ServiceCard({ service, lecture }: { service: Service; lecture?: Lecture
       <div className="pt-7">
         {lecture && service.opensLecture && (
           <div className="mb-5">
-            <LectureDialog data={lecture} onAccent={primary} />
+            <LectureDialog data={lecture} onAccent={primary} startOpen={openLecture} />
           </div>
         )}
         {service.price && <p className={`text-base ${tone.title}`}>{service.price}</p>}
@@ -159,7 +167,16 @@ function ServiceCard({ service, lecture }: { service: Service; lecture?: Lecture
   );
 }
 
-export function Services({ data, lecture }: { data: ServicesSection; lecture?: LectureCopy }) {
+export function Services({
+  data,
+  lecture,
+  openLecture = false,
+}: {
+  data: ServicesSection;
+  lecture?: LectureCopy;
+  /** Open the lecture lightbox on arrival - set by /lecture. */
+  openLecture?: boolean;
+}) {
   const [primary, ...secondary] = data.services;
 
   return (
@@ -181,7 +198,7 @@ export function Services({ data, lecture }: { data: ServicesSection; lecture?: L
           />
 
           <Reveal className="lg:order-1">
-            <ServiceCard service={primary} lecture={lecture} />
+            <ServiceCard service={primary} lecture={lecture} openLecture={openLecture} />
           </Reveal>
 
           {/* With a single offer on this side there is nothing to stretch
@@ -197,7 +214,7 @@ export function Services({ data, lecture }: { data: ServicesSection; lecture?: L
                 {index > 0 && (
                   <span aria-hidden="true" className="mb-12 block h-px w-3/5 bg-accent/60" />
                 )}
-                <ServiceCard service={service} lecture={lecture} />
+                <ServiceCard service={service} lecture={lecture} openLecture={openLecture} />
               </Reveal>
             ))}
           </div>

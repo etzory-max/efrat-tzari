@@ -8,6 +8,10 @@ import { drawings } from "@/components/art/drawings";
 import { track } from "@/lib/analytics";
 import type { LectureCopy } from "@/content/lecture";
 
+/* The lightbox's own address. A path, not a hash: Instagram reads the "#" in
+   tzory.com/#lecture as a hashtag and breaks the link. The hash still opens
+   it, for links already out there. */
+const PATH = "/lecture";
 const HASH = "#lecture";
 
 /* The lead card's terracotta, from Services: full behind the copy, spent
@@ -93,10 +97,20 @@ function Clip({ data }: { data: LectureCopy }) {
  * overlay gets fully right. The copy is in the markup whether or not it is
  * open, so it is read by search engines with the rest of the page.
  *
- * tzory.com/#lecture opens it directly - a link that can go in a campaign or
- * a WhatsApp message and land on the lecture rather than the top of the page.
+ * tzory.com/lecture opens it directly - a link that can go in a campaign or
+ * a post and land on the lecture rather than the top of the page. While it is
+ * open the address bar shows that link, so copying it copies the clean one.
  */
-export function LectureDialog({ data, onAccent = false }: { data: LectureCopy; onAccent?: boolean }) {
+export function LectureDialog({
+  data,
+  onAccent = false,
+  startOpen = false,
+}: {
+  data: LectureCopy;
+  onAccent?: boolean;
+  /** Open on arrival: the page was reached at /lecture. */
+  startOpen?: boolean;
+}) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   // The clip is unmounted on close, so a closed dialog never keeps playing.
   const [isOpen, setIsOpen] = useState(false);
@@ -108,7 +122,9 @@ export function LectureDialog({ data, onAccent = false }: { data: LectureCopy; o
     setIsOpen(true);
     // The page behind stays put; a modal dialog does not stop it scrolling.
     document.documentElement.style.overflow = "hidden";
-    if (window.location.hash !== HASH) history.replaceState(null, "", HASH);
+    if (window.location.pathname !== PATH || window.location.hash) {
+      history.replaceState(null, "", PATH + window.location.search);
+    }
     track("lecture_open");
   }, []);
 
@@ -123,8 +139,9 @@ export function LectureDialog({ data, onAccent = false }: { data: LectureCopy; o
     const onClose = () => {
       setIsOpen(false);
       document.documentElement.style.overflow = "";
-      if (window.location.hash === HASH) {
-        history.replaceState(null, "", window.location.pathname + window.location.search);
+      // Back to the home page's own address; she is still on it.
+      if (window.location.pathname === PATH || window.location.hash === HASH) {
+        history.replaceState(null, "", "/" + window.location.search);
       }
     };
     const fromHash = () => {
@@ -133,12 +150,13 @@ export function LectureDialog({ data, onAccent = false }: { data: LectureCopy; o
 
     dialog.addEventListener("close", onClose);
     window.addEventListener("hashchange", fromHash);
-    fromHash();
+    if (startOpen) open();
+    else fromHash();
     return () => {
       dialog.removeEventListener("close", onClose);
       window.removeEventListener("hashchange", fromHash);
     };
-  }, [open]);
+  }, [open, startOpen]);
 
   const art = drawings["art-two-women"];
 
@@ -354,9 +372,24 @@ export function LectureDialog({ data, onAccent = false }: { data: LectureCopy; o
             <p className="hidden text-base text-muted sm:block">{data.ctaNote}</p>
             <Link
               href={data.ctaHref}
-              onClick={() => {
+              onClick={(event) => {
                 track("lecture_cta");
+                /* Closing rewrites the address to /, which swallowed the
+                   link's own jump to the form. So the jump is done here:
+                   close, then scroll to the form and put her in its first
+                   field - she pressed the button to fill it in. */
+                const id = data.ctaHref.split("#")[1];
+                const target = id ? document.getElementById(id) : null;
                 close();
+                if (!target) return;
+                event.preventDefault();
+                requestAnimationFrame(() => {
+                  target.scrollIntoView({ behavior: "smooth", block: "start" });
+                  history.replaceState(null, "", `/#${id}`);
+                  target
+                    .querySelector<HTMLElement>("input:not([type=hidden]):not([tabindex='-1']), textarea")
+                    ?.focus({ preventScroll: true });
+                });
               }}
               className="btn btn-primary shrink-0 gap-2 px-8 py-3.5 text-base"
             >

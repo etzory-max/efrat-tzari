@@ -1,0 +1,55 @@
+import { getContent, getLecture, getSiteSettings } from "@/lib/content";
+import { Hero } from "@/components/sections/Hero";
+import { Recognise } from "@/components/sections/Recognise";
+import { Approach } from "@/components/sections/Approach";
+import { About } from "@/components/sections/About";
+import { Services } from "@/components/sections/Services";
+import { Testimonials } from "@/components/sections/Testimonials";
+import { Media } from "@/components/sections/Media";
+import { Articles } from "@/components/sections/Articles";
+import { Guide } from "@/components/sections/Guide";
+import { GuideDownloads } from "@/components/sections/GuideDownloads";
+import { Faq } from "@/components/sections/Faq";
+import { NotHere } from "@/components/sections/NotHere";
+import { Contact } from "@/components/sections/Contact";
+import { FaqJsonLd, MediaJsonLd, ServicesJsonLd } from "@/components/seo/JsonLd";
+
+/**
+ * The home page, served at / and at /lecture. The second only opens the
+ * lecture lightbox on arrival - a clean address for Instagram, where a "#"
+ * in a link turns everything after it into a hashtag.
+ */
+export async function HomeView({ openLecture = false }: { openLecture?: boolean }) {
+  const [content, settings, lecture] = await Promise.all([
+    getContent(),
+    getSiteSettings(),
+    getLecture(),
+  ]);
+
+  return (
+    <>
+      <Hero data={content.hero} />
+      {content.recognise && <Recognise data={content.recognise} />}
+      {/* Before "about": the reader is shown how the work is structured
+          before she is told who is offering it. */}
+      <Approach data={content.approach} numbered tone="light" />
+      <About data={content.about} tone="deep" />
+      <Services data={content.services} lecture={lecture} openLecture={openLecture} />
+      {/* Right after the price: proof at the moment she is deciding. */}
+      {content.testimonials && <Testimonials data={content.testimonials} surface="wash" />}
+      <Media data={content.media} tone="light" />
+      <Articles data={content.articles} />
+      <Guide data={content.guide} tone="light" />
+      {/* Free to take, right under the one that asks for an address. */}
+      <GuideDownloads items={content.resources} />
+      <Faq data={content.faq} tone="deep" />
+      {/* Last thing read before the form: what she is not being sold. */}
+      {content.notHere && <NotHere data={content.notHere} variant="dark" />}
+      <Contact data={content.contact} settings={settings} art />
+
+      <FaqJsonLd items={content.faq.items} />
+      <ServicesJsonLd services={content.services.services} />
+      <MediaJsonLd items={content.media.items} />
+    </>
+  );
+}
